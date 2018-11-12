@@ -1,0 +1,29 @@
+#description {
+  text-align: center;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  border-radius: 4px;
+  width: 40%;
+  padding: 0px;
+  margin:inherit;
+}
+.heading {
+  border-left-style: solid;
+  border-right: solid;
+  border-top-style: solid;
+  border-bottom-style: none;
+  background-color: #58a4b0;
+  padding: 4px;
+}
+.descriptionBody {
+  border-style: solid;
+  background-color: #58a4b0;
+  padding: 8px;
+}
+
+
+.focus{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
