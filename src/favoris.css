@@ -1,0 +1,33 @@
+
+
+.main {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+  background-color: #58a4b0;
+  color: white;
+  font-weight: bold;
+}
+
+.main-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+
+}
+
+.favItem {
+  border: 1px solid black;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #58a4b0;
+  color: white;
+}

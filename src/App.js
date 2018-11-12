@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {  } from 'reactstrap';
-import logo from './logo.svg';
-import signin from './signin.js';
+import Signin from './signin.js';
+import Signup from './signup.js';
+import Favoris from './favoris.js';
 import './App.css';
 
 class App extends Component {
@@ -9,7 +10,7 @@ class App extends Component {
     return (
       <div className="App">
 
-  { signin }
+        <Favoris/>
 
       </div>
     );

@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Background from './starry-night.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./signin.css";
+import "./signup.css";
 
 
-export default class Signin extends React.Component {
+export default class Signup extends React.Component {
   render() {
 
     return (
@@ -13,7 +13,12 @@ export default class Signin extends React.Component {
 
       <Form inline className="form">
 
-              <h2>Identifiez-vous : </h2>
+        <h2>Veuillez remplir les champs ci-dessous : </h2>
+
+        <FormGroup>
+        <Input type="text" name="username" id="exampleUsername" placeholder="Nom d'utilisateur" />
+        </FormGroup>
+
 
         <FormGroup>
           <Input type="email" name="email" id="exampleEmail" placeholder="Email" />
@@ -29,7 +34,7 @@ export default class Signin extends React.Component {
 
         <FormGroup>
             <Button className="cancelbutton">Annuler</Button>
-            <Button className="submit" onClick={()=>{ alert('Votre adresse e-mail ou mot de passe est incorrect. Veuillez réessayer.'); }}>Se connecter</Button>
+            <Button className="submit">S'inscrire</Button>
         </FormGroup>
 
       </Form>
