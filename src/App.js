@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
-import LandingPage from './landingPage.js';
+import {  } from 'reactstrap';
+import Signin from './signin.js';
+import Signup from './signup.js';
+import Favoris from './favoris.js';
+import LandingPage from './landingPage.js'
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <header>
-          <LandingPage/>
+      <div className="App">
+        <header className="App-header">
+
+
+
         </header>
       </div>
     );
