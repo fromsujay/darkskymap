@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./App.css";
+import Background from '../images/starry-night.jpg';
 
 export default class Login extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class Login extends Component {
 
   render() {
     return (
+      // backgroundImage: `url(${Background})`
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
