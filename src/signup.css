@@ -12,8 +12,7 @@
 
 h2 {
   color: white;
-  font-family: Open Sans;
-  font-weight: bold;
+  font-family: Helvetica;
 }
 
 .form {
@@ -22,25 +21,25 @@ h2 {
 
 }
 
-#exampleUsername {
+#username {
   margin-top: 65px;
   width: 40vh;
-  font-family: Open Sans;
+  font-family: Helvetica;
 }
 
-#exampleEmail {
+#email {
   margin-top: 25px;
   width: 40vh;
-  font-family: Open Sans;
+  font-family: Helvetica;
 }
 
-#examplePassword {
+#password {
   margin-bottom: 35px;
   margin-top: 20px;
   width: 40vh;
-  font-family: Open Sans;
+  font-family: Helvetica;
 }
-
+/*
 .cancelbutton {
   background-color: hsla(0, 100%, 0%, .4);
   border-color: #FFFFFF;
@@ -48,8 +47,16 @@ h2 {
   font-family: Open Sans;
   font-weight: bold;
   border-radius: 10px;
+} */
+
+.btn-Home-Sign1{
+  background-color: hsla(360, 100%, 100%, 0.1);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  margin-right: 20px;
 }
 
+<<<<<<< HEAD
 .cancelbutton:hover{
   background-color: transparent;
   border-color: #FFFFFF;
@@ -64,6 +71,13 @@ color: #FFFFFF;
 font-family: Open Sans;
 font-weight: bold;
 border-radius: 10px;
+=======
+.btn-Home-Sign1:hover{
+  background-color: transparent;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  opacity: 0.7;
+>>>>>>> 2b5b8924927a8fde105214c787d88ab57abd3b9c
 }
 
 .submit:hover{

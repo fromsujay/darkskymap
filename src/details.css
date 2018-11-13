@@ -7,10 +7,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 100vh;
-  min-height: 100vh;
+  width: 100vh;
+  height: 100vh;
   padding: 0px;
-  margin-top: 15px;
+
 }
 .heading {
   border-left-style: solid;
@@ -37,6 +37,7 @@
   font-size: 6em;
 }
 
+
 .icons{
   font-size: 2em;
   display: flex;
@@ -45,6 +46,7 @@
   margin-right: 15px;
 }
 
-.trial {
-  text-align: justify;
+#backButton {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
 }

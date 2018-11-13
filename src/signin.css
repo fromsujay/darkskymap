@@ -12,8 +12,7 @@
 
 h2 {
   color: white;
-  font-family: Open Sans;
-  font-weight: bold;
+  font-family: Helvetica;
 }
 
 .form {
@@ -22,31 +21,37 @@ h2 {
 
 }
 
-#exampleEmail {
+#email {
   margin-top: 35px;
   width: 40vh;
-  font-family: Open Sans;
+  font-family: Helvetica;
 }
 
-#examplePassword {
+#password {
   margin-bottom: 35px;
   margin-top: 20px;
   width: 40vh;
-  font-family: Open Sans;
+  font-family: Helvetica;
 }
 
-.cancelbutton {
+/* .cancelbutton {
   background-color: white;
   color: black;
-  font-family: Open Sans;
+  font-family: Helvetica;
   font-weight: bold;
   border-radius: 10px;
+} */
+
+.btn-Home-Sign1{
+  background-color: hsla(360, 100%, 100%, 0.1);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  margin-right: 20px;
 }
 
-.submit {
-color: white;
-background-color: #444444;
-font-family: Open Sans;
-font-weight: bold;
-border-radius: 10px;
+.btn-Home-Sign1:hover{
+  background-color: transparent;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  opacity: 0.7;
 }
