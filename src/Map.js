@@ -52,7 +52,7 @@ export class MapContainer extends Component {
 }
 
 // Api google map
-const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
+const api = '';
 
 // Custom map style
 const styles = [
