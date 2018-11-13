@@ -42,17 +42,33 @@ h2 {
 }
 
 .cancelbutton {
-  background-color: white;
-  color: black;
+  background-color: hsla(0, 100%, 0%, .4);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
   font-family: Open Sans;
   font-weight: bold;
   border-radius: 10px;
 }
 
+.cancelbutton:hover{
+  background-color: transparent;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  opacity: 0.9;
+}
+
 .submit {
-color: white;
-background-color: #444444;
+background-color: hsla(0, 100%, 0%, .4);
+border-color: #FFFFFF;
+color: #FFFFFF;
 font-family: Open Sans;
 font-weight: bold;
 border-radius: 10px;
+}
+
+.submit:hover{
+  background-color: transparent;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  opacity: 0.9;
 }
