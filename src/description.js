@@ -47,8 +47,8 @@ class Description extends Component {
             <Col xs="12">Compromis urbain</Col>
           </Row>
         <Row className="icons">
-          <FontAwesomeIcon xs="12" sm="6" icon={faPlusCircle} id="plusIcon"/>
-          <FontAwesomeIcon xs="12" sm="6" icon={faHeart} id="loveIcon"/>
+          <Col xs="12" sm="6"><FontAwesomeIcon  icon={faPlusCircle} /></Col>
+          <Col xs="12" sm="6"><FontAwesomeIcon  icon={faHeart} /></Col>
         </Row>
         </Container>
         </Container>
