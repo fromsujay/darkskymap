@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Background from './starry-night.jpg';
 import { faSun, faCloudSun, faCloudShowersHeavy, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -13,32 +13,34 @@ export default class Example extends React.Component {
 
       <Container>
 
-        <Row>
-          <Col className="main">Mes favoris</Col>
-        </Row>
-
         <Row className="main-block">
 
-          <Col className="favItem" sm="12">Lieu
-            <FontAwesomeIcon icon={faSun}/>
+          <Col className="main" xs="11" sm="8">Mes favoris</Col>
+
+          <Col className="favItem" xs="11" sm="8">Lieu
+            <FontAwesomeIcon className="iconStyle" icon={faSun}/>
             <h6>Météo actuelle</h6>
             <p>Ciel dégagé, 25C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon icon={faTimesCircle} />
+            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
             </Col>
 
-          <Col className="favItem" sm="12">Lieu
-            <FontAwesomeIcon icon={faCloudSun} />
+          <Col className="favItem" xs="11" sm="8">Lieu
+            <FontAwesomeIcon className="iconStyle" icon={faCloudSun} />
             <h6>Météo actuelle</h6>
             <p>Ciel dégagé, 25C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon icon={faTimesCircle} />
+            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
             </Col>
 
-          <Col className="favItem" sm="12">Lieu
-             <FontAwesomeIcon icon={faCloudShowersHeavy} />
+          <Col className="favItem" xs="11" sm="8">Lieu
+             <FontAwesomeIcon className="iconStyle" icon={faCloudShowersHeavy} />
             <h6>Météo actuelle</h6>
             <p>Ciel dégagé, 25C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon icon={faTimesCircle} />
+            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
             </Col>
+
+            <Col className="favItem" xs="11" sm="8">
+              <Button className="btn-Home-Sign1">Retour</Button>
+              </Col>
 
         </Row>
 
