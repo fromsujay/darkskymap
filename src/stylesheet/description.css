@@ -1,50 +1,57 @@
-.description {
+.cardStyle {
+  background-color: #58a4b0;
   text-align: center;
-  border-color: #FFFFFF;
   color: #FFFFFF;
-  border-radius: 4px;
+}
+
+.heading {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rootStyle {
+  display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 100vh;
   min-height: 100vh;
-  padding: 0px;
-  margin-top: 15px;
-}
-.heading {
-  border-left-style: solid;
-  border-right: solid;
-  border-top-style: solid;
-  border-bottom-style: none;
-  background-color: #58a4b0;
-  padding: 8px;
-}
-.descriptionBody {
-  border-left-style: solid;
-  border-right: solid;
-  border-top-style: solid;
-  border-bottom-style: none;
-  background-color: #58a4b0;
-  padding: 8px;
-  opacity: 0.9;
-}
-.iconSize {
-  font-size: 2em;
 }
 
-.weatherIcon {
-  font-size: 6em;
-}
-
-.icons{
-  font-size: 2em;
+.weatherInfo {
   display: flex;
-  justify-content: space-between;
-  margin-left: 15px;
-  margin-right: 15px;
+  justify-content: center;
+  align-items: center;
 }
 
-.trial {
+.paraStyle {
   text-align: justify;
+}
+
+.footerStyle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.weatherTextStyle {
+  text-align: left;
+}
+
+.descriptionIconStyle {
+  font-size: 2em;
+  color: #FFFFFF;
+}
+
+.weatherIconStyle {
+  color: #FFFFFF;
+  font-size: 8em;
+  margin-right: 20px;
+}
+
+.bortleStyle {
+  border: solid;
+  border-width: thin;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 15px;
 }
