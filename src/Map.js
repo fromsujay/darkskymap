@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Button, Container, Row, Col } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends Component {
@@ -7,7 +8,8 @@ export class MapContainer extends Component {
     super();
     this.state = {
       lat: 0,
-      lng: 0
+      lng: 0,
+      button: 'none'
     };
   }
 
@@ -27,6 +29,12 @@ export class MapContainer extends Component {
      }, function() {
        // this funtion is empty but the whole geolocation process won't work without it
      });
+  };
+
+  componentDidMount() {
+    this.setState({
+      button: 'block'
+    });
   }
 
   render() {
@@ -46,13 +54,14 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
+      <Button display={this.state.button} className="cancelbutton">ruateniucensucensucaesncensuaceusiceiusceus</Button>
       </Map>
     );
   }
 }
 
 // Api google map
-const api = '';
+const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
 
 // Custom map style
 const styles = [
