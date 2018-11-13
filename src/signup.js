@@ -32,8 +32,8 @@ export default class Signup extends React.Component {
 
 
         <FormGroup>
-            <Button className="btn-Home-Sign1">Annuler</Button>
-            <Button className="btn-Home-Sign1">S'inscrire</Button>
+            <Button className="cancelButton">Annuler</Button>
+            <Button className="submit">S'inscrire</Button>
         </FormGroup>
 
       </Form>
