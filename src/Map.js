@@ -12,6 +12,7 @@ export class MapContainer extends Component {
   }
 
   componentWillMount() {
+    // This bloc of code gets the user's geolocation from his browser
     var ctx = this;
      navigator.geolocation.getCurrentPosition(function(position) {
        var pos = {
@@ -28,14 +29,12 @@ export class MapContainer extends Component {
      });
   }
 
-
-
   render() {
 
     return (
       <Map
         google={this.props.google}
-        zoom={15}
+        zoom={12}
         style={style}
         styles={styles}
         initialCenter={{
