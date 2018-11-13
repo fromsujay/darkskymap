@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './description.css';
 
 class Description extends Component {
@@ -28,17 +29,19 @@ class Description extends Component {
           <Row>
             <Col xs="12">Horizon sud dégagé: sud à sud-ouest</Col>
           </Row>
-          <Row>
+          <Row className="trial">
             <Col xs="12">C9 = Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</Col>
           </Row>
           <Row>
             <Col xs="12" sm="6"><FontAwesomeIcon icon={faSun} className="weatherIcon"/></Col>
+
             <Col xs="12" sm="6">
-              <Row>Météo actuelle</Row>
-              <Row>Ciel dégagé</Row>
-              <Row>25° C</Row>
-              <Row>Brise légère, 2.6 m/s</Row>
+              <p>Météo actuelle</p>
+              <p>Ciel dégagé</p>
+              <p>25° C</p>
+              <p>Brise légère, 2.6 m/s</p>
             </Col>
+
           </Row>
           <Row>
             <Col xs="12">Observation planétaire et lunaire uniquement</Col>
