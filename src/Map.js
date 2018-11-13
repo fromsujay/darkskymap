@@ -1,6 +1,23 @@
 import React, {Component} from 'react';
-import { Button, Container, Row, Col } from 'reactstrap';
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+  } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './stylesheet/Map.css'
 
 export class MapContainer extends Component {
@@ -12,7 +29,18 @@ export class MapContainer extends Component {
       lng: 0,
       button: 'none'
     };
+
+    this.toggle = this.toggle.bind(this);
+       this.state = {
+         isOpen: false
+       };
   }
+
+  toggle() {
+     this.setState({
+       isOpen: !this.state.isOpen
+     });
+   }
 
   componentWillMount() {
     // This bloc of code gets the user's geolocation from his browser
@@ -47,6 +75,7 @@ export class MapContainer extends Component {
         zoom={12}
         style={style}
         styles={styles}
+        disableDefaultUI={true}
         initialCenter={{
           lat: 48.885391,
           lng: 2.2979853
@@ -57,10 +86,25 @@ export class MapContainer extends Component {
         }}
       >
       </Map>
-      <div id="overMap">
-        <Button  display={this.state.button} className="cancelbutton">ruateniucensucensucaesncensuaceusiceiusceus</Button>
+
+      <div>
+        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+          <NavbarBrand style={{color:'white'}} href="/">Dark Sky Map</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink style={{color:'white'}} href="/components/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink style={{color:'white'}}>Favoris</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
       </div>
-      </div>
+
+    </div>
     );
   }
 }
