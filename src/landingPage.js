@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Row, Col } from 'reactstrap';
-import './landingPage.css';
-import Background from "./backgroundHome.jpg"
+import './stylesheet/landingPage.css';
+import Background from "./images/backgroundHome.jpg"
 
 class LandingPage extends Component {
   render() {
