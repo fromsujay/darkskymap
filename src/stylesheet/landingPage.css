@@ -29,7 +29,7 @@
 
 .home{
   height: 100vh;
-  background-image: url("./backgroundHome.jpg");
+  background-image: url("../images/backgroundHome.jpg");
   background-size: cover;
 
 }

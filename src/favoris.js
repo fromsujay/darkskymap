@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Background from './starry-night.jpg';
+import Background from './images/starry-night.jpg';
 import { faSun, faCloudSun, faCloudShowersHeavy, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-import './favoris.css';
+import './stylesheet/favoris.css';
 
 export default class Example extends React.Component {
   render() {

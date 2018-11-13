@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Container, Row, Col } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import './stylesheet/Map.css'
 
 export class MapContainer extends Component {
 
@@ -56,14 +57,16 @@ export class MapContainer extends Component {
         }}
       >
       </Map>
-      <Button display={this.state.button} className="cancelbutton">ruateniucensucensucaesncensuaceusiceiusceus</Button>
+      <div id="overMap">
+        <Button  display={this.state.button} className="cancelbutton">ruateniucensucensucaesncensuaceusiceiusceus</Button>
+      </div>
       </div>
     );
   }
 }
 
 // Api google map
-const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
+const api = '';
 
 // Custom map style
 const styles = [
