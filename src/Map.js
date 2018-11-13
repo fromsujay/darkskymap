@@ -40,6 +40,7 @@ export class MapContainer extends Component {
   render() {
 
     return (
+      <div id="wrapper">
       <Map
         google={this.props.google}
         zoom={12}
@@ -54,8 +55,9 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
-      <Button display={this.state.button} className="cancelbutton">ruateniucensucensucaesncensuaceusiceiusceus</Button>
       </Map>
+      <Button display={this.state.button} className="cancelbutton">ruateniucensucensucaesncensuaceusiceiusceus</Button>
+      </div>
     );
   }
 }
