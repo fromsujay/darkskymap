@@ -39,25 +39,37 @@ h2 {
   width: 40vh;
   font-family: Helvetica;
 }
-/*
-.cancelbutton {
-  background-color: white;
-  color: black;
+
+.cancelButton {
+  background-color: hsla(0, 100%, 0%, .4);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
   font-family: Open Sans;
   font-weight: bold;
   border-radius: 10px;
-} */
-
-.btn-Home-Sign1{
-  background-color: hsla(360, 100%, 100%, 0.1);
-  border-color: #FFFFFF;
-  color: #FFFFFF;
-  margin-right: 20px;
 }
 
-.btn-Home-Sign1:hover{
+
+.cancelButton:hover{
   background-color: transparent;
   border-color: #FFFFFF;
   color: #FFFFFF;
-  opacity: 0.7;
+  opacity: 0.9;
+}
+
+.submit {
+background-color: hsla(0, 100%, 0%, .4);
+border-color: #FFFFFF;
+color: #FFFFFF;
+font-family: Open Sans;
+font-weight: bold;
+border-radius: 10px;
+
+}
+
+.submit:hover{
+  background-color: transparent;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  opacity: 0.9;
 }

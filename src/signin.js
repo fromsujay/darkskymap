@@ -27,8 +27,8 @@ export default class Signin extends React.Component {
 
 
         <FormGroup>
-            <Button className="btn-Home-Sign1">Annuler</Button>
-          <Button className="btn-Home-Sign1" color="secondary" onClick={()=>{ alert('Votre adresse e-mail ou mot de passe est incorrect. Veuillez réessayer.'); }}>Sign in</Button>
+            <Button className="cancelButton">Annuler</Button>
+          <Button className="submit" color="secondary" onClick={()=>{ alert('Votre adresse e-mail ou mot de passe est incorrect. Veuillez réessayer.'); }}>Sign in</Button>
         </FormGroup>
 
       </Form>

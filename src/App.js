@@ -3,6 +3,7 @@ import {  } from 'reactstrap';
 import Signin from './signin.js';
 import Signup from './signup.js';
 import Favoris from './favoris.js';
+import Map from './Map.js';
 import LandingPage from './landingPage.js'
 import Description from './description.js'
 import Details from './details.js'
@@ -13,6 +14,7 @@ class App extends Component {
   render() {
     return (
 
+      <Favoris />
     );
   }
 }

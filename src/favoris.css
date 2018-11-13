@@ -40,11 +40,17 @@ p {
   color: white;
 }
 
-.btn-Home-Sign1{
+.backButton{
   background-color: hsla(360, 100%, 100%, 0.1);
   border-color: #FFFFFF;
   color: #FFFFFF;
-  margin-bottom: 35px;
+}
+
+.backButton:hover{
+  background-color: transparent;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  opacity: 0.9;
 }
 
 .iconStyle {
