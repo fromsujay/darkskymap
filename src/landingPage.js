@@ -9,6 +9,7 @@ class LandingPage extends Component {
       <div className="home">
         <Container>
           <Row>
+            //Keep responsive and designed for mobile device
             <Col xs={{size:3, offset:2}} sm={{size:3, offset:3}} md={{size: 1, offset: 9}}>
               <Col xs="1" md="5">
                 <Button className="btn-Home-Sign1" color="secondary">Sign In</Button>
