@@ -45,3 +45,9 @@
   background-color: transparent;
   opacity: 0.5;
 }
+
+.detailsFooterStyle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

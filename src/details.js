@@ -26,7 +26,7 @@ class Details extends Component {
           <CardText>Disponibilité de courant: non</CardText>
           <CardText className="detailsTextStyle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</CardText>
         </CardBody>
-        <CardFooter className="footerStyle">
+        <CardFooter className="detailsFooterStyle">
         <Button outline className="backButtonStyle">Retour</Button>
         <FontAwesomeIcon  icon={faHeart} className="detailsIconStyle"/>
         </CardFooter>
