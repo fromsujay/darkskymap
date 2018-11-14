@@ -27,13 +27,12 @@ export class MapContainer extends Component {
     this.state = {
       lat: 0,
       lng: 0,
-      button: 'none'
+      button: 'none',
+      connectStatus: false,
+      isOpen: false,
     };
 
     this.toggle = this.toggle.bind(this);
-       this.state = {
-         isOpen: false
-       };
   }
 
   toggle() {
@@ -87,22 +86,44 @@ export class MapContainer extends Component {
       >
       </Map>
 
-      <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <NavbarBrand style={{color:'white'}} href="/">Dark Sky Map</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink style={{color:'white'}} href="/components/">Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink style={{color:'white'}}>Favoris</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+     {
+       this.state.connectStatus ?
+       <div>
+         <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+           <NavbarBrand style={{color:'white'}} href="/">Dark Sky Map</NavbarBrand>
+           <NavbarToggler onClick={this.toggle} />
+           <Collapse isOpen={this.state.isOpen} navbar>
+             <Nav className="ml-auto" navbar>
+               <NavItem>
+                 <NavLink style={{color:'white'}} href="/components/">Home</NavLink>
+               </NavItem>
+               <NavItem>
+                 <NavLink style={{color:'white'}}>Sign-in</NavLink>
+               </NavItem>
+               <NavItem>
+                 <NavLink style={{color:'white'}}>Sign-up</NavLink>
+               </NavItem>
+             </Nav>
+           </Collapse>
+         </Navbar>
+       </div> :
+       <div>
+         <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+           <NavbarBrand style={{color:'white'}} href="/">Dark Sky Map</NavbarBrand>
+           <NavbarToggler onClick={this.toggle} />
+           <Collapse isOpen={this.state.isOpen} navbar>
+             <Nav className="ml-auto" navbar>
+               <NavItem>
+                 <NavLink style={{color:'white'}} href="/components/">Home</NavLink>
+               </NavItem>
+               <NavItem>
+                 <NavLink style={{color:'white'}}>Favoris</NavLink>
+               </NavItem>
+             </Nav>
+           </Collapse>
+         </Navbar>
+       </div>
+     }
 
     </div>
     );
@@ -110,7 +131,7 @@ export class MapContainer extends Component {
 }
 
 // Api google map
-const api = '';
+const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
 
 // Custom map style
 const styles = [
