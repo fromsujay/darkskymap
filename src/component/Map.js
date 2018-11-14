@@ -18,7 +18,8 @@ import {
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './stylesheet/Map.css'
+import '../stylesheet/Map.css'
+import { Redirect } from "react-router-dom"
 
 export class MapContainer extends Component {
 
@@ -27,9 +28,11 @@ export class MapContainer extends Component {
     this.state = {
       lat: 0,
       lng: 0,
-      button: 'none'
+      button: 'none',
+      redirectHome: false,
     };
 
+    this.handleClickHome = this.handleClickHome.bind(this);
     this.toggle = this.toggle.bind(this);
        this.state = {
          isOpen: false
@@ -41,6 +44,12 @@ export class MapContainer extends Component {
        isOpen: !this.state.isOpen
      });
    }
+
+  handleClickHome(){
+    this.setState({
+      redirectHome: true
+    })
+  }
 
   componentWillMount() {
     // This bloc of code gets the user's geolocation from his browser
@@ -69,6 +78,7 @@ export class MapContainer extends Component {
   render() {
 
     return (
+
       <div id="wrapper">
       <Map
         google={this.props.google}
@@ -87,14 +97,15 @@ export class MapContainer extends Component {
       >
       </Map>
 
+
       <div>
         <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <NavbarBrand style={{color:'white'}} href="/">Dark Sky Map</NavbarBrand>
+          <NavbarBrand style={{color:'white'}} onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink style={{color:'white'}} href="/components/">Home</NavLink>
+                <NavLink style={{color:'white'}} onClick={this.handleClickHome} >Home</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink style={{color:'white'}}>Favoris</NavLink>
@@ -103,14 +114,18 @@ export class MapContainer extends Component {
           </Collapse>
         </Navbar>
       </div>
-
+      {
+        this.state.redirectHome
+        ?<Redirect to="/"/>
+        :null
+      },
     </div>
     );
   }
 }
 
 // Api google map
-const api = '';
+const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
 
 // Custom map style
 const styles = [

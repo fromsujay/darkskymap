@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./stylesheet/signup.css";
+import "../stylesheet/signup.css";
 
 
 export default class Signup extends React.Component {

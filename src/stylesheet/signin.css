@@ -34,22 +34,24 @@ h2 {
   font-family: Helvetica;
 }
 
-.cancelButton {
-  background-color: white;
-  color: black;
-  font-family: Helvetica;
+.cancelButton1 {
+  background-color: hsla(0, 100%, 0%, .4);;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  font-family: Open Sans;
   font-weight: bold;
   border-radius: 10px;
+  margin-right: 30px;
 }
 
-.cancelButton:hover{
+.cancelButton1:hover{
   background-color: transparent;
   border-color: #FFFFFF;
   color: #FFFFFF;
   opacity: 0.9;
 }
 
-.submit {
+.submit1 {
 background-color: hsla(0, 100%, 0%, .4);
 border-color: #FFFFFF;
 color: #FFFFFF;
@@ -59,7 +61,7 @@ border-radius: 10px;
 
 }
 
-.submit:hover{
+.submit1:hover{
   background-color: transparent;
   border-color: #FFFFFF;
   color: #FFFFFF;

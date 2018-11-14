@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, CardHeader, CardFooter, CardBody, CardTitle,
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './stylesheet/details.css';
+import '../stylesheet/details.css';
 
 class Details extends Component {
   render() {
