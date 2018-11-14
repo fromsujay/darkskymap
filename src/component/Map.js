@@ -19,7 +19,7 @@ import {
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css'
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 
 export class MapContainer extends Component {
 
@@ -137,7 +137,7 @@ export class MapContainer extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
+                  <Link to = "/" style={{color:'white'}}>Home</Link>
                 </NavItem>
                 <NavItem>
                   <NavLink style={{color:'white'}} href='#' onClick={this.handleClickSignIn} >Sign-in</NavLink>
