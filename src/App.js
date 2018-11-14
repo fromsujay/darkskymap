@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <div>
         <header>
-
+<Favoris/>
         </header>
       </div>
     );
