@@ -1,52 +1,53 @@
-.description {
-  text-align: center;
-  border-color: #FFFFFF;
-  color: #FFFFFF;
-  border-radius: 4px;
+.detailsRootStyle {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vh;
-  height: 100vh;
-  padding: 0px;
-
+  min-height: 100vh;
 }
-.heading {
-  border-left-style: solid;
-  border-right: solid;
-  border-top-style: solid;
-  border-bottom-style: none;
+
+.cardDetailsStyle {
   background-color: #58a4b0;
-  padding: 8px;
-}
-.descriptionBody {
-  border-left-style: solid;
-  border-right: solid;
-  border-top-style: solid;
-  border-bottom-style: none;
-  background-color: #58a4b0;
-  padding: 8px;
-  opacity: 0.9;
-}
-.iconSize {
-  font-size: 2em;
+  text-align: center;
+  color: #FFFFFF;
 }
 
-.weatherIcon {
-  font-size: 6em;
-}
-
-
-.icons{
-  font-size: 2em;
+.headingDetailsStyle {
   display: flex;
-  justify-content: space-between;
-  margin-left: 15px;
-  margin-right: 15px;
+  justify-content: space-around;
+  align-items: center;
 }
 
-#backButton {
+.detailsBodyStyle {
+  text-align: left;
+}
+
+.detailsTextStyle {
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-width: thin;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.detailsIconStyle {
+  font-size: 2em;
+  color: #FFFFFF;
+}
+
+.backButtonStyle {
   color: #FFFFFF;
   border-color: #FFFFFF;
+}
+
+.backButtonStyle:hover {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  background-color: transparent;
+  opacity: 0.5;
+}
+
+.detailsFooterStyle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
