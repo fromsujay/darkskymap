@@ -47,6 +47,7 @@ h2 {
   font-family: Open Sans;
   font-weight: bold;
   border-radius: 10px;
+  margin-right: 30px;
 }
 
 
@@ -64,15 +65,6 @@ color: #FFFFFF;
 font-family: Open Sans;
 font-weight: bold;
 border-radius: 10px;
-
-}
-
-.btn-Home-Sign1:hover{
-  background-color: transparent;
-  border-color: #FFFFFF;
-  color: #FFFFFF;
-  opacity: 0.7;
-
 }
 
 .submit:hover{
