@@ -11,6 +11,19 @@
   margin-left: auto;
 }
 
+.signInLink{
+  margin-left: 20px;
+  margin-right: 20px
+}
+
+.signUpLink{
+
+}
+
+.homeLink{
+
+}
+
 .navBar {
   opacity: 0.5;
 }

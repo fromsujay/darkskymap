@@ -19,7 +19,7 @@ import {
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css'
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 
 export class MapContainer extends Component {
 
@@ -29,16 +29,10 @@ export class MapContainer extends Component {
       lat: 0,
       lng: 0,
       button: 'none',
-      redirectHome: false,
-      redirectSignIn: false,
-      redirectSignUp: false,
       isOpen: false,
       connectStatus: false,
     };
 
-    this.handleClickHome = this.handleClickHome.bind(this);
-    this.handleClickSignIn = this.handleClickSignIn.bind(this);
-    this.handleClickSignUp = this.handleClickSignUp.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
@@ -48,23 +42,6 @@ export class MapContainer extends Component {
      });
    }
 
-  handleClickHome(){
-    this.setState({
-      redirectHome: true,
-    })
-  }
-
-  handleClickSignIn() {
-    this.setState({
-      redirectSignIn: true,
-    });
-  }
-
-  handleClickSignUp() {
-    this.setState({
-      redirectSignUp: true,
-    });
-  }
 
   componentWillMount() {
     // This bloc of code gets the user's geolocation from his browser
@@ -116,15 +93,15 @@ export class MapContainer extends Component {
         this.state.connectStatus ?
         <div>
           <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-            <NavbarBrand style={{color:'white'}} href='#' onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
+            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
+                  <Link to="/" style={{color:'white'}}>Home</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink style={{color:'white'}}>Favoris</NavLink>
+                  <Link to="/favoris" style={{color:'white'}}>Favoris</Link>
                 </NavItem>
               </Nav>
             </Collapse>
@@ -132,44 +109,24 @@ export class MapContainer extends Component {
         </div> :
         <div>
           <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-            <NavbarBrand style={{color:'white'}} href='#' onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
+            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
+                  <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickSignIn} >Sign-in</NavLink>
+                  <Link to="/signin" className="signInLink" style={{color:'white'}}>Sign-in</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickSignUp} >Sign-up</NavLink>
+                  <Link to="/signup" className="signuUpLink" style={{color:'white'}}>Sign-up</Link>
                 </NavItem>
               </Nav>
             </Collapse>
           </Navbar>
         </div>
       }
-
-      {
-        this.state.redirectHome
-        ?<Redirect to="/"/>
-        :null
-      },
-
-      {
-        this.state.redirectSignIn
-        ?<Redirect to="/signin"/>
-        :null
-      },
-
-      {
-        this.state.redirectSignUp
-        ?<Redirect to="/signup"/>
-        :null
-      }
-
-
     </div>
     );
   }

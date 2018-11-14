@@ -8,13 +8,13 @@ import LandingPage from './component/landingPage.js'
 import Description from './component/description.js'
 import Details from './component/details.js'
 import GoogleApiWrapper from './component/Map.js'
-import {BrowserRouter, BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
 class App extends Component {
   render() {
     return (
-  <Router history={BrowserRouter}>
+  <Router>
     <div>
       <Switch>
         <Route exact path="/" component={LandingPage} />
