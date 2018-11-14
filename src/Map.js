@@ -24,18 +24,18 @@ export class MapContainer extends Component {
 
   constructor() {
     super();
+    // States that receive the user's geolocation
     this.state = {
       lat: 0,
       lng: 0,
-      button: 'none'
     };
 
+// Navbar toggle mecanism
     this.toggle = this.toggle.bind(this);
        this.state = {
          isOpen: false
        };
   }
-
   toggle() {
      this.setState({
        isOpen: !this.state.isOpen
@@ -55,27 +55,23 @@ export class MapContainer extends Component {
          lat: pos.lat,
          lng: pos.lng
        })
+       console.log(pos);
      }, function() {
        // this funtion is empty but the whole geolocation process won't work without it
      });
   };
 
-  componentDidMount() {
-    this.setState({
-      button: 'block'
-    });
-  }
-
   render() {
-
     return (
       <div id="wrapper">
+
       <Map
         google={this.props.google}
         zoom={12}
         style={style}
         styles={styles}
         disableDefaultUI={true}
+        zoomControl={true}
         initialCenter={{
           lat: 48.885391,
           lng: 2.2979853
@@ -89,15 +85,15 @@ export class MapContainer extends Component {
 
       <div>
         <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <NavbarBrand style={{color:'white'}} href="/">Dark Sky Map</NavbarBrand>
+          <NavbarBrand style={{color:'white', marginEnd:50}} href="/">Dark Sky Map</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink style={{color:'white'}} href="/components/">Home</NavLink>
+                <NavLink style={{color:'white', opacity:1}} href="/components/">Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink style={{color:'white'}}>Favoris</NavLink>
+                <NavLink style={{color:'white', opacity:1}}>Favoris</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
@@ -110,7 +106,7 @@ export class MapContainer extends Component {
 }
 
 // Api google map
-const api = '';
+const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
 
 // Custom map style
 const styles = [
