@@ -30,13 +30,16 @@ export class MapContainer extends Component {
       lng: 0,
       button: 'none',
       redirectHome: false,
+      redirectSignIn: false,
+      redirectSignUp: false,
+      isOpen: false,
+      connectStatus: false,
     };
 
     this.handleClickHome = this.handleClickHome.bind(this);
+    this.handleClickSignIn = this.handleClickSignIn.bind(this);
+    this.handleClickSignUp = this.handleClickSignUp.bind(this);
     this.toggle = this.toggle.bind(this);
-       this.state = {
-         isOpen: false
-       };
   }
 
   toggle() {
@@ -47,8 +50,20 @@ export class MapContainer extends Component {
 
   handleClickHome(){
     this.setState({
-      redirectHome: true
+      redirectHome: true,
     })
+  }
+
+  handleClickSignIn() {
+    this.setState({
+      redirectSignIn: true,
+    });
+  }
+
+  handleClickSignUp() {
+    this.setState({
+      redirectSignUp: true,
+    });
   }
 
   componentWillMount() {
@@ -97,29 +112,64 @@ export class MapContainer extends Component {
         }}
       >
       </Map>
+      {
+        this.state.connectStatus ?
+        <div>
+          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+            <NavbarBrand style={{color:'white'}} href='#' onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink style={{color:'white'}}>Favoris</NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div> :
+        <div>
+          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+            <NavbarBrand style={{color:'white'}} href='#' onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickSignIn} >Sign-in</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink style={{color:'white'}} href='#' onClick={this.handleClickSignUp} >Sign-up</NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div>
+      }
 
-
-      <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <NavbarBrand style={{color:'white'}} href='#' onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink style={{color:'white'}}>Favoris</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
       {
         this.state.redirectHome
         ?<Redirect to="/"/>
         :null
       },
+
+      {
+        this.state.redirectSignIn
+        ?<Redirect to="/signin"/>
+        :null
+      },
+
+      {
+        this.state.redirectSignUp
+        ?<Redirect to="/signup"/>
+        :null
+      }
+
+
     </div>
     );
   }
