@@ -25,20 +25,26 @@ export class MapContainer extends Component {
 
   constructor() {
     super();
+    // States that receive the user's geolocation
     this.state = {
       lat: 0,
       lng: 0,
+<<<<<<< HEAD:src/component/Map.js
       button: 'none',
       redirectHome: false,
     };
 
     this.handleClickHome = this.handleClickHome.bind(this);
+=======
+    };
+
+// Navbar toggle mecanism
+>>>>>>> 6aaba0009eeeeb1205f7837ecb9eff894fc32dc8:src/Map.js
     this.toggle = this.toggle.bind(this);
        this.state = {
          isOpen: false
        };
   }
-
   toggle() {
      this.setState({
        isOpen: !this.state.isOpen
@@ -64,28 +70,24 @@ export class MapContainer extends Component {
          lat: pos.lat,
          lng: pos.lng
        })
+       console.log(pos);
      }, function() {
        // this funtion is empty but the whole geolocation process won't work without it
      });
   };
 
-  componentDidMount() {
-    this.setState({
-      button: 'block'
-    });
-  }
-
   render() {
-
     return (
 
       <div id="wrapper">
+
       <Map
         google={this.props.google}
         zoom={12}
         style={style}
         styles={styles}
         disableDefaultUI={true}
+        zoomControl={true}
         initialCenter={{
           lat: 48.885391,
           lng: 2.2979853
@@ -108,7 +110,7 @@ export class MapContainer extends Component {
                 <NavLink style={{color:'white'}} onClick={this.handleClickHome} >Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink style={{color:'white'}}>Favoris</NavLink>
+                <NavLink style={{color:'white', opacity:1}}>Favoris</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
