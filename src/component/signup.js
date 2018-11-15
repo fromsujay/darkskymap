@@ -59,9 +59,9 @@ export default class Signup extends React.Component {
         return response.json();
         console.log(response.json())
     })
-    .then(function(data) {
-      console.log(data);
-      if(data[0].email === ctx.state.email && data[0].password === ctx.state.password){
+    .then(function(user) {
+      console.log(user);
+      if(user.email === ctx.state.email && user.password === ctx.state.password){
         ctx.setState({
           redirectMap: true
         })
