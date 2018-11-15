@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Container, Row, Col } from 'reactstrap';
 import '../stylesheet/landingPage.css';
-import Background from "../images/backgroundHome.jpg";
 import { Link } from "react-router-dom"
 
 /*Keep responsive and designed for mobile device*/

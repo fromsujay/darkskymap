@@ -11,16 +11,52 @@ export default class Signin extends React.Component {
   super(props);
   this.state = {
     redirectMap: false,
-    redirectSignIn: false,
-    redirectSignUp: false,
+    email: '',
+    password: '',
   }
+  this.captureEmailData = this.captureEmailData.bind(this);
+  this.capturePasswordData = this.capturePasswordData.bind(this);
+  this.handleClickSignIn = this.handleClickSignIn.bind(this);
 }
 
-handleClickSignIn=()=> {
+captureEmailData(event){
+  event.preventDefault();
   this.setState({
-    redirectMap: true,
+    email: event.target.value,
   });
+
 }
+
+capturePasswordData(event){
+  event.preventDefault();
+  this.setState({
+    password: event.target.value,
+  });
+
+}
+
+
+handleClickSignIn(event) {
+  event.preventDefault();
+
+    fetch('http://localhost:3000/signin', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'email='+this.state.email+'&password='+this.state.password
+  })
+      .then(function(response) {
+        return response.json();
+        console.log('coucou');
+    })
+    .then(function(data) {
+        this.setState({redirectMap: true});
+        console.log('hello');
+    })
+    .catch(function(error) {
+        console.log('Request failed', error)
+    });
+  }
+
 
   render() {
 
@@ -38,24 +74,23 @@ handleClickSignIn=()=> {
               <h2>Identifiez-vous : </h2>
 
         <FormGroup>
-          <Input type="email" name="email" id="email" placeholder="Email" />
+          <Input type="email" name="email" onChange={this.captureEmailData} id="email" placeholder="Email" />
         </FormGroup>
         {' '}
 
 
         <FormGroup>
-          <Input type="password" name="password" id="password" placeholder="Mot de passe" />
+          <Input type="password" name="password" onChange={this.capturePasswordData} id="password" placeholder="Mot de passe" />
         </FormGroup>
         {' '}
 
 
         <FormGroup>
           <Button className="cancelButton1">Annuler</Button>
-          <Button className="submit1" color="secondary" onClick={this.handleClickSignIn}>Sign in</Button>
+          <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
-
       </Form>
-      </div>
+    </div>
     );
   }
-}
+};
