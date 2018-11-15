@@ -19,7 +19,7 @@ import {
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css'
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 
 export class MapContainer extends Component {
 
@@ -29,14 +29,11 @@ export class MapContainer extends Component {
       lat: 0,
       lng: 0,
       button: 'none',
-      redirectHome: false,
+      isOpen: false,
+      connectStatus: false,
     };
 
-    this.handleClickHome = this.handleClickHome.bind(this);
     this.toggle = this.toggle.bind(this);
-       this.state = {
-         isOpen: false
-       };
   }
 
   toggle() {
@@ -45,11 +42,6 @@ export class MapContainer extends Component {
      });
    }
 
-  handleClickHome(){
-    this.setState({
-      redirectHome: true
-    })
-  }
 
   componentWillMount() {
     // This bloc of code gets the user's geolocation from his browser
@@ -97,29 +89,44 @@ export class MapContainer extends Component {
         }}
       >
       </Map>
-
-
-      <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <NavbarBrand style={{color:'white'}} href='#' onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink style={{color:'white'}} href='#' onClick={this.handleClickHome} >Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink style={{color:'white'}}>Favoris</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
       {
-        this.state.redirectHome
-        ?<Redirect to="/"/>
-        :null
-      },
+        this.state.connectStatus ?
+        <div>
+          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <Link to="/" style={{color:'white'}}>Home</Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/favoris" style={{color:'white'}}>Favoris</Link>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div> :
+        <div>
+          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/signin" className="signInLink" style={{color:'white'}}>Sign-in</Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/signup" className="signuUpLink" style={{color:'white'}}>Sign-up</Link>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div>
+      }
     </div>
     );
   }
