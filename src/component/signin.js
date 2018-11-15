@@ -2,13 +2,36 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signin.css";
+import { Redirect } from "react-router-dom"
 
 
 export default class Signin extends React.Component {
+
+  constructor(props) {
+  super(props);
+  this.state = {
+    redirectMap: false,
+    redirectSignIn: false,
+    redirectSignUp: false,
+  }
+}
+
+handleClickSignIn=()=> {
+  this.setState({
+    redirectMap: true,
+  });
+}
+
   render() {
 
     return (
 <div className="background">
+
+  {
+    this.state.redirectMap
+    ?<Redirect to="/map"/>
+    :null
+  }
 
       <Form inline className="form">
 
@@ -28,7 +51,7 @@ export default class Signin extends React.Component {
 
         <FormGroup>
           <Button className="cancelButton1">Annuler</Button>
-          <Button className="submit1" color="secondary" onClick={()=>{ alert('Votre adresse e-mail ou mot de passe est incorrect. Veuillez réessayer.'); }}>Sign in</Button>
+          <Button className="submit1" color="secondary" onClick={this.handleClickSignIn}>Sign in</Button>
         </FormGroup>
 
       </Form>
