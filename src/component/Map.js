@@ -28,9 +28,9 @@ export class MapContainer extends Component {
     this.state = {
       lat: 0,
       lng: 0,
-      button: 'none',
       isOpen: false,
       connectStatus: false,
+      locations:[],
     };
 
     this.toggle = this.toggle.bind(this);
@@ -59,15 +59,43 @@ export class MapContainer extends Component {
      }, function() {
        // this funtion is empty but the whole geolocation process won't work without it
      });
+
   };
 
   componentDidMount() {
-    this.setState({
-      button: 'block'
+    const ctx= this;
+    fetch('http://10.2.1.40:3000/map').then(function(response) {
+      console.log(response);
+    return response.json();
+    }).then(function(data) {
+    console.log('Data -----',data);
+    // let locationsCopy = [...ctx.state.locations]
+    // locationsCopy.push()
+    ctx.setState({
+      locations:data.locations
+    })
     });
-  }
+    }
 
   render() {
+
+
+    const ctx= this;
+    var markerList = ctx.state.locations.map(
+      function(data){
+        console.log('location map', data)
+        return(
+          console.log('returned location lat',data.latitude),
+          console.log('returned location lng',data.longitude),
+          <Marker
+    title={'The marker`s title will appear as a tooltip.'}
+    name={'SOMA'}
+    position={{lat: data.latitude, lng: data.longitude}}
+    /> )
+      }
+    )
+
+    console.log('this.state.locations -------', ctx.state.locations);
 
     return (
 
@@ -88,6 +116,7 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
+      {markerList}
       </Map>
       {
         this.state.connectStatus ?
