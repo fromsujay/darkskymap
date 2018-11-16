@@ -108,12 +108,6 @@ export class MapContainer extends Component {
     name={'SOMA'}
     position={{lat: data.latitude, lng: data.longitude}}
     onClick={this.toggleDescription}
-    {this.state.showDescription ?
-          <Description
-            closePopup={this.toggleDescription.bind(this)}
-          />
-          : null
-        }
     /> )
       }
     )
@@ -179,6 +173,12 @@ export class MapContainer extends Component {
           </Navbar>
         </div>
       }
+      {this.state.showDescription ?
+            <Description
+              closePopup={this.toggleDescription.bind(this)}
+            />
+            : null
+          }
     </div>
     );
   }
