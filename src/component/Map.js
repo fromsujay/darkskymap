@@ -20,8 +20,8 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import { Redirect, Link } from "react-router-dom";
-import Description from './component/description.js';
-import Details from './component/details.js';
+import Description from './description.js';
+import Details from './details.js';
 
 /*code in componentWillMount capture users current position & centers map on captured position */
 /*code in componentDidMount collects locations from database to prepare generation of markers */
