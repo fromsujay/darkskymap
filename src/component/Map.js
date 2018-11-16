@@ -18,8 +18,10 @@ import {
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../stylesheet/Map.css'
-import { Redirect, Link } from "react-router-dom"
+import '../stylesheet/Map.css';
+import { Redirect, Link } from "react-router-dom";
+import Description from './component/description.js';
+import Details from './component/details.js';
 
 /*code in componentWillMount capture users current position & centers map on captured position */
 /*code in componentDidMount collects locations from database to prepare generation of markers */
@@ -37,9 +39,11 @@ export class MapContainer extends Component {
       isOpen: false,
       connectStatus: false,
       locations:[],
+      showDescription: false,
     };
 
     this.toggle = this.toggle.bind(this);
+    this.toggleDescription = this.toggleDescription.bind(this);
   }
 
   toggle() {
@@ -47,6 +51,12 @@ export class MapContainer extends Component {
        isOpen: !this.state.isOpen
      });
    }
+
+   toggleDescription() {
+    this.setState({
+      showDescription: !this.state.showDescription
+    });
+  }
 
 
   componentWillMount() {
@@ -97,6 +107,13 @@ export class MapContainer extends Component {
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
     position={{lat: data.latitude, lng: data.longitude}}
+    onClick={this.toggleDescription}
+    {this.state.showDescription ?
+          <Description
+            closePopup={this.toggleDescription.bind(this)}
+          />
+          : null
+        }
     /> )
       }
     )
