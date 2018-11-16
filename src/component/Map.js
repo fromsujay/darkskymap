@@ -216,7 +216,7 @@ class Description extends Component {
     console.log("render description : ",this.state.status);
     return (
     <div className="rootStyle">
-     <Col xs="8">
+     <Col xs="11" md="6">
       <Card className="cardStyle">
         <CardHeader className="heading" >
           <FontAwesomeIcon icon={faCity} className="descriptionIconStyle"/>
@@ -274,7 +274,7 @@ class Details extends Component {
   render() {
     return (
     <div className="detailsRootStyle">
-     <Col xs="8">
+     <Col xs="11" md="6">
       <Card className="cardDetailsStyle">
         <CardHeader className="headingDetailsStyle" >
           <FontAwesomeIcon icon={faCity} className="detailsIconStyle"/>
