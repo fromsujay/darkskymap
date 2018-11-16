@@ -14,6 +14,7 @@ class Description extends Component {
     this.state = {
       showDetails: false
     };
+    this.toggleDetails = this.toggleDetails.bind(this);
   }
   toggleDetails() {
     this.setState({
@@ -59,7 +60,7 @@ class Description extends Component {
     </Col>
     {this.state.showDetails ?
            <Details
-             closeDetails={this.toggleDetails.bind(this)}
+             closeDetails={this.toggleDetails}
            />
            : null
          }
