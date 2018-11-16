@@ -5,6 +5,8 @@ import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesom
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/description.css';
 
+
+/* This component displays description concerning a location after cliking on a location icon */
 class Description extends Component {
   render() {
     return (

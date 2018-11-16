@@ -21,6 +21,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css'
 import { Redirect, Link } from "react-router-dom"
 
+/*code in componentWillMount capture users current position & centers map on captured position */
+/*code in componentDidMount collects locations from database to prepare generation of markers */
+/*map function iterating on locations array prepares data for generation of markers */
+/*{markerlist} array generates markers on map */
+/*ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
+/*export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
 export class MapContainer extends Component {
 
   constructor() {
@@ -28,9 +34,9 @@ export class MapContainer extends Component {
     this.state = {
       lat: 0,
       lng: 0,
-      button: 'none',
       isOpen: false,
       connectStatus: false,
+      locations:[],
     };
 
     this.toggle = this.toggle.bind(this);
@@ -59,18 +65,46 @@ export class MapContainer extends Component {
      }, function() {
        // this funtion is empty but the whole geolocation process won't work without it
      });
+
   };
 
   componentDidMount() {
-    this.setState({
-      button: 'block'
+    const ctx= this;
+    fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
+      console.log(response);
+    return response.json();
+    }).then(function(data) {
+    console.log('Data -----',data);
+    // let locationsCopy = [...ctx.state.locations]
+    // locationsCopy.push()
+    ctx.setState({
+      locations:data.locations
+    })
     });
-  }
+    }
 
 //-------Import de NavigationBar avant Reducer dans Map------//
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
 
   render() {
+
+
+    const ctx= this;
+    var markerList = ctx.state.locations.map(
+      function(data){
+        console.log('location map', data)
+        return(
+          console.log('returned location lat',data.latitude),
+          console.log('returned location lng',data.longitude),
+          <Marker
+    title={'The marker`s title will appear as a tooltip.'}
+    name={'SOMA'}
+    position={{lat: data.latitude, lng: data.longitude}}
+    /> )
+      }
+    )
+
+    console.log('this.state.locations -------', ctx.state.locations);
 
     return (
 
@@ -91,6 +125,7 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
+      {markerList}
       </Map>
 
         <div>

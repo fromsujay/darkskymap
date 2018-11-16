@@ -4,6 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signin.css";
 import { Redirect } from "react-router-dom"
 
+/* captureEmailData captures data entered in email field */
+/* capturePasswordData captures data entered in password field */
+/* handleClickSignIn sends data to backend with fetch function and verifies if user exists in database and if yes program directs user to map */
+
 
 export default class Signin extends React.Component {
 
@@ -39,7 +43,7 @@ capturePasswordData(event){
 handleClickSignIn(event) {
   event.preventDefault();
 
-    fetch('http://localhost:3000/signin', {
+    fetch('https://whispering-crag-36699.herokuapp.com/signin', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'email='+this.state.email+'&password='+this.state.password

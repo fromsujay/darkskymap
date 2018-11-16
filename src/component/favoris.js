@@ -5,6 +5,7 @@ import Background from '../images/starry-night.jpg';
 import { faSun, faCloudSun, faCloudShowersHeavy, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import '../stylesheet/favoris.css';
 
+/* This component displays locations identified as favorites by a given user */
 export default class Example extends React.Component {
   render() {
     return (
