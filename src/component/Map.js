@@ -175,7 +175,7 @@ export class MapContainer extends Component {
       }
       {this.state.showDescription ?
             <Description
-              closePopup={this.toggleDescription.bind(this)}
+              closePopup={this.toggleDescription}
             />
             : null
           }

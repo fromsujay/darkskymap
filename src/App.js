@@ -6,6 +6,8 @@ import Favoris from './component/favoris.js';
 import Description from './component/description.js';
 import Details from './component/details.js';
 import Map from './component/Map.js';
+import Description from './component/description.js';
+import Details from './component/details.js';
 import LandingPage from './component/landingPage.js';
 import GoogleApiWrapper from './component/Map.js';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
