@@ -19,22 +19,20 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-  <Router>
-    <div>
-      <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <Route path="/map" component={Map} />
-        <Route path="/signin" component={Signin} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/favoris" component={Favoris} />
-      </Switch>
-    </div>
-  </Router>
-    </Provider>
+        <Router>
+          <div>
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route path="/map" component={Map} />
+              <Route path="/signin" component={Signin} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/favoris" component={Favoris} />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }
-
-
 
 export default App;
