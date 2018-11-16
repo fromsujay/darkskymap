@@ -26,6 +26,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
+import NavigationBarDisplay from './navigationBarDisplay.js';
+
 
 /*code in componentWillMount capture users current position & centers map on captured position */
 /*code in componentDidMount collects locations from database to prepare generation of markers */
@@ -158,9 +160,10 @@ export class MapContainer extends Component {
         }}
       >
       {markerList}
+
       </Map>
 
-
+      <NavigationBarDisplay />
 
       }
       {this.state.showDescription ?
@@ -529,7 +532,7 @@ const styles = [
 
 const style = {
   width: '100vw',
-  height: '100vh',
+  minHeight: '100vh',
 }
 
 export default GoogleApiWrapper({

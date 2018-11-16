@@ -18,6 +18,7 @@ const store = createStore(combineReducers({favoris}));
 class App extends Component {
   render() {
     return (
+      <Provider store={store}>
   <Router>
     <div>
       <Switch>
@@ -29,6 +30,7 @@ class App extends Component {
       </Switch>
     </div>
   </Router>
+    </Provider>
     );
   }
 }
