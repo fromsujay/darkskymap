@@ -4,10 +4,8 @@ import Signin from './component/signin.js';
 import Signup from './component/signup.js';
 import Favoris from './component/favoris.js';
 import Map from './component/Map.js';
-import LandingPage from './component/landingPage.js'
-import Description from './component/description.js'
-import Details from './component/details.js'
-import GoogleApiWrapper from './component/Map.js'
+import LandingPage from './component/landingPage.js';
+import GoogleApiWrapper from './component/Map.js';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 /*react-router-dom implements navigation between different components of webapp*/

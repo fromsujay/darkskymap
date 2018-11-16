@@ -18,8 +18,10 @@ import {
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../stylesheet/Map.css'
-import { Redirect, Link } from "react-router-dom"
+import '../stylesheet/Map.css';
+import { Redirect, Link } from "react-router-dom";
+import Description from './description.js';
+import Details from './details.js';
 
 /*code in componentWillMount capture users current position & centers map on captured position */
 /*code in componentDidMount collects locations from database to prepare generation of markers */
@@ -37,9 +39,11 @@ export class MapContainer extends Component {
       isOpen: false,
       connectStatus: false,
       locations:[],
+      showDescription: false,
     };
 
     this.toggle = this.toggle.bind(this);
+    this.toggleDescription = this.toggleDescription.bind(this);
   }
 
   toggle() {
@@ -47,6 +51,12 @@ export class MapContainer extends Component {
        isOpen: !this.state.isOpen
      });
    }
+
+   toggleDescription() {
+    this.setState({
+      showDescription: !this.state.showDescription
+    });
+  }
 
 
   componentWillMount() {
@@ -70,7 +80,7 @@ export class MapContainer extends Component {
 
   componentDidMount() {
     const ctx= this;
-    fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
+    fetch('http://localhost:3000/map').then(function(response) {
       console.log(response);
     return response.json();
     }).then(function(data) {
@@ -97,6 +107,7 @@ export class MapContainer extends Component {
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
     position={{lat: data.latitude, lng: data.longitude}}
+    onClick={this.toggleDescription}
     /> )
       }
     )
@@ -162,6 +173,12 @@ export class MapContainer extends Component {
           </Navbar>
         </div>
       }
+      {this.state.showDescription ?
+            <Description
+              closePopup={this.toggleDescription.bind(this)}
+            />
+            : null
+          }
     </div>
     );
   }
