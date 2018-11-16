@@ -4,10 +4,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/description.css';
+import Details from './details.js'
 
 
 /* This component displays description concerning a location after cliking on a location icon */
 class Description extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showDetails: false
+    };
+  }
+  togglePopup() {
+    this.setState({
+      showDetails: !this.state.showDetails
+    });
+  }
   render() {
     return (
     <div className="rootStyle">
@@ -40,12 +52,20 @@ class Description extends Component {
           <CardText>Compromis urbain</CardText>
         </CardBody>
         <CardFooter className="footerStyle">
-          <FontAwesomeIcon  icon={faPlusCircle} className="descriptionIconStyle"/>
+          <FontAwesomeIcon onClick={this.toggleDetails.bind(this)}  icon={faPlusCircle} className="descriptionIconStyle"/>
           <FontAwesomeIcon  icon={faHeart} className="descriptionIconStyle"/>
         </CardFooter>
       </Card>
     </Col>
+    {this.state.showDetails ?
+           <Details
+             closeDetails={this.toggleDetails.bind(this)}
+           />
+           : null
+         }
    </div>
+
+
     );
   }
 }
