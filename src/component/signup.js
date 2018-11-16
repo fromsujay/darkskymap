@@ -55,7 +55,7 @@ class Signup extends React.Component {
     event.preventDefault();
     var ctx = this;
 
-    fetch('http://localhost:3000/signin', {
+    fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userName='+ctx.state.userName+'&email='+ctx.state.email+'&password='+ctx.state.password
