@@ -55,7 +55,7 @@ export default class Signup extends React.Component {
     event.preventDefault();
     var ctx = this;
 
-    fetch('https://whispering-crag-36699.herokuapp.com/signup', {
+    fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userName='+ctx.state.userName+'&email='+ctx.state.email+'&password='+ctx.state.password

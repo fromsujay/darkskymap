@@ -80,7 +80,7 @@ export class MapContainer extends Component {
 
   componentDidMount() {
     const ctx= this;
-    fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
+    fetch('http://localhost:3000/map').then(function(response) {
       console.log(response);
     return response.json();
     }).then(function(data) {
