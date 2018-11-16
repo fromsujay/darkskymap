@@ -97,7 +97,7 @@ export class MapContainer extends Component {
 
 
     const ctx= this;
-    var markerList = ctx.state.locations.map(
+    var markerList = this.state.locations.map(
       function(data){
         console.log('location map', data)
         return(

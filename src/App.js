@@ -3,6 +3,8 @@ import {  } from 'reactstrap';
 import Signin from './component/signin.js';
 import Signup from './component/signup.js';
 import Favoris from './component/favoris.js';
+import Description from './component/description.js';
+import Details from './component/details.js';
 import Map from './component/Map.js';
 import LandingPage from './component/landingPage.js';
 import GoogleApiWrapper from './component/Map.js';
