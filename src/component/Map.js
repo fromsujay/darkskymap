@@ -67,6 +67,9 @@ export class MapContainer extends Component {
     });
   }
 
+//-------Import de NavigationBar avant Reducer dans Map------//
+//-------Import de NavigationBarDisplay après Reducer dans Map-----//
+
   render() {
 
     return (
@@ -89,8 +92,7 @@ export class MapContainer extends Component {
         }}
       >
       </Map>
-      {
-        this.state.connectStatus ?
+
         <div>
           <Navbar style={{opacity:0.8}} color="dark" light expand="md">
             <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
