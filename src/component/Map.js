@@ -107,7 +107,7 @@ export class MapContainer extends Component {
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
     position={{lat: data.latitude, lng: data.longitude}}
-    onClick={this.toggleDescription}
+    onClick={ctx.toggleDescription}
     /> )
       }
     )
@@ -175,7 +175,7 @@ export class MapContainer extends Component {
       }
       {this.state.showDescription ?
             <Description
-              closePopup={this.toggleDescription.bind(this)}
+              closePopup={this.toggleDescription}
             />
             : null
           }
