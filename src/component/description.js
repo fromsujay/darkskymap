@@ -15,7 +15,7 @@ class Description extends Component {
       showDetails: false
     };
   }
-  togglePopup() {
+  toggleDetails() {
     this.setState({
       showDetails: !this.state.showDetails
     });
@@ -52,7 +52,7 @@ class Description extends Component {
           <CardText>Compromis urbain</CardText>
         </CardBody>
         <CardFooter className="footerStyle">
-          <FontAwesomeIcon onClick={this.toggleDetails.bind(this)}  icon={faPlusCircle} className="descriptionIconStyle"/>
+          <FontAwesomeIcon onClick={this.toggleDetails}  icon={faPlusCircle} className="descriptionIconStyle"/>
           <FontAwesomeIcon  icon={faHeart} className="descriptionIconStyle"/>
         </CardFooter>
       </Card>

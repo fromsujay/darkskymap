@@ -97,7 +97,7 @@ export class MapContainer extends Component {
 
 
     const ctx= this;
-    var markerList = this.state.locations.map(
+    var markerList = ctx.state.locations.map(
       function(data){
         console.log('location map', data)
         return(
@@ -107,7 +107,7 @@ export class MapContainer extends Component {
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
     position={{lat: data.latitude, lng: data.longitude}}
-    onClick={this.toggleDescription}
+    onClick={ctx.toggleDescription}
     /> )
       }
     )
