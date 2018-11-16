@@ -1,8 +1,8 @@
-export default function( action) {
+export default function(favoris, action) {
   if(action.type == 'display') {
-      return
+      return favoris = true
   } else {
-      return ;
+      return favoris = false
   }
 }
 

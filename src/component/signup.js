@@ -2,15 +2,15 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signup.css";
-import { Redirect } from "react-router-dom"
-
+import { Redirect, Link } from "react-router-dom";
+import {connect} from 'react-redux';
 /* captureEmailData captures data entered in email field */
 /* capturePasswordData captures data entered in password field */
 /* captureUsernameData captures data entered in username field */
 /* handleClickSignUp feeds data to backend with fetch function and program redirects user to map */
 
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
 
   constructor(props) {
   super(props);
@@ -55,7 +55,7 @@ export default class Signup extends React.Component {
     event.preventDefault();
     var ctx = this;
 
-    fetch('https://whispering-crag-36699.herokuapp.com/signup', {
+    fetch('http://localhost:3000/signin', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userName='+ctx.state.userName+'&email='+ctx.state.email+'&password='+ctx.state.password
@@ -67,6 +67,7 @@ export default class Signup extends React.Component {
     .then(function(user) {
       console.log(user);
       if(user.email === ctx.state.email && user.password === ctx.state.password){
+        ctx.props.onLoginClick();
         ctx.setState({
           redirectMap: true
         })
@@ -117,7 +118,7 @@ export default class Signup extends React.Component {
 
 
         <FormGroup>
-            <Button className="cancelButton">Annuler</Button>
+            <Link to="/map"><Button className="cancelButton">Annuler</Button></Link>
             <Button className="submit" onClick={this.handleClickSignUp}>S'inscrire</Button>
         </FormGroup>
 
@@ -126,3 +127,16 @@ export default class Signup extends React.Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onLoginClick: function() {
+        dispatch( {type: 'display'} )
+    }
+  }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Signup);

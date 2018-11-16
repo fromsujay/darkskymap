@@ -9,10 +9,10 @@ import Description from './component/description.js';
 import Details from './component/details.js';
 import GoogleApiWrapper from './component/Map.js';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import navigationBar from './reducers/navigationbar.reducer';
+import favoris from './reducers/navigationbar.reducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
-const store = createStore(combineReducers({navigationBar}));
+const store = createStore(combineReducers({favoris}));
 
 /*react-router-dom implements navigation between different components of webapp*/
 /*react-router-dom implements paths to make navigation between components to work*/

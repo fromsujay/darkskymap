@@ -18,8 +18,9 @@ import {
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../stylesheet/Map.css'
-import { Redirect, Link } from "react-router-dom"
+import '../stylesheet/Map.css';
+import { Redirect, Link } from "react-router-dom";
+import NavigationBarDisplay from "./navigationBarDisplay"
 
 /*code in componentWillMount capture users current position & centers map on captured position */
 /*code in componentDidMount collects locations from database to prepare generation of markers */
@@ -128,41 +129,8 @@ export class MapContainer extends Component {
       {markerList}
       </Map>
 
-        <div>
-          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link to="/" style={{color:'white'}}>Home</Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/favoris" style={{color:'white'}}>Favoris</Link>
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </div> :
-        <div>
-          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/signin" className="signInLink" style={{color:'white'}}>Sign-in</Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/signup" className="signuUpLink" style={{color:'white'}}>Sign-up</Link>
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </div>
+      <NavigationBarDisplay/>
+
       }
     </div>
     );
