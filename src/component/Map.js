@@ -21,8 +21,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import { Redirect, Link } from "react-router-dom";
 import NavigationBarDisplay from "./navigationBarDisplay"
-import NavigationBarDisplay from "./description"
-import NavigationBarDisplay from "./details"
+import Description from "./description"
+import Details from "./details"
 
 /*code in componentWillMount capture users current position & centers map on captured position */
 /*code in componentDidMount collects locations from database to prepare generation of markers */
