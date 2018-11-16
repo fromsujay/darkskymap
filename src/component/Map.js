@@ -114,6 +114,9 @@ export class MapContainer extends Component {
     });
     }
 
+//-------Import de NavigationBar avant Reducer dans Map------//
+//-------Import de NavigationBarDisplay après Reducer dans Map-----//
+
   render() {
     console.log("this.state.showDescription",this.state.showDescription);
 
@@ -156,43 +159,9 @@ export class MapContainer extends Component {
       >
       {markerList}
       </Map>
-      {
-        this.state.connectStatus ?
-        <div>
-          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link to="/" style={{color:'white'}}>Home</Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/favoris" style={{color:'white'}}>Favoris</Link>
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </div> :
-        <div>
-          <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-            <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/signin" className="signInLink" style={{color:'white'}}>Sign-in</Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/signup" className="signuUpLink" style={{color:'white'}}>Sign-up</Link>
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </div>
+
+      
+
       }
       {this.state.showDescription ?
             <Description descriptionDisplayStatus={this.state.showDescription} handleStatus={this.toggleDescription} handleDetailsStatus={this.toggleDetails} closeFunction={this.closeWindow}/>
@@ -291,7 +260,7 @@ class Details extends Component {
     this.state = {
       status: this.props.descriptionDisplayStatus,
     };
-    
+
   }
 
   closeComponent=()=>{

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Background from '../images/starry-night.jpg';
 import { faSun, faCloudSun, faCloudShowersHeavy, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import '../stylesheet/favoris.css';
+import { Redirect, Link } from "react-router-dom";
 
 /* This component displays locations identified as favorites by a given user */
 export default class Example extends React.Component {
@@ -40,8 +41,8 @@ export default class Example extends React.Component {
             </Col>
 
             <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>
-              <Button className="backButton">Retour</Button>
-              </Col>
+              <Link to="/map"><Button className="backButton">Retour</Button></Link>
+            </Col>
 
         </Row>
 

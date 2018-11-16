@@ -2,14 +2,15 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signin.css";
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom";
+import {connect} from 'react-redux';
 
 /* captureEmailData captures data entered in email field */
 /* capturePasswordData captures data entered in password field */
 /* handleClickSignIn sends data to backend with fetch function and verifies if user exists in database and if yes program directs user to map */
 
 
-export default class Signin extends React.Component {
+class Signin extends React.Component {
 
   constructor(props) {
   super(props);
@@ -42,7 +43,7 @@ capturePasswordData(event){
 
 handleClickSignIn(event) {
   event.preventDefault();
-
+    var ctx =this;
     fetch('http://localhost:3000/signin', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -50,10 +51,15 @@ handleClickSignIn(event) {
   })
       .then(function(response) {
         return response.json();
-        console.log('coucou');
+        console.log(response.json());
     })
-    .then(function(data) {
-        this.setState({redirectMap: true});
+    .then(function(user) {
+      if(user.email === ctx.state.email && user.password === ctx.state.password){
+        ctx.props.onLoginClick();
+        ctx.setState({
+          redirectMap: true
+        })
+      }
         console.log('hello');
     })
     .catch(function(error) {
@@ -90,7 +96,7 @@ handleClickSignIn(event) {
 
 
         <FormGroup>
-          <Button className="cancelButton1">Annuler</Button>
+          <Link to="/map"><Button className="cancelButton1">Aller à la carte</Button></Link>
           <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
       </Form>
@@ -98,3 +104,16 @@ handleClickSignIn(event) {
     );
   }
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onLoginClick: function() {
+        dispatch( {type: 'display'} )
+    }
+  }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Signin);

@@ -7,6 +7,10 @@ import Map from './component/Map.js';
 import LandingPage from './component/landingPage.js';
 import GoogleApiWrapper from './component/Map.js';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import favoris from './reducers/navigationbar.reducer';
+import {Provider} from 'react-redux';
+import {createStore, combineReducers}  from 'redux';
+const store = createStore(combineReducers({favoris}));
 
 /*react-router-dom implements navigation between different components of webapp*/
 /*react-router-dom implements paths to make navigation between components to work*/
