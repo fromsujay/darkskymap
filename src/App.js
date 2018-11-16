@@ -10,6 +10,8 @@ import Details from './component/details.js'
 import GoogleApiWrapper from './component/Map.js'
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+/*react-router-dom implements navigation between different components of webapp*/
+/*react-router-dom implements paths to make navigation between components to work*/
 
 class App extends Component {
   render() {

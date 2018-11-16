@@ -5,6 +5,8 @@ import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesom
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/details.css';
 
+
+/* This component displays details after cliking on plus sign inside a description page */
 class Details extends Component {
   render() {
     return (

@@ -21,6 +21,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css'
 import { Redirect, Link } from "react-router-dom"
 
+/*code in componentWillMount capture users current position & centers map on captured position */
+/*code in componentDidMount collects locations from database to prepare generation of markers */
+/*map function iterating on locations array prepares data for generation of markers */
+/*{markerlist} array generates markers on map */
+/*ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
+/*export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
 export class MapContainer extends Component {
 
   constructor() {
@@ -64,7 +70,7 @@ export class MapContainer extends Component {
 
   componentDidMount() {
     const ctx= this;
-    fetch('http://10.2.1.40:3000/map').then(function(response) {
+    fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
       console.log(response);
     return response.json();
     }).then(function(data) {

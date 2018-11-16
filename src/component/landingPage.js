@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Container, Row, Col } from 'reactstrap';
 import '../stylesheet/landingPage.css';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
+/* Homepage of web application built with react, reactstrap & react-router-dom */
 /*Keep responsive and designed for mobile device*/
 
 class LandingPage extends Component {

@@ -4,6 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signup.css";
 import { Redirect } from "react-router-dom"
 
+/* captureEmailData captures data entered in email field */
+/* capturePasswordData captures data entered in password field */
+/* captureUsernameData captures data entered in username field */
+/* handleClickSignUp feeds data to backend with fetch function and program redirects user to map */
+
 
 export default class Signup extends React.Component {
 
@@ -50,7 +55,7 @@ export default class Signup extends React.Component {
     event.preventDefault();
     var ctx = this;
 
-    fetch('http://localhost:3000/signup', {
+    fetch('https://whispering-crag-36699.herokuapp.com/signup', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userName='+ctx.state.userName+'&email='+ctx.state.email+'&password='+ctx.state.password
