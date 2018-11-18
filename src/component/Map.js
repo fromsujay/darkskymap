@@ -53,6 +53,7 @@ export class MapContainer extends Component {
     this.toggleDescription = this.toggleDescription.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.closeWindow = this.closeWindow.bind(this);
+    this.returnToDescription = this.returnToDescription.bind(this);
   }
 
   toggle() {
@@ -63,15 +64,22 @@ export class MapContainer extends Component {
 
    toggleDescription() {
     this.setState({
-      showDescription: !this.state.showDescription
+      showDescription: true,
+    });
+   }
+
+  toggleDetails() {
+    this.setState({
+      showDescription: false,
+      showDetails: true,
     });
   }
 
-  toggleDetails(detailsStatus) {
-    this.setState({
-      showDescription: detailsStatus,
-      showDetails: !detailsStatus,
-    });
+  returnToDescription() {
+   this.setState({
+     showDescription: true,
+     showDetails: false,
+   });
   }
 
   closeWindow() {
@@ -90,7 +98,7 @@ export class MapContainer extends Component {
          lat: position.coords.latitude,
          lng: position.coords.longitude
        };
-       // console.log(pos);
+
        ctx.setState({
          lat: pos.lat,
          lng: pos.lng
@@ -107,7 +115,7 @@ export class MapContainer extends Component {
       console.log(response);
     return response.json();
     }).then(function(data) {
-    // console.log('Data -----',data);
+
     // let locationsCopy = [...ctx.state.locations]
     // locationsCopy.push()
     ctx.setState({
@@ -120,7 +128,7 @@ export class MapContainer extends Component {
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
 
   render() {
-    console.log("this.state.showDescription",this.state.showDescription);
+
 
     const ctx= this;
     var markerList = ctx.state.locations.map(
@@ -138,7 +146,7 @@ export class MapContainer extends Component {
       }
     )
 
-    // console.log('this.state.locations -------', ctx.state.locations);
+
 
     return (
 
@@ -167,11 +175,11 @@ export class MapContainer extends Component {
 
       }
       {this.state.showDescription ?
-            <Description descriptionDisplayStatus={this.state.showDescription} handleStatus={this.toggleDescription} handleDetailsStatus={this.toggleDetails} closeFunction={this.closeWindow}/>
+            <Description toggleDetails={this.toggleDetails} closeFunction={this.closeWindow}/>
             : null
       }
       {this.state.showDetails?
-            <Details closeFunction={this.closeWindow}/>
+            <Details returnToDescription={this.returnToDescription} closeFunction={this.closeWindow}/>
             : null
       }
     </div>
@@ -183,37 +191,20 @@ export class MapContainer extends Component {
 class Description extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      status: this.props.descriptionDisplayStatus,
-    };
+    this.closeComponent = this.closeComponent.bind(this);
+    this.toggleDetails = this.toggleDetails.bind(this);
   }
 
-  toggleDescription=()=>{
-    // console.log("status v1");
-    // console.log(!this.state.status);
-    var tempStatus = !this.state.status;
-    this.setState({
-      status: !this.state.status
-    });
-    // console.log("status v2");
-    // console.log(!this.state.status);
-    this.props.handleDetailsStatus(tempStatus);
+  toggleDetails(){
+    this.props.toggleDetails();
   }
 
-  toggleDetails=()=>{
-    var tempVariable = !this.state.status;
-    this.setState({
-      status: !this.state.status
-    });
-    this.props.handleDetailsStatus(tempVariable);
-  }
-
-  closeComponent=()=>{
+  closeComponent(){
     this.props.closeFunction();
   }
 
   render() {
-    console.log("render description : ",this.state.status);
+    
     return (
     <div className="rootStyle">
      <Col xs="11" md="6">
@@ -260,13 +251,15 @@ class Description extends Component {
 class Details extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      status: this.props.descriptionDisplayStatus,
-    };
-
+    this.toggleDetails = this.toggleDetails.bind(this);
+    this.closeComponent = this.closeComponent.bind(this);
   }
 
-  closeComponent=()=>{
+  toggleDetails(){
+    this.props.returnToDescription();
+  }
+
+  closeComponent(){
     this.props.closeFunction();
   }
 
@@ -292,7 +285,7 @@ class Details extends Component {
           <CardText className="detailsTextStyle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
-        <Button outline className="backButtonStyle">Retour</Button>
+        <Button outline onClick={this.toggleDetails} className="backButtonStyle">Retour</Button>
         <FontAwesomeIcon  icon={faHeart} className="detailsIconStyle"/>
         </CardFooter>
       </Card>
