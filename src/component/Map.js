@@ -29,17 +29,14 @@ export class MapContainer extends Component {
     this.state = {
       lat: 0,
       lng: 0,
-<<<<<<< HEAD:src/component/Map.js
       button: 'none',
       redirectHome: false,
     };
 
     this.handleClickHome = this.handleClickHome.bind(this);
-=======
     };
 
 // Navbar toggle mecanism
->>>>>>> 6aaba0009eeeeb1205f7837ecb9eff894fc32dc8:src/Map.js
     this.toggle = this.toggle.bind(this);
        this.state = {
          isOpen: false
