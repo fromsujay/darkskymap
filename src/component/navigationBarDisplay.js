@@ -55,6 +55,9 @@ class NavigationBarDisplay extends Component {
                 <Link to="/" style={{color:'white'}}>Home</Link>
               </NavItem>
               <NavItem>
+                <Link to="/addlocation" className="addlocation" style={{color:'white'}}>Ajouter un lieu</Link>
+              </NavItem>
+              <NavItem>
                 <Link to="/favoris" className="favorisLink" style={{color:'white'}}>Favoris</Link>
               </NavItem>
             </Nav>
