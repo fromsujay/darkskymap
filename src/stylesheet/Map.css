@@ -56,6 +56,7 @@ p {
   opacity: 0.7;
 }
 
+
 .alertButton{
   display: flex;
   justify-content: center;
@@ -64,4 +65,20 @@ p {
 .alertSignIn{
   display: flex;
   justify-content: center
+}
+
+.descriptionIconStyle{
+  transition: transform .2s;
+}
+
+.descriptionIconStyle:hover{
+  transform: scale(1.1);
+}
+
+.detailsIconStyle{
+  transition: transform .2s;
+}
+
+.detailsIconStyle:hover{
+  transform: scale(1.1);
 }
