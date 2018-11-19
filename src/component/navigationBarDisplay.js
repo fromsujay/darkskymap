@@ -20,6 +20,8 @@ import {
   import { Link } from "react-router-dom";
   import {connect} from 'react-redux';
 
+
+
 class NavigationBarDisplay extends Component {
 
   constructor() {
@@ -38,6 +40,7 @@ class NavigationBarDisplay extends Component {
    }
 
   render() {
+    console.log('Favoris -------',this.props.favoris);
     return (
 
     <div>
@@ -80,6 +83,7 @@ class NavigationBarDisplay extends Component {
       </div>
       }
     </div>
+
     )
   }
 }
