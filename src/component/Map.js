@@ -31,6 +31,7 @@ import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import NavigationBarDisplay from './navigationBarDisplay.js';
 import circle from '../images/blue_circle.png';
+import {connect} from 'react-redux';
 
 
 /* code in componentWillMount capture users current position & centers map on captured position */
