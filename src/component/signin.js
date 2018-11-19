@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../stylesheet/signin.css";
 import { Redirect, Link } from "react-router-dom";
 import {connect} from 'react-redux';
+import '../stylesheet/signin.css';
 
 /* captureEmailData captures data entered in email field */
 /* capturePasswordData captures data entered in password field */
@@ -71,8 +71,8 @@ handleClickSignIn(event) {
   render() {
 
     return (
-<div className="background">
 
+<div className="background">
   {
     this.state.redirectMap
     ?<Redirect to="/map"/>
@@ -81,7 +81,7 @@ handleClickSignIn(event) {
 
       <Form inline className="form">
 
-              <h2>Identifiez-vous : </h2>
+              <h2 className= "signInTitle" >Identifiez-vous : </h2>
 
         <FormGroup>
           <Input type="email" name="email" onChange={this.captureEmailData} id="email" placeholder="Email" />
@@ -99,6 +99,8 @@ handleClickSignIn(event) {
           <Link to="/map"><Button className="cancelButton1">Aller à la carte</Button></Link>
           <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
+
+        <h6 className= "signInText">Vous ne disposez pas de compte ? <Badge style={{padding:"10px", marginTop:30}} href="./signup" color="light">Inscrivez-vous</Badge></h6>
       </Form>
     </div>
     );

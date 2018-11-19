@@ -14,19 +14,23 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import { Redirect, Link } from "react-router-dom";
-
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import NavigationBarDisplay from './navigationBarDisplay.js';
+import {connect} from 'react-redux';
 
 
 /*code in componentWillMount capture users current position & centers map on captured position */
@@ -35,7 +39,7 @@ import NavigationBarDisplay from './navigationBarDisplay.js';
 /*{markerlist} array generates markers on map */
 /*ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
 /*export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
-export class MapContainer extends Component {
+class MapContainer extends Component {
 
   constructor() {
     super();
@@ -47,6 +51,8 @@ export class MapContainer extends Component {
       locations:[],
       showDescription: false,
       showDetails: false,
+      connection: true,
+      modal: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -69,11 +75,19 @@ export class MapContainer extends Component {
    }
 
   toggleDetails() {
+    if(this.props.logged === true){
     this.setState({
       showDescription: false,
       showDetails: true,
-    });
-  }
+      connection: true,
+      });
+    } else {
+      this.setState({
+      connection:false,
+      modal: !this.state.modal
+        });
+      }
+    }
 
   returnToDescription() {
    this.setState({
@@ -151,6 +165,23 @@ export class MapContainer extends Component {
     return (
 
       <div id="wrapper">
+
+        { this.state.connection
+        ? null
+        :
+        <div>
+          <Modal isOpen={this.state.modal}>
+            <ModalBody className="alertSignIn">
+              Veuillez vous connecter pour accéder aux détails.
+            </ModalBody>
+            <ModalFooter className="alertButton">
+              <Link to="/signin"><Button color="primary">Ok</Button>{' '}</Link>
+              <Button color="secondary" onClick={this.toggleDetails}>Fermer</Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      }
+
       <Map
         google={this.props.google}
         zoom={6}
@@ -528,6 +559,16 @@ const style = {
   minHeight: '100vh',
 }
 
-export default GoogleApiWrapper({
+
+function mapStateToProps(state) {
+  return { logged: state.logged }
+}
+
+var Wrapper =  GoogleApiWrapper({
   apiKey: api
 })(MapContainer)
+
+export default connect(
+    mapStateToProps,
+    null
+)(Wrapper);

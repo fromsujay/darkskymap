@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Switch, Icon } from 'antd';
+import 'antd/dist/antd.css';
 import {
   Button,
   Container,
@@ -40,17 +42,20 @@ class NavigationBarDisplay extends Component {
    }
 
   render() {
-    console.log('Favoris -------',this.props.favoris);
+    console.log('Favoris -------',this.props.logged);
     return (
 
     <div>
-    {  this.props.favoris ?
+    {  this.props.logged ?
       <div>
         <Navbar style={{opacity:0.8}} color="dark" light expand="md">
           <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              <NavItem>
+                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+              </NavItem>
               <NavItem>
                 <Link to="/" style={{color:'white'}}>Home</Link>
               </NavItem>
@@ -72,6 +77,9 @@ class NavigationBarDisplay extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
+                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+              </NavItem>
+              <NavItem>
                 <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
               </NavItem>
               <NavItem>
@@ -92,7 +100,7 @@ class NavigationBarDisplay extends Component {
 }
 
 function mapStateToProps(state) {
-  return { favoris: state.favoris }
+  return { logged: state.logged }
 }
 
 export default connect(
