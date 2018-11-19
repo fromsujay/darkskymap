@@ -18,41 +18,76 @@ import {
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../stylesheet/Map.css'
-import { Redirect } from "react-router-dom"
+import '../stylesheet/Map.css';
+import { Redirect, Link } from "react-router-dom";
 
+import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog } from '@fortawesome/free-solid-svg-icons';
+import '../stylesheet/description.css';
+import '../stylesheet/details.css';
+import NavigationBarDisplay from './navigationBarDisplay.js';
+
+/*code in componentWillMount capture users current position & centers map on captured position */
+/*code in componentDidMount collects locations from database to prepare generation of markers */
+/*map function iterating on locations array prepares data for generation of markers */
+/*{markerlist} array generates markers on map */
+/*ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
+/*export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
 export class MapContainer extends Component {
 
   constructor() {
     super();
-    // States that receive the user's geolocation
     this.state = {
       lat: 0,
       lng: 0,
-      button: 'none',
-      redirectHome: false,
+      isOpen: false,
+      connectStatus: false,
+      locations:[],
+      showDescription: false,
+      showDetails: false,
     };
 
-    this.handleClickHome = this.handleClickHome.bind(this);
-    };
-
-// Navbar toggle mecanism
     this.toggle = this.toggle.bind(this);
-       this.state = {
-         isOpen: false
-       };
+    this.toggleDescription = this.toggleDescription.bind(this);
+    this.toggleDetails = this.toggleDetails.bind(this);
+    this.closeWindow = this.closeWindow.bind(this);
+    this.returnToDescription = this.returnToDescription.bind(this);
   }
+
   toggle() {
      this.setState({
        isOpen: !this.state.isOpen
      });
    }
 
-  handleClickHome(){
+   toggleDescription() {
     this.setState({
-      redirectHome: true
-    })
+      showDescription: true,
+    });
+   }
+
+  toggleDetails() {
+    this.setState({
+      showDescription: false,
+      showDetails: true,
+    });
   }
+
+  returnToDescription() {
+   this.setState({
+     showDescription: true,
+     showDetails: false,
+   });
+  }
+
+  closeWindow() {
+    this.setState({
+      showDescription: false,
+      showDetails: false,
+    });
+  }
+
 
   componentWillMount() {
     // This bloc of code gets the user's geolocation from his browser
@@ -62,25 +97,62 @@ export class MapContainer extends Component {
          lat: position.coords.latitude,
          lng: position.coords.longitude
        };
-       console.log(pos);
+
        ctx.setState({
          lat: pos.lat,
          lng: pos.lng
        })
-       console.log(pos);
      }, function() {
        // this funtion is empty but the whole geolocation process won't work without it
      });
+
   };
 
+  componentDidMount() {
+    const ctx= this;
+    fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
+      console.log(response);
+    return response.json();
+    }).then(function(data) {
+
+    // let locationsCopy = [...ctx.state.locations]
+    // locationsCopy.push()
+    ctx.setState({
+      locations:data.locations
+    })
+    });
+    }
+
+//-------Import de NavigationBar avant Reducer dans Map------//
+//-------Import de NavigationBarDisplay après Reducer dans Map-----//
+
   render() {
+
+
+    const ctx= this;
+    var markerList = ctx.state.locations.map(
+      function(data){
+        console.log('location map', data)
+        return(
+          // console.log('returned location lat',data.latitude),
+          // console.log('returned location lng',data.longitude),
+          <Marker
+    title={'The marker`s title will appear as a tooltip.'}
+    name={'SOMA'}
+    position={{lat: data.latitude, lng: data.longitude}}
+    onClick={ctx.toggleDescription}
+    /> )
+      }
+    )
+
+
+
     return (
 
       <div id="wrapper">
-
       <Map
         google={this.props.google}
-        zoom={12}
+        zoom={6}
         style={style}
         styles={styles}
         disableDefaultUI={true}
@@ -94,34 +166,134 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
+      {markerList}
+
       </Map>
 
+      <NavigationBarDisplay />
 
-      <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <NavbarBrand style={{color:'white'}} onClick={this.handleClickHome} >Dark Sky Map</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink style={{color:'white'}} onClick={this.handleClickHome} >Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink style={{color:'white', opacity:1}}>Favoris</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-      {
-        this.state.redirectHome
-        ?<Redirect to="/"/>
-        :null
-      },
+      }
+      {this.state.showDescription ?
+            <Description toggleDetails={this.toggleDetails} closeFunction={this.closeWindow}/>
+            : null
+      }
+      {this.state.showDetails?
+            <Details returnToDescription={this.returnToDescription} closeFunction={this.closeWindow}/>
+            : null
+      }
     </div>
     );
   }
 }
+
+/* Description component displays description concerning a location after cliking on a location icon */
+class Description extends Component {
+  constructor(props) {
+    super(props);
+    this.closeComponent = this.closeComponent.bind(this);
+    this.toggleDetails = this.toggleDetails.bind(this);
+  }
+
+  toggleDetails(){
+    this.props.toggleDetails();
+  }
+
+  closeComponent(){
+    this.props.closeFunction();
+  }
+
+  render() {
+
+    return (
+    <div className="rootStyle">
+     <Col xs="11" md="6">
+      <Card className="cardStyle">
+        <CardHeader className="heading" >
+          <FontAwesomeIcon icon={faCity} className="descriptionIconStyle"/>
+          <h4>Parc Monceau</h4>
+          <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="descriptionIconStyle"/>
+        </CardHeader>
+        <CardBody>
+          <CardText className="text">Date d'Observation: 13.10.2018</CardText>
+          <CardText className="text">Latitude: 48.879684</CardText>
+          <CardText className="text">Longitude: 2.308955</CardText>
+          <CardText className="text">Horizon sud dégagé: sud à sud-ouest</CardText>
+          <div className="bortleStyle">
+            <CardText className="text">Echelle de Bortle: C9</CardText>
+            <CardText className="text">C9 = Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
+          </div>
+          <div className="weatherInfo">
+            <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
+            <div className="weatherTextStyle">
+             <p>Météo actuelle</p>
+             <p>Ciel dégagé</p>
+             <p>25° C</p>
+             <p>Brise légère, 2.6 m/s</p>
+             </div>
+          </div>
+          <CardText className="text">Observation planétaire et lunaire uniquement</CardText>
+          <CardText className="text">Compromis urbain</CardText>
+        </CardBody>
+        <CardFooter className="footerStyle">
+          <FontAwesomeIcon onClick={this.toggleDetails}  icon={faPlusCircle} className="descriptionIconStyle"/>
+          <FontAwesomeIcon  icon={faHeart} className="descriptionIconStyle"/>
+        </CardFooter>
+      </Card>
+    </Col>
+   </div>
+    );
+  }
+}
+
+
+/* Details component displays details after cliking on plus sign inside a description page */
+class Details extends Component {
+  constructor(props) {
+    super(props);
+    this.toggleDetails = this.toggleDetails.bind(this);
+    this.closeComponent = this.closeComponent.bind(this);
+  }
+
+  toggleDetails(){
+    this.props.returnToDescription();
+  }
+
+  closeComponent(){
+    this.props.closeFunction();
+  }
+
+
+  render() {
+    return (
+    <div className="detailsRootStyle">
+     <Col xs="11" md="6">
+      <Card className="cardDetailsStyle">
+        <CardHeader className="headingDetailsStyle" >
+          <FontAwesomeIcon icon={faCity} className="detailsIconStyle"/>
+          <h4>Parc Monceau</h4>
+          <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
+        </CardHeader>
+        <CardBody className="detailsBodyStyle">
+          <CardText className="text">Transparence: T5 <FontAwesomeIcon className="iconStyle" icon={faLowVision}/></CardText>
+          <CardText className="text">Pollution Lumineuse: P5 <FontAwesomeIcon className="iconStyle" icon={faLowVision}/></CardText>
+          <CardText className="text">Seeing(Turbulence): S1 <FontAwesomeIcon className="iconStyle" icon={faExclamationTriangle}/></CardText>
+          <CardText className="text">Sky Quality Meter: 14.6 mag/arcsec2 <FontAwesomeIcon className="iconStyle" icon={faSmog}/></CardText>
+          <CardText className="text">Deserte Facile en voiture: oui <FontAwesomeIcon className="iconStyle" icon={faCheck}/></CardText>
+          <CardText className="text">Possibilité de stationnement: non <FontAwesomeIcon className="iconStyle" icon={faBan}/></CardText>
+          <CardText className="text">Disponibilité de courant: non <FontAwesomeIcon className="iconStyle" icon={faBan}/></CardText>
+          <CardText className="detailsTextStyle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</CardText>
+        </CardBody>
+        <CardFooter className="detailsFooterStyle">
+        <Button outline onClick={this.toggleDetails} className="backButtonStyle">Retour</Button>
+        <FontAwesomeIcon  icon={faHeart} className="detailsIconStyle"/>
+        </CardFooter>
+      </Card>
+    </Col>
+   </div>
+    );
+  }
+}
+
 
 // Api google map
 const api = 'AIzaSyD2nYRM-_UJWtKVCdtOFdJtEWS1mTp4Ajk';
@@ -352,7 +524,7 @@ const styles = [
 
 const style = {
   width: '100vw',
-  height: '100vh',
+  minHeight: '100vh',
 }
 
 export default GoogleApiWrapper({

@@ -1,8 +1,13 @@
+
+@import url('https://fonts.googleapis.com/css?family=Actor');
+
+
 .btn-Home-Sign1{
   background-color: hsla(360, 100%, 100%, 0.1);
   border-color: #FFFFFF;
   color: #FFFFFF;
-  margin-top: 40px;
+  margin-top: 30px;
+  font-family: 'Actor';
 }
 
 .btn-Home-Sign1:hover{
@@ -16,8 +21,9 @@
   background-color: hsla(360, 100%, 100%, 0.1);
   border-color: #FFFFFF;
   color: #FFFFFF;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-right: 40px;
+  font-family: 'Actor';
 }
 
 .btn-Home-Sign2:hover{
@@ -42,18 +48,26 @@
   min-height: 70vh;
 }
 
+h1 {
+  font-size: 15vh;
+}
+
+h2 {
+  font-size: 3.2vh;
+}
+
 #homeTitle{
   color: #FFFFFF;
   margin: 5vh;
   text-align: center;
-  font-family: Helvetica;
+  font-family: 'Actor';
 }
 
 #homeText{
   color: #FFFFFF;
   margin: 2vh;
   text-align: center;
-  font-family: Helvetica;
+  font-family: 'Actor';
 }
 
 #btn-Home-Discover{
@@ -64,7 +78,7 @@
   font-size: 25px;
   border-radius: 10px;
   margin: 5vh;
-  font-family: Helvetica;
+  font-family: 'Actor';
 }
 
 #btn-Home-Discover:hover{

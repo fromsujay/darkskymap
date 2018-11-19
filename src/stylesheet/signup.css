@@ -13,12 +13,16 @@
 h2 {
   color: white;
   font-family: Helvetica;
+  margin-left: 7px;
+  margin-right: 7px;
+  text-align: center;
 }
 
 .form {
   display: flex;
   flex-direction:column;
-
+  align-items: center;
+  justify-content: center;
 }
 
 #username {
