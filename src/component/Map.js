@@ -27,6 +27,7 @@ import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesom
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import NavigationBarDisplay from './navigationBarDisplay.js';
+import circle from '../images/blue_circle.png';
 
 
 /*code in componentWillMount capture users current position & centers map on captured position */
@@ -167,8 +168,12 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
-      {markerList}
-
+        {markerList}
+        <Marker
+        title={'You are here'}
+        icon={circle}
+        position={{lat: this.state.lat, lng: this.state.lng}}
+        />
       </Map>
 
       <NavigationBarDisplay />
@@ -204,7 +209,7 @@ class Description extends Component {
   }
 
   render() {
-    
+
     return (
     <div className="rootStyle">
      <Col xs="11" md="6">
