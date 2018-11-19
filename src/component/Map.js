@@ -30,12 +30,17 @@ import NavigationBarDisplay from './navigationBarDisplay.js';
 import circle from '../images/blue_circle.png';
 
 
-/*code in componentWillMount capture users current position & centers map on captured position */
-/*code in componentDidMount collects locations from database to prepare generation of markers */
-/*map function iterating on locations array prepares data for generation of markers */
-/*{markerlist} array generates markers on map */
-/*ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
-/*export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
+/* code in componentWillMount capture users current position & centers map on captured position */
+/* code in componentDidMount collects locations from database to prepare generation of markers */
+/* map function iterating on locations array prepares data for generation of markers */
+/* {markerlist} array generates markers on map */
+/* ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
+/* export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
+/* toggle function is used by hamburger menu */
+/* toggleDescription function displays description when user clicks on a marker */
+/* toggleDetails function displays details and makes description disappear when user clicks on plus sign */
+/* returnToDescription function displays description and makes details disappear when user clicks on retour */
+/* closeWindow function closes description and details windows respectively when user clicks on x sign at top right corner */
 export class MapContainer extends Component {
 
   constructor() {
@@ -112,13 +117,11 @@ export class MapContainer extends Component {
 
   componentDidMount() {
     const ctx= this;
-    fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
+    fetch('http://localhost:3000/map').then(function(response) {
       console.log(response);
     return response.json();
     }).then(function(data) {
-
-    // let locationsCopy = [...ctx.state.locations]
-    // locationsCopy.push()
+      console.log('data---->',data);
     ctx.setState({
       locations:data.locations
     })
@@ -192,7 +195,9 @@ export class MapContainer extends Component {
   }
 }
 
-/* Description component displays description concerning a location after cliking on a location icon */
+/* Description component displays description concerning a location after cliking on a marker on map */
+/* toggleDetails function displays details and makes description disappear through parent function in map component */
+/* closeComponent function closes description through closeWindow function in parent map component */
 class Description extends Component {
   constructor(props) {
     super(props);
@@ -225,8 +230,7 @@ class Description extends Component {
           <CardText>Longitude: 2.308955</CardText>
           <CardText>Horizon sud dégagé: sud à sud-ouest</CardText>
           <div className="bortleStyle">
-            <CardText>Echelle de Bortle: C9</CardText>
-            <CardText className="paraStyle">C9 = Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
+            <CardText className="paraStyle">Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
           </div>
           <div className="weatherInfo">
             <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
@@ -253,6 +257,8 @@ class Description extends Component {
 
 
 /* Details component displays details after cliking on plus sign inside a description page */
+/* toggleDetails function displays description and makes details disappear through returnToDescription function in parent map component */
+/* closeComponent function closes details through closeWindow function in parent map component */
 class Details extends Component {
   constructor(props) {
     super(props);
@@ -280,6 +286,7 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
+          <CardText>Echelle de Bortle: C9 (Ciel de centre-ville)</CardText>
           <CardText>Transparence: T5</CardText>
           <CardText>Pollution Lumineuse: P5</CardText>
           <CardText>Seeing(Turbulence): S1</CardText>

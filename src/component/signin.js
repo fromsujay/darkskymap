@@ -43,24 +43,24 @@ capturePasswordData(event){
 
 handleClickSignIn(event) {
   event.preventDefault();
-    var ctx =this;
-    fetch('https://whispering-crag-36699.herokuapp.com/signin', {
+    var ctx = this;
+
+    fetch('http://localhost:3000/signin', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: 'email='+this.state.email+'&password='+this.state.password
-  })
-      .then(function(response) {
+    body: 'email='+ctx.state.email+'&password='+ctx.state.password
+    })
+    .then(function(response) {
         return response.json();
-        console.log(response.json());
     })
     .then(function(user) {
-      if(user.email === ctx.state.email && user.password === ctx.state.password){
+      console.log(user)
+      if(user[0].email === ctx.state.email && user[0].password === ctx.state.password){
         ctx.props.onLoginClick();
         ctx.setState({
           redirectMap: true
         })
       }
-        console.log('hello');
     })
     .catch(function(error) {
         console.log('Request failed', error)
