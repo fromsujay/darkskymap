@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Actor');
+
 #wrapper {
   position: relative;
 }
@@ -28,6 +30,18 @@
   opacity: 0.5;
 }
 
+h4 {
+  font-family: 'Actor';
+}
+
+.text {
+  font-family: 'Actor';
+}
+
+p {
+  font-family: 'Actor';
+}
+
 
 .btn-Home-Sign1{
   background-color: hsla(360, 100%, 100%, 0.1);
@@ -40,4 +54,31 @@
   border-color: #FFFFFF;
   color: #FFFFFF;
   opacity: 0.7;
+}
+
+
+.alertButton{
+  display: flex;
+  justify-content: center;
+}
+
+.alertSignIn{
+  display: flex;
+  justify-content: center
+}
+
+.descriptionIconStyle{
+  transition: transform .2s;
+}
+
+.descriptionIconStyle:hover{
+  transform: scale(1.1);
+}
+
+.detailsIconStyle{
+  transition: transform .2s;
+}
+
+.detailsIconStyle:hover{
+  transform: scale(1.1);
 }

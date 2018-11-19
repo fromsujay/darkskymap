@@ -14,19 +14,24 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
   } from 'reactstrap';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import { Redirect, Link } from "react-router-dom";
-
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faBed, faBinoculars } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import NavigationBarDisplay from './navigationBarDisplay.js';
+import circle from '../images/blue_circle.png';
+import {connect} from 'react-redux';
 
 
 /* code in componentWillMount capture users current position & centers map on captured position */
@@ -52,6 +57,8 @@ export class MapContainer extends Component {
       locations:[],
       showDescription: false,
       showDetails: false,
+      connection: true,
+      modal: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -77,13 +84,20 @@ export class MapContainer extends Component {
    }
 
   toggleDetails(dataObject) {
-
+    if(this.props.logged === true){
     this.setState({
       showDescription: false,
       showDetails: true,
+      connection: true,
       dataObject: {...dataObject}
-    });
-  }
+      });
+    } else {
+      this.setState({
+      connection:false,
+      modal: !this.state.modal
+        });
+      }
+    }
 
   returnToDescription() {
    this.setState({
@@ -154,6 +168,23 @@ export class MapContainer extends Component {
     return (
 
       <div id="wrapper">
+
+        { this.state.connection
+        ? null
+        :
+        <div>
+          <Modal isOpen={this.state.modal}>
+            <ModalBody className="alertSignIn">
+              Veuillez vous connecter pour accéder aux détails.
+            </ModalBody>
+            <ModalFooter className="alertButton">
+              <Link to="/signin"><Button color="primary">Ok</Button>{' '}</Link>
+              <Button color="secondary" onClick={this.toggleDetails}>Fermer</Button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      }
+
       <Map
         google={this.props.google}
         zoom={6}
@@ -170,8 +201,12 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
-      {markerList}
-
+        {markerList}
+        <Marker
+        title={'You are here'}
+        icon={circle}
+        position={{lat: this.state.lat, lng: this.state.lng}}
+        />
       </Map>
 
       <NavigationBarDisplay />
@@ -535,6 +570,16 @@ const style = {
   minHeight: '100vh',
 }
 
-export default GoogleApiWrapper({
+
+function mapStateToProps(state) {
+  return { logged: state.logged }
+}
+
+var Wrapper =  GoogleApiWrapper({
   apiKey: api
 })(MapContainer)
+
+export default connect(
+    mapStateToProps,
+    null
+)(Wrapper);

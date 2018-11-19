@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Switch, Icon } from 'antd';
+import 'antd/dist/antd.css';
 import {
   Button,
   Container,
@@ -21,7 +23,6 @@ import {
   import {connect} from 'react-redux';
 
 
-
 class NavigationBarDisplay extends Component {
 
   constructor() {
@@ -40,17 +41,20 @@ class NavigationBarDisplay extends Component {
    }
 
   render() {
-    console.log('Favoris -------',this.props.favoris);
+    console.log('Favoris -------',this.props.logged);
     return (
 
     <div>
-    {  this.props.favoris ?
+    {  this.props.logged ?
       <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+        <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">
           <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              <NavItem>
+                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+              </NavItem>
               <NavItem>
                 <Link to="/" style={{color:'white'}}>Home</Link>
               </NavItem>
@@ -66,19 +70,22 @@ class NavigationBarDisplay extends Component {
       </div>
       :
       <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
+        <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">
+          <Link to="/"><NavbarBrand style={{color:'white', fontFamily: 'Actor'}}>Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
+                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+              </NavItem>
+              <NavItem>
                 <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
               </NavItem>
               <NavItem>
-                <Link to="/signin" className="signInLink" style={{color:'white'}}>Sign-in</Link>
+                <Link to="/signin" className="signInLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-in</Link>
               </NavItem>
               <NavItem>
-                <Link to="/signup" className="signuUpLink" style={{color:'white'}}>Sign-up</Link>
+                <Link to="/signup" className="signuUpLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-up</Link>
               </NavItem>
             </Nav>
           </Collapse>
@@ -92,7 +99,7 @@ class NavigationBarDisplay extends Component {
 }
 
 function mapStateToProps(state) {
-  return { favoris: state.favoris }
+  return { logged: state.logged }
 }
 
 export default connect(

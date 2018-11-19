@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Actor');
+
+
 .cardStyle {
-  background-color: #58a4b0;
+  background-color: #028090;
   text-align: center;
   color: #FFFFFF;
 }
@@ -25,6 +28,7 @@
 
 .paraStyle {
   text-align: justify;
+  font-family: 'Actor';
 }
 
 .footerStyle {

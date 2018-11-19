@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Actor');
+
 h6 {
-  font-family: Helvetica;
+  font-family: 'Actor';
 }
 
 p {
-  font-family: Helvetica;
+  font-family: 'Actor';
 }
 
 
@@ -14,9 +16,9 @@ p {
   align-items: center;
   justify-content: center;
   height: 10vh;
-  background-color: #58a4b0;
+  background-color: #373F51;
   color: white;
-  font-family: Helvetica;
+  font-family: 'Actor';
   font-weight: bold;
 }
 
@@ -36,7 +38,7 @@ p {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  background-color: #58a4b0;
+  background-color: #373F51;
   color: white;
 }
 

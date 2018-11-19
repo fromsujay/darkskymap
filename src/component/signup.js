@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signup.css";
 import { Redirect, Link } from "react-router-dom";
 import {connect} from 'react-redux';
+
 /* captureEmailData captures data entered in email field */
 /* capturePasswordData captures data entered in password field */
 /* captureUsernameData captures data entered in username field */
@@ -89,9 +90,10 @@ class Signup extends React.Component {
     ?<Redirect to="/map"/>
     :null
   }
+
       <Form inline className="form">
 
-        <h2>Veuillez remplir les champs ci-dessous : </h2>
+        <h2 className="signUpText">Veuillez remplir les champs ci-dessous : </h2>
 
         <FormGroup>
         <Input type="text" name="username" id="username" placeholder="Nom d'utilisateur"
