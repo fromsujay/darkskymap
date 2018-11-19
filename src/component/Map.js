@@ -120,9 +120,7 @@ export class MapContainer extends Component {
       console.log(response);
     return response.json();
     }).then(function(data) {
-
-    // let locationsCopy = [...ctx.state.locations]
-    // locationsCopy.push()
+      console.log('data---->',data);
     ctx.setState({
       locations:data.locations
     })
