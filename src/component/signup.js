@@ -55,7 +55,7 @@ class Signup extends React.Component {
     event.preventDefault();
     var ctx = this;
 
-    fetch('https://whispering-crag-36699.herokuapp.com/signup', {
+    fetch('http://localhost:3000/signup', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userName='+ctx.state.userName+'&email='+ctx.state.email+'&password='+ctx.state.password
@@ -65,7 +65,6 @@ class Signup extends React.Component {
         console.log(response.json())
     })
     .then(function(user) {
-      console.log(user);
       if(user.email === ctx.state.email && user.password === ctx.state.password){
         ctx.props.onLoginClick();
         ctx.setState({

@@ -12,6 +12,7 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
 const store = createStore(combineReducers({favoris}));
 
+
 /*react-router-dom implements navigation between different components of webapp*/
 /*react-router-dom implements paths to make navigation between components to work*/
 
