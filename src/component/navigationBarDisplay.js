@@ -23,7 +23,6 @@ import {
   import {connect} from 'react-redux';
 
 
-
 class NavigationBarDisplay extends Component {
 
   constructor() {
@@ -48,7 +47,7 @@ class NavigationBarDisplay extends Component {
     <div>
     {  this.props.logged ?
       <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
+        <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">
           <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -71,8 +70,8 @@ class NavigationBarDisplay extends Component {
       </div>
       :
       <div>
-        <Navbar style={{opacity:0.8}} color="dark" light expand="md">
-          <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
+        <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">
+          <Link to="/"><NavbarBrand style={{color:'white', fontFamily: 'Actor'}}>Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -83,10 +82,10 @@ class NavigationBarDisplay extends Component {
                 <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
               </NavItem>
               <NavItem>
-                <Link to="/signin" className="signInLink" style={{color:'white'}}>Sign-in</Link>
+                <Link to="/signin" className="signInLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-in</Link>
               </NavItem>
               <NavItem>
-                <Link to="/signup" className="signuUpLink" style={{color:'white'}}>Sign-up</Link>
+                <Link to="/signup" className="signuUpLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-up</Link>
               </NavItem>
             </Nav>
           </Collapse>

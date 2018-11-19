@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Actor');
+
 .detailsRootStyle {
   display: flex;
   justify-content: center;
@@ -6,7 +8,7 @@
 }
 
 .cardDetailsStyle {
-  background-color: #58a4b0;
+  background-color: #028090;
   text-align: center;
   color: #FFFFFF;
 }
@@ -37,6 +39,7 @@
 .backButtonStyle {
   color: #FFFFFF;
   border-color: #FFFFFF;
+  font-family: 'Actor';
 }
 
 .backButtonStyle:hover {
@@ -50,4 +53,12 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+h4 {
+  font-family: 'Actor';
+}
+
+.text {
+  font-family: 'Actor';
 }

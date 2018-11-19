@@ -26,20 +26,25 @@ import '../stylesheet/Map.css';
 import { Redirect, Link } from "react-router-dom";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import NavigationBarDisplay from './navigationBarDisplay.js';
-import {connect} from 'react-redux';
+import circle from '../images/blue_circle.png';
 
 
-/*code in componentWillMount capture users current position & centers map on captured position */
-/*code in componentDidMount collects locations from database to prepare generation of markers */
-/*map function iterating on locations array prepares data for generation of markers */
-/*{markerlist} array generates markers on map */
-/*ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
-/*export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
-class MapContainer extends Component {
+/* code in componentWillMount capture users current position & centers map on captured position */
+/* code in componentDidMount collects locations from database to prepare generation of markers */
+/* map function iterating on locations array prepares data for generation of markers */
+/* {markerlist} array generates markers on map */
+/* ternary operator displays home and favorites links if user is connected and home, signin & signup if not*/
+/* export default GoogleApiWrapper component contains map, takes API key as input and needs map container to function */
+/* toggle function is used by hamburger menu */
+/* toggleDescription function displays description when user clicks on a marker */
+/* toggleDetails function displays details and makes description disappear when user clicks on plus sign */
+/* returnToDescription function displays description and makes details disappear when user clicks on retour */
+/* closeWindow function closes description and details windows respectively when user clicks on x sign at top right corner */
+export class MapContainer extends Component {
 
   constructor() {
     super();
@@ -129,9 +134,7 @@ class MapContainer extends Component {
       console.log(response);
     return response.json();
     }).then(function(data) {
-
-    // let locationsCopy = [...ctx.state.locations]
-    // locationsCopy.push()
+      console.log('data---->',data);
     ctx.setState({
       locations:data.locations
     })
@@ -198,8 +201,12 @@ class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
-      {markerList}
-
+        {markerList}
+        <Marker
+        title={'You are here'}
+        icon={circle}
+        position={{lat: this.state.lat, lng: this.state.lng}}
+        />
       </Map>
 
       <NavigationBarDisplay />
@@ -218,7 +225,9 @@ class MapContainer extends Component {
   }
 }
 
-/* Description component displays description concerning a location after cliking on a location icon */
+/* Description component displays description concerning a location after cliking on a marker on map */
+/* toggleDetails function displays details and makes description disappear through parent function in map component */
+/* closeComponent function closes description through closeWindow function in parent map component */
 class Description extends Component {
   constructor(props) {
     super(props);
@@ -246,13 +255,12 @@ class Description extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText>Date d'Observation: 13.10.2018</CardText>
-          <CardText>Latitude: 48.879684</CardText>
-          <CardText>Longitude: 2.308955</CardText>
-          <CardText>Horizon sud dégagé: sud à sud-ouest</CardText>
+          <CardText className="text">Date d'Observation: 13.10.2018</CardText>
+          <CardText className="text">Latitude: 48.879684</CardText>
+          <CardText className="text">Longitude: 2.308955</CardText>
+          <CardText className="text">Horizon sud dégagé: sud à sud-ouest</CardText>
           <div className="bortleStyle">
-            <CardText>Echelle de Bortle: C9</CardText>
-            <CardText className="paraStyle">C9 = Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
+            <CardText className="paraStyle">Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
           </div>
           <div className="weatherInfo">
             <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
@@ -263,8 +271,8 @@ class Description extends Component {
              <p>Brise légère, 2.6 m/s</p>
              </div>
           </div>
-          <CardText>Observation planétaire et lunaire uniquement</CardText>
-          <CardText>Compromis urbain</CardText>
+          <CardText className="text">Observation planétaire et lunaire uniquement</CardText>
+          <CardText className="text">Compromis urbain</CardText>
         </CardBody>
         <CardFooter className="footerStyle">
           <FontAwesomeIcon onClick={this.toggleDetails}  icon={faPlusCircle} className="descriptionIconStyle"/>
@@ -279,6 +287,8 @@ class Description extends Component {
 
 
 /* Details component displays details after cliking on plus sign inside a description page */
+/* toggleDetails function displays description and makes details disappear through returnToDescription function in parent map component */
+/* closeComponent function closes details through closeWindow function in parent map component */
 class Details extends Component {
   constructor(props) {
     super(props);
@@ -306,13 +316,16 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText>Transparence: T5</CardText>
-          <CardText>Pollution Lumineuse: P5</CardText>
-          <CardText>Seeing(Turbulence): S1</CardText>
-          <CardText>Sky Quality Meter: 14.6 mag/arcsec2</CardText>
-          <CardText>Deserte Facile en voiture: oui</CardText>
-          <CardText>Possibilité de stationnement: non</CardText>
-          <CardText>Disponibilité de courant: non</CardText>
+
+          <CardText className="text">Echelle de Bortle: C9 (Ciel de centre-ville)</CardText>
+          <CardText className="text">Transparence: T5 <FontAwesomeIcon className="iconStyle" icon={faLowVision}/></CardText>
+          <CardText className="text">Pollution Lumineuse: P5 <FontAwesomeIcon className="iconStyle" icon={faLowVision}/></CardText>
+          <CardText className="text">Seeing(Turbulence): S1 <FontAwesomeIcon className="iconStyle" icon={faExclamationTriangle}/></CardText>
+          <CardText className="text">Sky Quality Meter: 14.6 mag/arcsec2 <FontAwesomeIcon className="iconStyle" icon={faSmog}/></CardText>
+          <CardText className="text">Deserte Facile en voiture: oui <FontAwesomeIcon className="iconStyle" icon={faCheck}/></CardText>
+          <CardText className="text">Possibilité de stationnement: non <FontAwesomeIcon className="iconStyle" icon={faBan}/></CardText>
+          <CardText className="text">Disponibilité de courant: non <FontAwesomeIcon className="iconStyle" icon={faBan}/></CardText>
+
           <CardText className="detailsTextStyle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">

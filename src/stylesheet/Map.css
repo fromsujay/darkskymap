@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Actor');
+
 #wrapper {
   position: relative;
 }
@@ -26,6 +28,18 @@
 
 .navBar {
   opacity: 0.5;
+}
+
+h4 {
+  font-family: 'Actor';
+}
+
+.text {
+  font-family: 'Actor';
+}
+
+p {
+  font-family: 'Actor';
 }
 
 
