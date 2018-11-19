@@ -227,8 +227,7 @@ class Description extends Component {
           <CardText>Longitude: 2.308955</CardText>
           <CardText>Horizon sud dégagé: sud à sud-ouest</CardText>
           <div className="bortleStyle">
-            <CardText>Echelle de Bortle: C9</CardText>
-            <CardText className="paraStyle">C9 = Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
+            <CardText className="paraStyle">Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
           </div>
           <div className="weatherInfo">
             <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
@@ -284,6 +283,7 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
+          <CardText>Echelle de Bortle: C9</CardText>
           <CardText>Transparence: T5</CardText>
           <CardText>Pollution Lumineuse: P5</CardText>
           <CardText>Seeing(Turbulence): S1</CardText>
