@@ -283,7 +283,7 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText>Echelle de Bortle: C9</CardText>
+          <CardText>Echelle de Bortle: C9 (Ciel de centre-ville)</CardText>
           <CardText>Transparence: T5</CardText>
           <CardText>Pollution Lumineuse: P5</CardText>
           <CardText>Seeing(Turbulence): S1</CardText>
