@@ -23,7 +23,7 @@ import { Redirect, Link } from "react-router-dom";
 
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faBed, faBinoculars } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import NavigationBarDisplay from './navigationBarDisplay.js';
@@ -67,16 +67,21 @@ export class MapContainer extends Component {
      });
    }
 
-   toggleDescription() {
+   toggleDescription(data) {
+
     this.setState({
       showDescription: true,
+      data: {...data}
+
     });
    }
 
-  toggleDetails() {
+  toggleDetails(dataObject) {
+
     this.setState({
       showDescription: false,
       showDetails: true,
+      dataObject: {...dataObject}
     });
   }
 
@@ -120,7 +125,6 @@ export class MapContainer extends Component {
       console.log(response);
     return response.json();
     }).then(function(data) {
-      console.log('data---->',data);
     ctx.setState({
       locations:data.locations
     })
@@ -136,19 +140,15 @@ export class MapContainer extends Component {
     const ctx= this;
     var markerList = ctx.state.locations.map(
       function(data){
-        console.log('location map', data)
         return(
-          // console.log('returned location lat',data.latitude),
-          // console.log('returned location lng',data.longitude),
           <Marker
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
     position={{lat: data.latitude, lng: data.longitude}}
-    onClick={ctx.toggleDescription}
+    onClick={()=>ctx.toggleDescription(data)}
     /> )
       }
     )
-
 
 
     return (
@@ -178,11 +178,11 @@ export class MapContainer extends Component {
 
       }
       {this.state.showDescription ?
-            <Description toggleDetails={this.toggleDetails} closeFunction={this.closeWindow}/>
+            <Description data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
-            <Details returnToDescription={this.returnToDescription} closeFunction={this.closeWindow}/>
+            <Details dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
             : null
       }
     </div>
@@ -200,8 +200,8 @@ class Description extends Component {
     this.toggleDetails = this.toggleDetails.bind(this);
   }
 
-  toggleDetails(){
-    this.props.toggleDetails();
+  toggleDetails(dataObject){
+    this.props.toggleDetails(dataObject);
   }
 
   closeComponent(){
@@ -214,33 +214,33 @@ class Description extends Component {
     <div className="rootStyle">
      <Col xs="11" md="6">
       <Card className="cardStyle">
-        <CardHeader className="heading" >
+        <CardHeader className="heading">
           <FontAwesomeIcon icon={faCity} className="descriptionIconStyle"/>
-          <h4>Parc Monceau</h4>
+          <h4>{this.props.data.locationName}</h4>
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText>Date d'Observation: 13.10.2018</CardText>
-          <CardText>Latitude: 48.879684</CardText>
-          <CardText>Longitude: 2.308955</CardText>
-          <CardText>Horizon sud dégagé: sud à sud-ouest</CardText>
+          <CardText>Date d'Observation: {this.props.data.observationDate}</CardText>
+          <CardText>Latitude: {this.props.data.latitude}</CardText>
+          <CardText>Longitude: {this.props.data.longitude}</CardText>
+          <CardText>Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}</CardText>
           <div className="bortleStyle">
-            <CardText className="paraStyle">Ciel de centre-ville : Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (à condition qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins.</CardText>
+            <CardText className="paraStyle">{this.props.data.explanationOfBortleScale}</CardText>
           </div>
           <div className="weatherInfo">
             <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
             <div className="weatherTextStyle">
              <p>Météo actuelle</p>
              <p>Ciel dégagé</p>
-             <p>25° C</p>
+             <p>23 C</p>
              <p>Brise légère, 2.6 m/s</p>
              </div>
           </div>
-          <CardText>Observation planétaire et lunaire uniquement</CardText>
-          <CardText>Compromis urbain</CardText>
+          <CardText>{this.props.data.observationCategory}</CardText>
+          {this.props.data.urbanCompromise ? <CardText className="text">Compromis urbain</CardText> : null}
         </CardBody>
         <CardFooter className="footerStyle">
-          <FontAwesomeIcon onClick={this.toggleDetails}  icon={faPlusCircle} className="descriptionIconStyle"/>
+          <FontAwesomeIcon onClick={()=>this.toggleDetails(this.props.data)} icon={faPlusCircle} className="descriptionIconStyle"/>
           <FontAwesomeIcon  icon={faHeart} className="descriptionIconStyle"/>
         </CardFooter>
       </Card>
@@ -269,27 +269,27 @@ class Details extends Component {
     this.props.closeFunction();
   }
 
-
   render() {
+
     return (
     <div className="detailsRootStyle">
      <Col xs="11" md="6">
       <Card className="cardDetailsStyle">
         <CardHeader className="headingDetailsStyle" >
           <FontAwesomeIcon icon={faCity} className="detailsIconStyle"/>
-          <h4>Parc Monceau</h4>
+          <h4>{this.props.dataObject.locationName}</h4>
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText>Echelle de Bortle: C9 (Ciel de centre-ville)</CardText>
-          <CardText>Transparence: T5</CardText>
-          <CardText>Pollution Lumineuse: P5</CardText>
-          <CardText>Seeing(Turbulence): S1</CardText>
-          <CardText>Sky Quality Meter: 14.6 mag/arcsec2</CardText>
-          <CardText>Deserte Facile en voiture: oui</CardText>
-          <CardText>Possibilité de stationnement: non</CardText>
-          <CardText>Disponibilité de courant: non</CardText>
-          <CardText className="detailsTextStyle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum explicabo reprehenderit optio amet ab temporibus asperiores quasi cupiditate. Voluptatum ducimus voluptates voluptas?</CardText>
+          <CardText>Echelle de Bortle: {this.props.dataObject.bortleScale}</CardText>
+          <CardText>Transparence: {this.props.dataObject.transparency}</CardText>
+          <CardText>Pollution Lumineuse: {this.props.dataObject.lightPollution}</CardText>
+          <CardText>Seeing(Turbulence): {this.props.dataObject.seeing}</CardText>
+          <CardText>Sky Quality Meter: {this.props.dataObject.skyQualityMeter} mag/arcsec2</CardText>
+          <CardText>Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
+          <CardText>Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
+          <CardText>Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
         <Button outline onClick={this.toggleDetails} className="backButtonStyle">Retour</Button>
