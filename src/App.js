@@ -8,9 +8,10 @@ import LandingPage from './component/landingPage.js';
 import GoogleApiWrapper from './component/Map.js';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import logged from './reducers/navigationbar.reducer';
+import userId from './reducers/userId.reducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
-const store = createStore(combineReducers({logged}));
+const store = createStore(combineReducers({logged, userId}));
 
 
 /*react-router-dom implements navigation between different components of webapp*/

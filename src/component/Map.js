@@ -66,6 +66,7 @@ export class MapContainer extends Component {
     this.toggleDetails = this.toggleDetails.bind(this);
     this.closeWindow = this.closeWindow.bind(this);
     this.returnToDescription = this.returnToDescription.bind(this);
+    this.addFavorite = this.addFavorite.bind(this);
   }
 
   toggle() {
@@ -148,8 +149,23 @@ export class MapContainer extends Component {
 //-------Import de NavigationBar avant Reducer dans Map------//
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
 
-  render() {
+  addFavorite(userId, locationName, latitude, longitude) {
+    const ctx= this;
+    fetch('http://localhost:3000/addfavorite', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'userId='+ctx.props.userId+'&locationName='+locationName+'&latitude='+latitude+'&longitude='+longitude
+    })
 
+    .then(function(response) {
+    return response.json();
+    })
+    .then(function(data) {
+    console.log(data);
+    });
+  }
+
+  render() {
 
     const ctx= this;
     var markerList = ctx.state.locations.map(
@@ -164,6 +180,7 @@ export class MapContainer extends Component {
       }
     )
 
+console.log('This props userId: ', this.props.userId);
 
     return (
 
@@ -213,11 +230,11 @@ export class MapContainer extends Component {
 
       }
       {this.state.showDescription ?
-            <Description data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
+            <Description addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
-            <Details dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
+            <Details addFavoriteParent={this.addFavorite} data={this.state.data} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
             : null
       }
     </div>
@@ -233,6 +250,7 @@ class Description extends Component {
     super(props);
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
+    this.addFavorite = this.addFavorite.bind(this);
   }
 
   toggleDetails(dataObject){
@@ -241,6 +259,10 @@ class Description extends Component {
 
   closeComponent(){
     this.props.closeFunction();
+  }
+
+  addFavorite(userId, locationName, latitude, longitude){
+    this.props.addFavoriteParent(userId, locationName, latitude, longitude)
   }
 
   render() {
@@ -276,7 +298,7 @@ class Description extends Component {
         </CardBody>
         <CardFooter className="footerStyle">
           <FontAwesomeIcon onClick={()=>this.toggleDetails(this.props.data)} icon={faPlusCircle} className="descriptionIconStyle"/>
-          <FontAwesomeIcon  icon={faHeart} className="descriptionIconStyle"/>
+          <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} className="descriptionIconStyle"/>
         </CardFooter>
       </Card>
     </Col>
@@ -294,6 +316,7 @@ class Details extends Component {
     super(props);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.closeComponent = this.closeComponent.bind(this);
+    this.addFavorite = this.addFavorite.bind(this);
   }
 
   toggleDetails(){
@@ -302,6 +325,10 @@ class Details extends Component {
 
   closeComponent(){
     this.props.closeFunction();
+  }
+
+  addFavorite(userId, locationName, latitude, longitude){
+    this.props.addFavoriteParent(userId, locationName, latitude, longitude)
   }
 
   render() {
@@ -328,7 +355,7 @@ class Details extends Component {
         </CardBody>
         <CardFooter className="detailsFooterStyle">
         <Button outline onClick={this.toggleDetails} className="backButtonStyle">Retour</Button>
-        <FontAwesomeIcon  icon={faHeart} className="detailsIconStyle"/>
+        <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} className="detailsIconStyle"/>
         </CardFooter>
       </Card>
     </Col>
@@ -572,7 +599,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged }
+  return { logged: state.logged, userId: state.userId }
 }
 
 var Wrapper =  GoogleApiWrapper({

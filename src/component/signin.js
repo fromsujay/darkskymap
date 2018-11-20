@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "../stylesheet/signin.css";
 import { Redirect, Link } from "react-router-dom";
 import {connect} from 'react-redux';
-import '../stylesheet/signin.css';
 
 /* captureEmailData captures data entered in email field */
 /* capturePasswordData captures data entered in password field */
@@ -55,8 +55,8 @@ handleClickSignIn(event) {
     })
     .then(function(user) {
       console.log(user)
-      if(user[0].email === ctx.state.email && user[0].password === ctx.state.password){
-        ctx.props.onLoginClick();
+      if(user.email === ctx.state.email && user.password === ctx.state.password){
+        ctx.props.onLoginClick(user._id);
         ctx.setState({
           redirectMap: true
         })
@@ -69,10 +69,11 @@ handleClickSignIn(event) {
 
 
   render() {
-
+    console.log('props userId: ', this.props.userId);
+    var userId = this.state.userId;
     return (
-
 <div className="background">
+
   {
     this.state.redirectMap
     ?<Redirect to="/map"/>
@@ -81,7 +82,7 @@ handleClickSignIn(event) {
 
       <Form inline className="form">
 
-              <h2 className= "signInTitle" >Identifiez-vous : </h2>
+              <h2>Identifiez-vous : </h2>
 
         <FormGroup>
           <Input type="email" name="email" onChange={this.captureEmailData} id="email" placeholder="Email" />
@@ -99,8 +100,6 @@ handleClickSignIn(event) {
           <Link to="/map"><Button className="cancelButton1">Aller à la carte</Button></Link>
           <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
-
-        <h6 className= "signInText">Vous ne disposez pas de compte ? <Badge style={{padding:"10px", marginTop:30}} href="./signup" color="light">Inscrivez-vous</Badge></h6>
       </Form>
     </div>
     );
@@ -109,8 +108,8 @@ handleClickSignIn(event) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLoginClick: function() {
-        dispatch( {type: 'display'} )
+    onLoginClick: function(userId) {
+        dispatch( {type: 'display', userId:userId} )
     }
   }
 }

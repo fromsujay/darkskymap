@@ -66,8 +66,9 @@ class Signup extends React.Component {
         console.log(response.json())
     })
     .then(function(user) {
+      console.log('signed up user: ', user._id);
       if(user.email === ctx.state.email && user.password === ctx.state.password){
-        ctx.props.onLoginClick();
+        ctx.props.onLoginClick(user._id);
         ctx.setState({
           redirectMap: true
         })
@@ -131,8 +132,8 @@ class Signup extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLoginClick: function() {
-        dispatch( {type: 'display'} )
+    onLoginClick: function(userId) {
+        dispatch( {type: 'display', userId:userId} )
     }
   }
 }
