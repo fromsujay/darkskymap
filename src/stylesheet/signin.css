@@ -73,3 +73,8 @@ border-radius: 10px;
   color: #FFFFFF;
   opacity: 0.9;
 }
+
+.signUpBadge{
+  padding:10px;
+  margin-top:5px;
+}

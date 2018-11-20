@@ -100,7 +100,8 @@ handleClickSignIn(event) {
           <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
 
-        <h6 className= "signInText">Vous ne disposez pas de compte ? <Badge style={{padding:"10px", marginTop:30}} href="./signup" color="light">Inscrivez-vous</Badge></h6>
+        <h6 className= "signInText">Vous ne disposez pas de compte ?</h6>
+        <Badge className="signUpBadge" style={{padding:"10px", marginTop:30}} color="light">Inscrivez-vous</Badge>
       </Form>
     </div>
     );
