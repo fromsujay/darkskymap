@@ -101,7 +101,7 @@ handleClickSignIn(event) {
         </FormGroup>
 
         <h6 className= "signInText">Vous ne disposez pas de compte ?</h6>
-        <Badge className="signUpBadge" style={{padding:"10px", marginTop:30}} color="light">Inscrivez-vous</Badge>
+        <Badge style={{padding:"10px", marginTop:30}} color="light">Inscrivez-vous</Badge>
       </Form>
     </div>
     );
