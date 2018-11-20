@@ -72,12 +72,20 @@ handleClickSignIn(event) {
 
     return (
 
-<div className="background">
+<div >
   {
     this.state.redirectMap
     ?<Redirect to="/map"/>
     :null
   }
+
+  <div className="background">
+
+    <div className="signUpToogle">
+      <h6 className= "signInText">Vous ne disposez pas de compte ? <Link to="/signup"><Badge className="badgeLook" color="light">Inscrivez-vous</Badge></Link></h6>
+    </div>
+
+    <div className="allContent">
 
       <Form inline className="form">
 
@@ -100,10 +108,10 @@ handleClickSignIn(event) {
           <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
 
-        <h6 className= "signInText">Vous ne disposez pas de compte ?</h6>
-        <Badge style={{padding:"10px", marginTop:30}} color="light">Inscrivez-vous</Badge>
-      </Form>
+        </Form>
+      </div>
     </div>
+  </div>
     );
   }
 };
