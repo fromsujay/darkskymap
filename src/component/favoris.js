@@ -21,21 +21,21 @@ export default class Example extends React.Component {
 
           <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>Lieu
             <FontAwesomeIcon className="iconStyle" icon={faSun}/>
-            <h6>Météo actuelle</h6>
+            <h6 className="favFont">Météo actuelle</h6>
             <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
             <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
             </Col>
 
           <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
             <FontAwesomeIcon className="iconStyle" icon={faCloudSun} />
-            <h6>Météo actuelle</h6>
+            <h6 className="favFont">Météo actuelle</h6>
             <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
             <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
             </Col>
 
           <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
              <FontAwesomeIcon className="iconStyle" icon={faCloudShowersHeavy} />
-            <h6>Météo actuelle</h6>
+            <h6 className="favFont">Météo actuelle</h6>
             <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
             <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
             </Col>

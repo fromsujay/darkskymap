@@ -63,18 +63,7 @@ justify-content: center;
 .calendarIcon {
   font-size: 2em;
   margin-left: 20px;
-}
-
-.globeLatIcon {
-  font-size: 2em;
-  margin-right: 15px;
-  margin-left: 1px;
-}
-
-.globeLngIcon {
-  font-size: 2em;
-  margin-right: 10px;
-  margin-left: 4px;
+  margin-right: 20px;
 }
 
 .thermoIcon {
