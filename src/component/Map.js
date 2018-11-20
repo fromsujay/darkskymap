@@ -381,6 +381,9 @@ class Details extends Component {
 class Favoris extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+    favorites: []
+    };
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
   }
@@ -392,6 +395,21 @@ class Favoris extends Component {
   closeComponent(){
     this.props.closeFunction();
   }
+
+  componentWillMount() {
+    const ctx= this;
+    fetch('http://localhost:3000/favorites').then(function(response) {
+      console.log(response);
+    return response.json();
+    }).then(function(data) {
+      console.log('data',data);
+    ctx.setState({
+      favorites:data
+    })
+    });
+    }
+
+
 
   render() {
 
