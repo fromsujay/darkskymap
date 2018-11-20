@@ -1,5 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Actor');
+@import url('https://fonts.googleapis.com/css?family=Actor|Istok+Web|Metrophobic');
 
+.location-name {
+  color: #FFFFFF;
+  font-weight: bold;
+  font-family: 'Istok Web';
+}
+
+.textdesc {
+font-family: 'Metrophobic';
+font-size: 2vh;
+display: flex;
+align-items: center;
+justify-content: center;
+}
 
 .cardStyle {
   background-color: #028090;
@@ -26,9 +39,15 @@
   align-items: center;
 }
 
+.weatherdesc {
+  font-family: 'Metrophobic';
+  font-size: 2vh;
+}
+
 .paraStyle {
   text-align: justify;
-  font-family: 'Actor';
+  font-size: 2vh;
+  font-family: 'Metrophobic';
 }
 
 .footerStyle {
@@ -41,6 +60,46 @@
   text-align: left;
 }
 
+.calendarIcon {
+  font-size: 2em;
+  margin-left: 20px;
+}
+
+.globeLatIcon {
+  font-size: 2em;
+  margin-right: 15px;
+  margin-left: 1px;
+}
+
+.globeLngIcon {
+  font-size: 2em;
+  margin-right: 10px;
+  margin-left: 4px;
+}
+
+.thermoIcon {
+  font-size: 2em;
+  margin-right: 10px;
+  margin-left: 4px;
+}
+
+.sunnyIcon {
+  font-size: 2em;
+  margin-right: 10px;
+  margin-left: 4px;
+}
+
+.cityIcon {
+  font-size: 3em;
+  margin-left: 20px;
+}
+
+.windIcon {
+  font-size: 2em;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
 .descriptionIconStyle {
   font-size: 2em;
   color: #FFFFFF;
@@ -49,7 +108,13 @@
 .weatherIconStyle {
   color: #FFFFFF;
   font-size: 8em;
-  margin-right: 20px;
+  margin-right: 35px;
+}
+
+.othersIcon {
+  color: #FFFFFF;
+  font-size: 2em;
+  margin-left: 20px;
 }
 
 .bortleStyle {

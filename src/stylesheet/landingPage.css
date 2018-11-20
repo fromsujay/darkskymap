@@ -1,6 +1,14 @@
 
 @import url('https://fonts.googleapis.com/css?family=Actor');
 
+.logo {
+height: 130px;
+opacity: 1;
+width: 15vh;
+float: right;
+margin-right: 90vh;
+}
+
 
 .btn-Home-Sign1{
   background-color: hsla(360, 100%, 100%, 0.1);
