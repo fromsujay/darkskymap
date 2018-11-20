@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signin.css";
 import { Redirect, Link } from "react-router-dom";
@@ -90,7 +90,7 @@ handleClickSignIn(event) {
 
       <Form inline className="form">
 
-              <h2>Identifiez-vous : </h2>
+              <h2 className="signInTitle">Identifiez-vous : </h2>
 
         <FormGroup>
           <Input type="email" name="email" onChange={this.captureEmailData} id="email" placeholder="Email" />

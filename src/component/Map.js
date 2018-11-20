@@ -32,7 +32,6 @@ import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import { FaRegCalendarAlt, FaWind, FaRegFrown, FaRegMeh, FaRegSmile } from "react-icons/fa";
 import { IoIosCalendar, IoIosGlobe, IoIosThermometer } from "react-icons/io";
-import { TiWeatherSunny } from "react-icons/ti";
 import { MdLocationCity} from "react-icons/md";
 import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
@@ -291,7 +290,7 @@ class Description extends Component {
           <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.props.data.observationDate}</CardText>
           <CardText className="textdesc">Latitude: {this.props.data.latitude}</CardText>
           <CardText className="textdesc">Longitude: {this.props.data.longitude}</CardText>
-          <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}<TiWeatherSunny className="sunnyIcon"/></CardText>
+          <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}</CardText>
           <div className="bortleStyle">
             <CardText className="paraStyle">{this.props.data.explanationOfBortleScale}</CardText>
           </div>
@@ -354,14 +353,14 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText>Echelle de Bortle: {this.props.dataObject.bortleScale}</CardText>
-          <CardText>Transparence: {this.props.dataObject.transparency}</CardText>
-          <CardText>Pollution Lumineuse: {this.props.dataObject.lightPollution}</CardText>
-          <CardText>Seeing(Turbulence): {this.props.dataObject.seeing}</CardText>
-          <CardText>Sky Quality Meter: {this.props.dataObject.skyQualityMeter} mag/arcsec2</CardText>
-          <CardText>Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
-          <CardText>Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
-          <CardText>Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Echelle de Bortle: {this.props.dataObject.bortleScale}</CardText>
+          <CardText className="textDetails">Transparence: {this.props.dataObject.transparency}</CardText>
+          <CardText className="textDetails">Pollution Lumineuse: {this.props.dataObject.lightPollution}</CardText>
+          <CardText className="textDetails">Seeing(Turbulence): {this.props.dataObject.seeing}</CardText>
+          <CardText className="textDetails">Sky Quality Meter: {this.props.dataObject.skyQualityMeter} mag/arcsec2</CardText>
+          <CardText className="textDetails">Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
+          <CardText className="textDetails">Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
