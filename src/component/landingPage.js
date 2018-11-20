@@ -17,6 +17,7 @@ class LandingPage extends Component {
           <Row>
             <Col xs={{size:3, offset:2}} sm={{size:3, offset:3}} md={{size: 1, offset: 9}}>
               <Col xs="1" md="5">
+        
                 <Link to="/signin"><Button className="btn-Home-Sign1" color="secondary">Sign In</Button></Link>
               </Col>
             </Col>
@@ -37,5 +38,6 @@ class LandingPage extends Component {
   }
 }
 
+                // <img className="logo" src={require('../images/logo.svg')}  />
 
 export default LandingPage;

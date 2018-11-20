@@ -26,9 +26,14 @@ import '../stylesheet/Map.css';
 import { Redirect, Link } from "react-router-dom";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog, faMoon, faGlobeAsia } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
+import { FaRegCalendarAlt, FaWind } from "react-icons/fa";
+import { IoIosCalendar, IoIosGlobe, IoIosThermometer } from "react-icons/io";
+import { TiWeatherSunny } from "react-icons/ti";
+import { MdLocationCity} from "react-icons/md";
+import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
 import circle from '../images/blue_circle.png';
 import {connect} from 'react-redux';
@@ -140,6 +145,7 @@ export class MapContainer extends Component {
       console.log(response);
     return response.json();
     }).then(function(data) {
+      console.log('data',data);
     ctx.setState({
       locations:data.locations
     })
@@ -273,28 +279,28 @@ class Description extends Component {
       <Card className="cardStyle">
         <CardHeader className="heading">
           <FontAwesomeIcon icon={faCity} className="descriptionIconStyle"/>
-          <h4>{this.props.data.locationName}</h4>
+          <h4 className="location-name">{this.props.data.locationName}</h4>
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText>Date d'Observation: {this.props.data.observationDate}</CardText>
-          <CardText>Latitude: {this.props.data.latitude}</CardText>
-          <CardText>Longitude: {this.props.data.longitude}</CardText>
-          <CardText>Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}</CardText>
+          <CardText className="textdesc">Date d'Observation: {this.props.data.observationDate}<FaRegCalendarAlt className="calendarIcon"/></CardText>
+          <CardText className="textdesc">Latitude: {this.props.data.latitude}<FiNavigation2 className="globeLatIcon"/></CardText>
+          <CardText className="textdesc">Longitude: {this.props.data.longitude}<FiNavigation className="globeLngIcon"/></CardText>
+          <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}<TiWeatherSunny className="sunnyIcon"/></CardText>
           <div className="bortleStyle">
             <CardText className="paraStyle">{this.props.data.explanationOfBortleScale}</CardText>
           </div>
           <div className="weatherInfo">
             <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
             <div className="weatherTextStyle">
-             <p>Météo actuelle</p>
-             <p>Ciel dégagé</p>
-             <p>23 C</p>
-             <p>Brise légère, 2.6 m/s</p>
+             <p className="weatherdesc">Météo actuelle</p>
+             <p className="weatherdesc">Ciel dégagé</p>
+             <p className="weatherdesc">23 C<IoIosThermometer className="thermoIcon"/></p>
+             <p className="weatherdesc">Brise légère, 2.6 m/s<FaWind className="windIcon"/></p>
              </div>
           </div>
-          <CardText>{this.props.data.observationCategory}</CardText>
-          {this.props.data.urbanCompromise ? <CardText className="text">Compromis urbain</CardText> : null}
+          <CardText className="textdesc">{this.props.data.observationCategory}<FontAwesomeIcon icon={faGlobeAsia} className="othersIcon"/><FontAwesomeIcon icon={faMoon} className="othersIcon"/></CardText>
+          {this.props.data.urbanCompromise ? <CardText className="textdesc">Compromis urbain<MdLocationCity className="cityIcon"/></CardText> : null}
         </CardBody>
         <CardFooter className="footerStyle">
           <FontAwesomeIcon onClick={()=>this.toggleDetails(this.props.data)} icon={faPlusCircle} className="descriptionIconStyle"/>

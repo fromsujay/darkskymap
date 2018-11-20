@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Badge } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../stylesheet/signup.css";
 import { Redirect, Link } from "react-router-dom";
@@ -91,6 +91,10 @@ class Signup extends React.Component {
     ?<Redirect to="/map"/>
     :null
   }
+
+  <div className="signUpToogle">
+    <h6 className= "signInText">Vous disposez d'un compte ? <Link to="/signin"><Badge className="badgeLook" color="light">Connectez-vous</Badge></Link></h6>
+  </div>
 
       <Form inline className="form">
 

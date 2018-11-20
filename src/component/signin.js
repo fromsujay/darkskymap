@@ -72,13 +72,21 @@ handleClickSignIn(event) {
     console.log('props userId: ', this.props.userId);
     var userId = this.state.userId;
     return (
-<div className="background">
 
+<div >
   {
     this.state.redirectMap
     ?<Redirect to="/map"/>
     :null
   }
+
+  <div className="background">
+
+    <div className="signUpToogle">
+      <h6 className= "signInText">Vous ne disposez pas de compte ? <Link to="/signup"><Badge className="badgeLook" color="light">Inscrivez-vous</Badge></Link></h6>
+    </div>
+
+    <div className="allContent">
 
       <Form inline className="form">
 
@@ -100,8 +108,11 @@ handleClickSignIn(event) {
           <Link to="/map"><Button className="cancelButton1">Aller à la carte</Button></Link>
           <Button type="submit" onClick={this.handleClickSignIn} className="submit1" color="secondary">Sign in</Button>
         </FormGroup>
-      </Form>
+
+        </Form>
+      </div>
     </div>
+  </div>
     );
   }
 };
