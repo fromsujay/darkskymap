@@ -23,13 +23,14 @@ import {
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
+import '../stylesheet/favoris.css';
 import { Redirect, Link } from "react-router-dom";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faHeart, faTimesCircle, faCity, faSun, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog, faMoon, faGlobeAsia } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faHeart, faCity, faFrown, faSmile, faBan, faCheck, faExclamationTriangle, faLowVision, faSmog, faMoon, faGlobeAsia, faSun, faCloudSun, faCloudShowersHeavy, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
-import { FaRegCalendarAlt, FaWind } from "react-icons/fa";
+import { FaRegCalendarAlt, FaWind, FaRegFrown, FaRegMeh, FaRegSmile } from "react-icons/fa";
 import { IoIosCalendar, IoIosGlobe, IoIosThermometer } from "react-icons/io";
 import { TiWeatherSunny } from "react-icons/ti";
 import { MdLocationCity} from "react-icons/md";
@@ -243,6 +244,10 @@ console.log('This props userId: ', this.props.userId);
             <Details addFavoriteParent={this.addFavorite} data={this.state.data} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
             : null
       }
+      {this.state.showFavoris?
+            <Details returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
+            : null
+      }
     </div>
     );
   }
@@ -283,9 +288,9 @@ class Description extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText className="textdesc">Date d'Observation: {this.props.data.observationDate}<FaRegCalendarAlt className="calendarIcon"/></CardText>
-          <CardText className="textdesc">Latitude: {this.props.data.latitude}<FiNavigation2 className="globeLatIcon"/></CardText>
-          <CardText className="textdesc">Longitude: {this.props.data.longitude}<FiNavigation className="globeLngIcon"/></CardText>
+          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.props.data.observationDate}</CardText>
+          <CardText className="textdesc">Latitude: {this.props.data.latitude}</CardText>
+          <CardText className="textdesc">Longitude: {this.props.data.longitude}</CardText>
           <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}<TiWeatherSunny className="sunnyIcon"/></CardText>
           <div className="bortleStyle">
             <CardText className="paraStyle">{this.props.data.explanationOfBortleScale}</CardText>
@@ -345,7 +350,7 @@ class Details extends Component {
       <Card className="cardDetailsStyle">
         <CardHeader className="headingDetailsStyle" >
           <FontAwesomeIcon icon={faCity} className="detailsIconStyle"/>
-          <h4>{this.props.dataObject.locationName}</h4>
+          <h4 className="locationNameDetails">{this.props.dataObject.locationName}</h4>
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
@@ -366,6 +371,70 @@ class Details extends Component {
       </Card>
     </Col>
    </div>
+    );
+  }
+}
+
+
+
+
+class Favoris extends Component {
+  constructor(props) {
+    super(props);
+    this.closeComponent = this.closeComponent.bind(this);
+    this.toggleDetails = this.toggleDetails.bind(this);
+  }
+
+  toggleDetails(dataObject){
+    this.props.toggleDetails(dataObject);
+  }
+
+  closeComponent(){
+    this.props.closeFunction();
+  }
+
+  render() {
+
+    return (
+
+      <div className="background">
+
+      <Container>
+
+        <Row className="main-block">
+
+          <Col className="main" xs="11" sm="8" md={{ size: 8}}>Mes favoris</Col>
+
+          <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>Lieu
+            <FontAwesomeIcon className="iconStyle" icon={faSun}/>
+            <h6 className="favFont">Météo actuelle</h6>
+            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
+            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+            </Col>
+
+          <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
+            <FontAwesomeIcon className="iconStyle" icon={faCloudSun} />
+            <h6 className="favFont">Météo actuelle</h6>
+            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
+            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+            </Col>
+
+          <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
+             <FontAwesomeIcon className="iconStyle" icon={faCloudShowersHeavy} />
+            <h6 className="favFont">Météo actuelle</h6>
+            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
+            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+            </Col>
+
+            <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>
+              <Link to="/map"><Button outline onClick={this.toggleDetails} className="backButton">Retour</Button></Link>
+            </Col>
+
+        </Row>
+
+      </Container>
+
+      </div>
     );
   }
 }
