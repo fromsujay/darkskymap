@@ -90,7 +90,7 @@ handleClickSignIn(event) {
 
       <Form inline className="form">
 
-              <h2 className="signInTitle">Identifiez-vous : </h2>
+          <h2 className="signInTitle">Identifiez-vous : </h2>
 
         <FormGroup>
           <Input type="email" name="email" onChange={this.captureEmailData} id="email" placeholder="Email" />
