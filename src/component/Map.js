@@ -226,6 +226,7 @@ console.log('This props userId: ', this.props.userId);
         styles={styles}
         disableDefaultUI={true}
         zoomControl={true}
+        streetViewControl={true}
         initialCenter={{
           lat: 48.885391,
           lng: 2.2979853
@@ -255,7 +256,7 @@ console.log('This props userId: ', this.props.userId);
             : null
       }
       {this.state.showFavorite?
-            <Favoris closeFunction={this.closeWindow} />
+            <Favoris userId={this.props.userId} closeFunction={this.closeWindow} />
             : null
       }
     </div>
@@ -403,13 +404,17 @@ class Favoris extends Component {
 
   componentWillMount() {
     const ctx= this;
-    fetch('http://localhost:3000/favorites').then(function(response) {
-      console.log(response);
+    fetch('http://localhost:3000/favorites', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'userId='+this.props.userId
+    })
+    .then(function(response) {
     return response.json();
     }).then(function(data) {
-      console.log('data',data);
+      var userFavorites = data.favorites
     ctx.setState({
-      favorites:data
+      favorites:userFavorites
     })
     });
     }
@@ -417,7 +422,20 @@ class Favoris extends Component {
 
 
   render() {
-
+console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@', this.state.favorites);
+var ctx = this;
+var favoritesList = ctx.state.favorites.map(
+  function(data){
+    return(
+      <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>{data.locationName}
+        <FontAwesomeIcon className="iconStyle" icon={faSun}/>
+        <h6 className="favFont">Météo actuelle</h6>
+        <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
+        <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+        </Col>
+    )
+  }
+  )
     return (
 
       <div className="background">
@@ -428,26 +446,7 @@ class Favoris extends Component {
 
           <Col className="main" xs="11" sm="8" md={{ size: 8 }}>Mes favoris</Col>
 
-          <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>Lieu
-            <FontAwesomeIcon className="iconStyle" icon={faSun}/>
-            <h6 className="favFont">Météo actuelle</h6>
-            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
-            </Col>
-
-          <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
-            <FontAwesomeIcon className="iconStyle" icon={faCloudSun} />
-            <h6 className="favFont">Météo actuelle</h6>
-            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
-            </Col>
-
-          <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
-             <FontAwesomeIcon className="iconStyle" icon={faCloudShowersHeavy} />
-            <h6 className="favFont">Météo actuelle</h6>
-            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
-            </Col>
+          {favoritesList}
 
             <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>
               <Link to="/map"><Button outline onClick={()=>this.closeComponent()} className="backButton">Aller à la carte</Button></Link>
