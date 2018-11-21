@@ -62,8 +62,9 @@ export class MapContainer extends Component {
       locations:[],
       showDescription: false,
       showDetails: false,
+      showFavorite: false,
       connection: true,
-      modal: false
+      modal: false,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -72,6 +73,7 @@ export class MapContainer extends Component {
     this.closeWindow = this.closeWindow.bind(this);
     this.returnToDescription = this.returnToDescription.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+    this.displayFavorite = this.displayFavorite.bind(this);
   }
 
   toggle() {
@@ -116,9 +118,17 @@ export class MapContainer extends Component {
     this.setState({
       showDescription: false,
       showDetails: false,
+      showFavorite: false,
     });
   }
 
+  displayFavorite() {
+    this.setState({
+      showFavorite: true,
+      showDescription: false,
+      showDetails: false,
+    });
+  }
 
   componentWillMount() {
     // This bloc of code gets the user's geolocation from his browser
@@ -215,6 +225,7 @@ console.log('This props userId: ', this.props.userId);
         styles={styles}
         disableDefaultUI={true}
         zoomControl={true}
+        streetViewControl={true}
         initialCenter={{
           lat: 48.885391,
           lng: 2.2979853
@@ -232,7 +243,7 @@ console.log('This props userId: ', this.props.userId);
         />
       </Map>
 
-      <NavigationBarDisplay />
+      <NavigationBarDisplay displayFavoriteParent={this.displayFavorite} />
 
       }
       {this.state.showDescription ?
@@ -243,8 +254,8 @@ console.log('This props userId: ', this.props.userId);
             <Details addFavoriteParent={this.addFavorite} data={this.state.data} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
             : null
       }
-      {this.state.showFavoris?
-            <Details returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
+      {this.state.showFavorite?
+            <Favoris userId={this.props.userId} closeFunction={this.closeWindow} />
             : null
       }
     </div>
@@ -284,7 +295,7 @@ class Description extends Component {
         <CardHeader className="heading">
           <FontAwesomeIcon icon={faCity} className="descriptionIconStyle"/>
           <h4 className="location-name">{this.props.data.locationName}</h4>
-          <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="descriptionIconStyle"/>
+          <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
           <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.props.data.observationDate}</CardText>
@@ -350,7 +361,7 @@ class Details extends Component {
         <CardHeader className="headingDetailsStyle" >
           <FontAwesomeIcon icon={faCity} className="detailsIconStyle"/>
           <h4 className="locationNameDetails">{this.props.dataObject.locationName}</h4>
-          <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
+          <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
           <CardText className="textDetails">Date d'Observation</CardText>
@@ -365,7 +376,7 @@ class Details extends Component {
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
-        <Button outline onClick={this.toggleDetails} className="backButtonStyle">Retour</Button>
+        <Button outline onClick={()=>this.toggleDetails()} className="backButtonStyle">Retour</Button>
         <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} className="detailsIconStyle"/>
         </CardFooter>
       </Card>
@@ -381,20 +392,50 @@ class Details extends Component {
 class Favoris extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+    favorites: []
+    };
     this.closeComponent = this.closeComponent.bind(this);
-    this.toggleDetails = this.toggleDetails.bind(this);
-  }
-
-  toggleDetails(dataObject){
-    this.props.toggleDetails(dataObject);
   }
 
   closeComponent(){
     this.props.closeFunction();
   }
 
-  render() {
+  componentWillMount() {
+    const ctx= this;
+    fetch('http://localhost:3000/favorites', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'userId='+this.props.userId
+    })
+    .then(function(response) {
+    return response.json();
+    }).then(function(data) {
+      var userFavorites = data.favorites
+    ctx.setState({
+      favorites:userFavorites
+    })
+    });
+    }
 
+
+
+  render() {
+console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@', this.state.favorites);
+var ctx = this;
+var favoritesList = ctx.state.favorites.map(
+  function(data){
+    return(
+      <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>{data.locationName}
+        <FontAwesomeIcon className="iconStyle" icon={faSun}/>
+        <h6 className="favFont">Météo actuelle</h6>
+        <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
+        <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+        </Col>
+    )
+  }
+  )
     return (
 
       <div className="background">
@@ -403,31 +444,12 @@ class Favoris extends Component {
 
         <Row className="main-block">
 
-          <Col className="main" xs="11" sm="8" md={{ size: 8}}>Mes favoris</Col>
+          <Col className="main" xs="11" sm="8" md={{ size: 8 }}>Mes favoris</Col>
 
-          <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>Lieu
-            <FontAwesomeIcon className="iconStyle" icon={faSun}/>
-            <h6 className="favFont">Météo actuelle</h6>
-            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
-            </Col>
-
-          <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
-            <FontAwesomeIcon className="iconStyle" icon={faCloudSun} />
-            <h6 className="favFont">Météo actuelle</h6>
-            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
-            </Col>
-
-          <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>Lieu
-             <FontAwesomeIcon className="iconStyle" icon={faCloudShowersHeavy} />
-            <h6 className="favFont">Météo actuelle</h6>
-            <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-            <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
-            </Col>
+          {favoritesList}
 
             <Col className="favItem" xs="11" sm="8" md={{ size: 8}}>
-              <Link to="/map"><Button outline onClick={this.toggleDetails} className="backButton">Retour</Button></Link>
+              <Link to="/map"><Button outline onClick={()=>this.closeComponent()} className="backButton">Aller à la carte</Button></Link>
             </Col>
 
         </Row>
