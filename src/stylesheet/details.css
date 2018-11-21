@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Actor');
+@import url('https://fonts.googleapis.com/css?family=Actor|Metrophobic');
 
 .detailsRootStyle {
   display: flex;
@@ -31,6 +31,15 @@
   border-width: thin;
   border-radius: 10px;
   padding: 10px;
+  font-family: 'Metrophobic';
+}
+
+.textDetails {
+  font-family: 'Metrophobic';
+  font-size: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .detailsIconStyle {
@@ -59,6 +68,7 @@
 
 .locationNameDetails {
   font-family: 'Actor';
+  font-weight: bold;
   color: #FFFFFF;
 }
 
