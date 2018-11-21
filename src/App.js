@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {  } from 'reactstrap';
 import Signin from './component/signin.js';
 import Signup from './component/signup.js';
-import Favoris from './component/favoris.js';
 import Map from './component/Map.js';
 import LandingPage from './component/landingPage.js';
 import GoogleApiWrapper from './component/Map.js';

@@ -357,31 +357,31 @@ class Details extends Component {
 let bortleScale;
 
     if (this.props.dataObject.bortleScale === 'C1 (Site excellent)' || this.props.dataObject.bortleScale === 'C2 (Site vraiment noir)' || this.props.dataObject.bortleScale === 'C3 (Ciel rural)') {
-      bortleScale = < FaRegSmile style={{marginLeft: 10, fontSize: 40, display: 'table'}} />
+      bortleScale = < FaRegSmile style={{marginLeft: 10, fontSize: 40}} />
   } else if (this.props.dataObject.bortleScale === 'C4 (Transition rural-urbain)' || this.props.dataObject.bortleScale === 'C5 (Ciel péri-urbain)' || this.props.dataObject.bortleScale === 'C6 (Ciel de banlieue)') {
-    bortleScale = < FaRegMeh style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+    bortleScale = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
 } else if (this.props.dataObject.bortleScale === 'C7 (Transition banlieue-ville)' || this.props.dataObject.bortleScale === 'C8 (Ciel de ville)' || this.props.dataObject.bortleScale === 'C9 (Ciel de centre-ville)') {
-bortleScale = < FaRegFrown style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+bortleScale = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
 }
 
 let transparency;
 
 if (this.props.dataObject.transparency === 'T1' || this.props.dataObject.transparency === 'T2' || this.props.dataObject.transparency === 'T3') {
-  transparency = < FaRegSmile style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+  transparency = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
 } else if (this.props.dataObject.transparency === 'T4' || this.props.dataObject.transparency === 'T5' || this.props.dataObject.transparency === 'T6') {
-transparency = < FaRegMeh style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+transparency = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
 } else if (this.props.dataObject.transparency === 'T7' || this.props.dataObject.transparency === 'T8' || this.props.dataObject.transparency === 'T9') {
-transparency = < FaRegFrown style={{marginLeft: 10, fontSize: 40, display: 'table'}} />
+transparency = < FaRegFrown style={{marginLeft: 10, fontSize: 40}} />
 }
 
 let lightPollution;
 
 if (this.props.dataObject.lightPollution === 'P1' || this.props.dataObject.lightPollution === 'P2' || this.props.dataObject.lightPollution === 'P3') {
-  lightPollution = < FaRegSmile style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+  lightPollution = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
 } else if (this.props.dataObject.lightPollution === 'P4' || this.props.dataObject.lightPollution === 'P5' || this.props.dataObject.lightPollution === 'P6') {
-lightPollution = < FaRegMeh style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+lightPollution = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
 } else if (this.props.dataObject.lightPollution === 'P7' || this.props.dataObject.lightPollution === 'P8' || this.props.dataObject.lightPollution === 'P9') {
-lightPollution = < FaRegFrown style={{marginLeft: 10, fontSize: 40, display: 'table'}}/>
+lightPollution = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
 }
 
 let seeing;
