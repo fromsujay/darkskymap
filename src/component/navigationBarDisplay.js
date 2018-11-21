@@ -20,6 +20,7 @@ import {
   } from 'reactstrap';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import { Link } from "react-router-dom";
+  import AddLocation from './addLocation.js'
   import {connect} from 'react-redux';
 
 
@@ -32,6 +33,7 @@ class NavigationBarDisplay extends Component {
     };
 
     this.toggle = this.toggle.bind(this);
+    this.displayFavorite = this.displayFavorite.bind(this);
   }
 
   toggle() {
@@ -39,6 +41,11 @@ class NavigationBarDisplay extends Component {
        isOpen: !this.state.isOpen
      });
    }
+
+   displayFavorite() {
+      this.props.displayFavoriteParent();
+    }
+
 
   render() {
     console.log('Favoris -------',this.props.logged);
@@ -59,10 +66,10 @@ class NavigationBarDisplay extends Component {
                 <Link to="/" style={{color:'white'}}>Home</Link>
               </NavItem>
               <NavItem>
-                <Link to="/addlocation" className="addlocation" style={{color:'white'}}>Ajouter un lieu</Link>
+                <AddLocation/>
               </NavItem>
               <NavItem>
-                <Link to="/favoris" className="favorisLink" style={{color:'white'}}>Favoris</Link>
+                <Link to="/map" className="favorisLink" style={{color:'white'}} onClick={()=>this.displayFavorite()}>Favoris</Link>
               </NavItem>
             </Nav>
           </Collapse>
