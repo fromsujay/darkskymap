@@ -353,6 +353,7 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={this.closeComponent} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
+          <CardText className="textDetails">Date d'Observation</CardText>
           <CardText className="textDetails">Echelle de Bortle: {this.props.dataObject.bortleScale}</CardText>
           <CardText className="textDetails">Transparence: {this.props.dataObject.transparency}</CardText>
           <CardText className="textDetails">Pollution Lumineuse: {this.props.dataObject.lightPollution}</CardText>
