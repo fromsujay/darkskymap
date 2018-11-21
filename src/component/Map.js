@@ -31,8 +31,7 @@ import { faPlusCircle, faHeart, faCity, faFrown, faSmile, faBan, faCheck, faExcl
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import { FaRegCalendarAlt, FaWind, FaRegFrown, FaRegMeh, FaRegSmile } from "react-icons/fa";
-import { IoIosCalendar, IoIosGlobe, IoIosThermometer } from "react-icons/io";
-import { TiWeatherSunny } from "react-icons/ti";
+import { IoIosCalendar, IoMdPlanet } from "react-icons/io";
 import { MdLocationCity} from "react-icons/md";
 import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
@@ -168,20 +167,28 @@ export class MapContainer extends Component {
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
 
   addFavorite(userId, locationName, latitude, longitude) {
-    const ctx= this;
-    fetch('http://localhost:3000/addfavorite', {
-    method: 'POST',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: 'userId='+ctx.props.userId+'&locationName='+locationName+'&latitude='+latitude+'&longitude='+longitude
-    })
+    if(this.props.logged === true){
+      const ctx= this;
+      fetch('http://localhost:3000/addfavorite', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'userId='+ctx.props.userId+'&locationName='+locationName+'&latitude='+latitude+'&longitude='+longitude
+      })
 
-    .then(function(response) {
-    return response.json();
-    })
-    .then(function(data) {
-    console.log(data);
-    });
+      .then(function(response) {
+      return response.json();
+      })
+      .then(function(data) {
+      console.log(data);
+      });
+    } else {
+      this.setState({
+      connection:false,
+      modal: !this.state.modal
+        });
+
   }
+}
 
   render() {
 
@@ -210,7 +217,7 @@ console.log('This props userId: ', this.props.userId);
         <div>
           <Modal isOpen={this.state.modal}>
             <ModalBody className="alertSignIn">
-              Veuillez vous connecter pour accéder aux détails.
+              Nous vous invitons à vous connecter pour accéder à cette fonctionnalité.
             </ModalBody>
             <ModalFooter className="alertButton">
               <Link to="/signin"><Button color="primary">Ok</Button>{' '}</Link>
@@ -276,6 +283,26 @@ class Description extends Component {
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+    dd = '0'+dd
+    }
+
+    if(mm<10) {
+    mm = '0'+mm
+    }
+
+    var date = dd +'.'+ mm +'.'+ yyyy;
+
+    this.state = {
+       date: date
+    }
+
   }
 
   toggleDetails(dataObject){
@@ -302,10 +329,10 @@ class Description extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.props.data.observationDate}</CardText>
+          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.state.date}</CardText>
           <CardText className="textdesc">Latitude: {this.props.data.latitude}</CardText>
           <CardText className="textdesc">Longitude: {this.props.data.longitude}</CardText>
-          <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}<TiWeatherSunny className="sunnyIcon"/></CardText>
+          <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}</CardText>
           <div className="bortleStyle">
             <CardText className="paraStyle">{this.props.data.explanationOfBortleScale}</CardText>
           </div>
@@ -314,11 +341,11 @@ class Description extends Component {
             <div className="weatherTextStyle">
              <p className="weatherdesc">Météo actuelle</p>
              <p className="weatherdesc">Ciel dégagé</p>
-             <p className="weatherdesc">23 C<IoIosThermometer className="thermoIcon"/></p>
-             <p className="weatherdesc">Brise légère, 2.6 m/s<FaWind className="windIcon"/></p>
+             <p className="weatherdesc">23 C</p>
+             <p className="weatherdesc">Brise légère, 2.6 m/s</p>
              </div>
           </div>
-          <CardText className="textdesc">{this.props.data.observationCategory}<FontAwesomeIcon icon={faGlobeAsia} className="othersIcon"/><FontAwesomeIcon icon={faMoon} className="othersIcon"/></CardText>
+          <CardText className="textdesc">{this.props.data.observationCategory}<IoMdPlanet className="planetIcon"/><FontAwesomeIcon icon={faMoon} className="moonIcon"/></CardText>
           {this.props.data.urbanCompromise ? <CardText className="textdesc">Compromis urbain<MdLocationCity className="cityIcon"/></CardText> : null}
         </CardBody>
         <CardFooter className="footerStyle">
@@ -358,6 +385,57 @@ class Details extends Component {
 
   render() {
 
+let bortleScale;
+
+    if (this.props.dataObject.bortleScale === 'C1 (Ciel excellent)' || this.props.dataObject.bortleScale === 'C2 (Ciel vraiment noir)' || this.props.dataObject.bortleScale === 'C3 (Ciel rural)') {
+      bortleScale = < FaRegSmile style={{marginLeft: 10, fontSize: 40}} />
+  } else if (this.props.dataObject.bortleScale === 'C4 (Transition rural-urbain)' || this.props.dataObject.bortleScale === 'C5 (Ciel péri-urbain)' || this.props.dataObject.bortleScale === 'C6 (Ciel de banlieue)') {
+    bortleScale = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.bortleScale === 'C7 (Transition banlieue-ville)' || this.props.dataObject.bortleScale === 'C8 (Ciel de ville)' || this.props.dataObject.bortleScale === 'C9 (Ciel de centre-ville)') {
+bortleScale = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let transparency;
+
+if (this.props.dataObject.transparency === 'T1' || this.props.dataObject.transparency === 'T2' || this.props.dataObject.transparency === 'T3') {
+  transparency = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.transparency === 'T4' || this.props.dataObject.transparency === 'T5' || this.props.dataObject.transparency === 'T6') {
+transparency = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.transparency === 'T7' || this.props.dataObject.transparency === 'T8' || this.props.dataObject.transparency === 'T9') {
+transparency = < FaRegFrown style={{marginLeft: 10, fontSize: 40}} />
+}
+
+let lightPollution;
+
+if (this.props.dataObject.lightPollution === 'P1' || this.props.dataObject.lightPollution === 'P2' || this.props.dataObject.lightPollution === 'P3') {
+  lightPollution = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.lightPollution === 'P4' || this.props.dataObject.lightPollution === 'P5' || this.props.dataObject.lightPollution === 'P6') {
+lightPollution = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.lightPollution === 'P7' || this.props.dataObject.lightPollution === 'P8' || this.props.dataObject.lightPollution === 'P9') {
+lightPollution = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let seeing;
+
+if (this.props.dataObject.seeing === 'S1' || this.props.dataObject.seeing === 'S2') {
+  seeing = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.seeing === 'S3') {
+seeing = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.seeing === 'S4' || this.props.dataObject.seeing === 'S5') {
+seeing = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let skyQualityMeter;
+
+if (this.props.dataObject.skyQualityMeter < 19) {
+  skyQualityMeter = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (20.5 >= this.props.dataObject.skyQualityMeter > 19) {
+skyQualityMeter = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.skyQualityMeter > 20.5) {
+skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+
     return (
     <div className="detailsRootStyle">
      <Col xs="11" md="6">
@@ -368,14 +446,15 @@ class Details extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText>Echelle de Bortle: {this.props.dataObject.bortleScale}</CardText>
-          <CardText>Transparence: {this.props.dataObject.transparency}</CardText>
-          <CardText>Pollution Lumineuse: {this.props.dataObject.lightPollution}</CardText>
-          <CardText>Seeing(Turbulence): {this.props.dataObject.seeing}</CardText>
-          <CardText>Sky Quality Meter: {this.props.dataObject.skyQualityMeter} mag/arcsec2</CardText>
-          <CardText>Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
-          <CardText>Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
-          <CardText>Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Date d'Observation</CardText>
+          <CardText className="textDetails">Echelle de Bortle: {bortleScale}</CardText>
+          <CardText className="textDetails">Transparence: {transparency}</CardText>
+          <CardText className="textDetails">Pollution Lumineuse: {lightPollution}</CardText>
+          <CardText className="textDetails">Seeing(Turbulence): {seeing}</CardText>
+          <CardText className="textDetails">Sky Quality Meter: {skyQualityMeter}</CardText>
+          <CardText className="textDetails">Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
+          <CardText className="textDetails">Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
@@ -399,6 +478,7 @@ class Favoris extends Component {
     favorites: []
     };
     this.closeComponent = this.closeComponent.bind(this);
+    this.deleteFavorite = this.deleteFavorite.bind(this);
   }
 
   closeComponent(){
@@ -422,10 +502,47 @@ class Favoris extends Component {
     });
     }
 
+    componentDidUpdate(){
+      const ctx= this;
+      fetch('http://localhost:3000/favorites', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'userId='+this.props.userId
+      })
+      .then(function(response) {
+      return response.json();
+      }).then(function(data) {
+        var userFavorites = data.favorites
+      ctx.setState({
+        favorites:userFavorites
+      })
+      });
+    }
+
+deleteFavorite(locationName) {
+  const ctx = this;
+  fetch('http://localhost:3000/deletefavorite', {
+  method: 'POST',
+  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  body: 'userId='+this.props.userId+'&locationName='+locationName
+  })
+  .then(function(response) {
+    console.log('Response delete', response );
+  return response.json();
+  }).then(function(data) {
+    console.log('data delete: ', data );
+    var userFavorites = data.user.favorite;
+    ctx.setState({
+      favorites:userFavorites
+    })
+
+  });
+  }
+
+
 
 
   render() {
-console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@', this.state.favorites);
 var ctx = this;
 var favoritesList = ctx.state.favorites.map(
   function(data){
@@ -434,7 +551,7 @@ var favoritesList = ctx.state.favorites.map(
         <FontAwesomeIcon className="iconStyle" icon={faSun}/>
         <h6 className="favFont">Météo actuelle</h6>
         <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-        <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+        <FontAwesomeIcon onClick={()=>ctx.deleteFavorite( data.locationName )} className="iconStyle" icon={faTimesCircle} />
         </Col>
     )
   }
