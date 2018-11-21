@@ -166,20 +166,28 @@ export class MapContainer extends Component {
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
 
   addFavorite(userId, locationName, latitude, longitude) {
-    const ctx= this;
-    fetch('http://localhost:3000/addfavorite', {
-    method: 'POST',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: 'userId='+ctx.props.userId+'&locationName='+locationName+'&latitude='+latitude+'&longitude='+longitude
-    })
+    if(this.props.logged === true){
+      const ctx= this;
+      fetch('http://localhost:3000/addfavorite', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'userId='+ctx.props.userId+'&locationName='+locationName+'&latitude='+latitude+'&longitude='+longitude
+      })
 
-    .then(function(response) {
-    return response.json();
-    })
-    .then(function(data) {
-    console.log(data);
-    });
+      .then(function(response) {
+      return response.json();
+      })
+      .then(function(data) {
+      console.log(data);
+      });
+    } else {
+      this.setState({
+      connection:false,
+      modal: !this.state.modal
+        });
+
   }
+}
 
   render() {
 
@@ -208,7 +216,7 @@ console.log('This props userId: ', this.props.userId);
         <div>
           <Modal isOpen={this.state.modal}>
             <ModalBody className="alertSignIn">
-              Veuillez vous connecter pour accéder aux détails.
+              Nous vous invitons à vous connecter pour accéder à cette fonctionnalité.
             </ModalBody>
             <ModalFooter className="alertButton">
               <Link to="/signin"><Button color="primary">Ok</Button>{' '}</Link>
@@ -272,6 +280,26 @@ class Description extends Component {
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+    dd = '0'+dd
+    }
+
+    if(mm<10) {
+    mm = '0'+mm
+    }
+
+    var date = dd +'.'+ mm +'.'+ yyyy;
+
+    this.state = {
+       date: date
+    }
+
   }
 
   toggleDetails(dataObject){
@@ -298,7 +326,7 @@ class Description extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.props.data.observationDate}</CardText>
+          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.state.date}</CardText>
           <CardText className="textdesc">Latitude: {this.props.data.latitude}</CardText>
           <CardText className="textdesc">Longitude: {this.props.data.longitude}</CardText>
           <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}</CardText>
@@ -447,6 +475,7 @@ class Favoris extends Component {
     favorites: []
     };
     this.closeComponent = this.closeComponent.bind(this);
+    this.deleteFavorite = this.deleteFavorite.bind(this);
   }
 
   closeComponent(){
@@ -470,10 +499,47 @@ class Favoris extends Component {
     });
     }
 
+    componentDidUpdate(){
+      const ctx= this;
+      fetch('http://localhost:3000/favorites', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'userId='+this.props.userId
+      })
+      .then(function(response) {
+      return response.json();
+      }).then(function(data) {
+        var userFavorites = data.favorites
+      ctx.setState({
+        favorites:userFavorites
+      })
+      });
+    }
+
+deleteFavorite(locationName) {
+  const ctx = this;
+  fetch('http://localhost:3000/deletefavorite', {
+  method: 'POST',
+  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  body: 'userId='+this.props.userId+'&locationName='+locationName
+  })
+  .then(function(response) {
+    console.log('Response delete', response );
+  return response.json();
+  }).then(function(data) {
+    console.log('data delete: ', data );
+    var userFavorites = data.user.favorite;
+    ctx.setState({
+      favorites:userFavorites
+    })
+
+  });
+  }
+
+
 
 
   render() {
-console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@', this.state.favorites);
 var ctx = this;
 var favoritesList = ctx.state.favorites.map(
   function(data){
@@ -482,7 +548,7 @@ var favoritesList = ctx.state.favorites.map(
         <FontAwesomeIcon className="iconStyle" icon={faSun}/>
         <h6 className="favFont">Météo actuelle</h6>
         <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-        <FontAwesomeIcon className="iconStyle" icon={faTimesCircle} />
+        <FontAwesomeIcon onClick={()=>ctx.deleteFavorite( data.locationName )} className="iconStyle" icon={faTimesCircle} />
         </Col>
     )
   }
