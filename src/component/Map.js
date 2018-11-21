@@ -273,6 +273,26 @@ class Description extends Component {
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+    dd = '0'+dd
+    }
+
+    if(mm<10) {
+    mm = '0'+mm
+    }
+
+    var date = dd +'.'+ mm +'.'+ yyyy;
+
+    this.state = {
+       date: date
+    }
+
   }
 
   toggleDetails(dataObject){
@@ -299,7 +319,7 @@ class Description extends Component {
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="descriptionIconStyle"/>
         </CardHeader>
         <CardBody>
-          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.props.data.observationDate}</CardText>
+          <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.state.date}</CardText>
           <CardText className="textdesc">Latitude: {this.props.data.latitude}</CardText>
           <CardText className="textdesc">Longitude: {this.props.data.longitude}</CardText>
           <CardText className="textdesc">Horizon sud dégagé: {this.props.data.isSouthernHorizonClear}<TiWeatherSunny className="sunnyIcon"/></CardText>
