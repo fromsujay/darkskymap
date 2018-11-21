@@ -31,7 +31,7 @@ import { faPlusCircle, faHeart, faCity, faFrown, faSmile, faBan, faCheck, faExcl
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import { FaRegCalendarAlt, FaWind, FaRegFrown, FaRegMeh, FaRegSmile } from "react-icons/fa";
-import { IoIosCalendar, IoIosGlobe, IoIosThermometer } from "react-icons/io";
+import { IoIosCalendar, IoMdPlanet } from "react-icons/io";
 import { MdLocationCity} from "react-icons/md";
 import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
@@ -310,11 +310,11 @@ class Description extends Component {
             <div className="weatherTextStyle">
              <p className="weatherdesc">Météo actuelle</p>
              <p className="weatherdesc">Ciel dégagé</p>
-             <p className="weatherdesc">23 C<IoIosThermometer className="thermoIcon"/></p>
-             <p className="weatherdesc">Brise légère, 2.6 m/s<FaWind className="windIcon"/></p>
+             <p className="weatherdesc">23 C</p>
+             <p className="weatherdesc">Brise légère, 2.6 m/s</p>
              </div>
           </div>
-          <CardText className="textdesc">{this.props.data.observationCategory}<FontAwesomeIcon icon={faGlobeAsia} className="othersIcon"/><FontAwesomeIcon icon={faMoon} className="othersIcon"/></CardText>
+          <CardText className="textdesc">{this.props.data.observationCategory}<IoMdPlanet className="planetIcon"/><FontAwesomeIcon icon={faMoon} className="moonIcon"/></CardText>
           {this.props.data.urbanCompromise ? <CardText className="textdesc">Compromis urbain<MdLocationCity className="cityIcon"/></CardText> : null}
         </CardBody>
         <CardFooter className="footerStyle">
@@ -356,7 +356,7 @@ class Details extends Component {
 
 let bortleScale;
 
-    if (this.props.dataObject.bortleScale === 'C1 (Site excellent)' || this.props.dataObject.bortleScale === 'C2 (Site vraiment noir)' || this.props.dataObject.bortleScale === 'C3 (Ciel rural)') {
+    if (this.props.dataObject.bortleScale === 'C1 (Ciel excellent)' || this.props.dataObject.bortleScale === 'C2 (Ciel vraiment noir)' || this.props.dataObject.bortleScale === 'C3 (Ciel rural)') {
       bortleScale = < FaRegSmile style={{marginLeft: 10, fontSize: 40}} />
   } else if (this.props.dataObject.bortleScale === 'C4 (Transition rural-urbain)' || this.props.dataObject.bortleScale === 'C5 (Ciel péri-urbain)' || this.props.dataObject.bortleScale === 'C6 (Ciel de banlieue)') {
     bortleScale = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
