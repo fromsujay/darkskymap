@@ -29,6 +29,7 @@ class App extends Component {
               <Route path="/signin" component={Signin} />
               <Route path="/signup" component={Signup} />
               <Route path="/favoris" component={Favoris} />
+              <Route path="/addLocation" component={addLocation} />
             </Switch>
           </div>
         </Router>
