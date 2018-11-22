@@ -179,6 +179,9 @@ export class MapContainer extends Component {
       locations:data.locations
     })
     });
+
+
+
     }
 
 //-------Import de NavigationBar avant Reducer dans Map------//
@@ -278,7 +281,7 @@ console.log('this state weatherDatas', this.state.weatherDatas);
 
       }
       {this.state.showDescription ?
-            <Description weatherDatas={this.state.weatherDatas} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
+            <Description weatherDatas={this.state.weatherDatas} userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
@@ -304,8 +307,7 @@ class Description extends Component {
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
-    this.state = {
-    }
+
 
 
     var today = new Date();
@@ -326,7 +328,9 @@ class Description extends Component {
 
     this.state = {
        date: date,
-       weatherDatas: null
+       weatherDatas: null,
+       userId: null,
+       favorites: null
     }
 
   }
@@ -334,10 +338,11 @@ class Description extends Component {
   componentWillMount() {
 
     const ctx= this;
+    if (ctx.props.userId) {
     fetch('http://localhost:3000/favorites', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: 'userId='+this.props.userId
+    body: 'userId='+ctx.props.userId
     })
 
     .then(function(response) {
@@ -346,23 +351,30 @@ class Description extends Component {
 
     .then(function(data) {
 
-      let userFavorites = data.favorites
+      var userFavorites = data.favorites
       console.log("userFavorites", userFavorites);
     ctx.setState({
       favorites:userFavorites
-    })
-    });
+     })
+    })}
+
     }
 
   componentDidUpdate(prevProps) {
     var ctx = this;
+    var userIdCopy = {...ctx.props.userId}
     var weatherDatasCopy = {...ctx.props.weatherDatas}
     if (this.props.weatherDatas !== prevProps.weatherDatas) {
       ctx.setState({
         weatherDatas: weatherDatasCopy
       })
+      if (this.props.userId !== prevProps.userId) {
+        ctx.setState({
+          userId: userIdCopy
+        })
     }
   }
+}
 
 
 
@@ -379,22 +391,21 @@ class Description extends Component {
   }
 
   render() {
-    // let colorHeart;
-    // colorHeart = {
-    //   color: "#FF5B53",
-    //   cursor: "Pointer"
-    // }
-    //
-    // let favoriteCopy = user.favorite;
-    // let favoriteExist = false;
-    // for (let i = 0; i < favoriteCopy.length; i++) {
-    //  if(favoriteCopy[i].locationName === this.props.data.locationName){
-    //    favoriteExist = true
-    //  }
-    // }
-    // if (favoriteExist = true) {
-    //
-    // }
+  //   let favoriteCopy = this.state.favorites;
+  //   let favoriteExist = false;
+  //   for (let i = 0; i < favoriteCopy.length; i++) {
+  //    if(favoriteCopy[i].locationName === this.props.data.locationName){
+  //      favoriteExist = true
+  //    }
+  //   }
+  //   let colorHeart;
+  //   if (favoriteExist = true) {
+  //
+  //   colorHeart = {
+  //     color: "#FF5B53",
+  //     cursor: "Pointer"
+  //   }
+  // }
 
     return (
     <div className="rootStyle">
