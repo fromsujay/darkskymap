@@ -86,7 +86,7 @@ const CollectionCreateForm = Form.create()(
         <Modal
           visible={visible}
           title="Ajouter un nouveau lieu d'observation"
-          okText="Crée le lieu d'observation"
+          okText="Créer le lieu d'observation"
           cancelText="Retour"
           onCancel={onCancel}
           onOk={onCreate}
