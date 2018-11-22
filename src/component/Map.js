@@ -328,7 +328,7 @@ class Description extends Component {
           <h4 className="location-name">{this.props.data.locationName}</h4>
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="descriptionIconStyle"/>
         </CardHeader>
-        <CardBody>
+        <CardBody className="descriptionCard">
           <CardText className="textdesc"><FaRegCalendarAlt className="calendarIcon"/>{this.state.date}</CardText>
           <CardText className="textdesc">Latitude: {this.props.data.latitude}</CardText>
           <CardText className="textdesc">Longitude: {this.props.data.longitude}</CardText>
@@ -363,6 +363,7 @@ class Description extends Component {
 /* Details component displays details after cliking on plus sign inside a description page */
 /* toggleDetails function displays description and makes details disappear through returnToDescription function in parent map component */
 /* closeComponent function closes details through closeWindow function in parent map component */
+
 class Details extends Component {
   constructor(props) {
     super(props);
