@@ -482,6 +482,8 @@ if (this.props.dataObject.lightPollution === 'P1' || this.props.dataObject.light
 lightPollution = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
 } else if (this.props.dataObject.lightPollution === 'P7' || this.props.dataObject.lightPollution === 'P8' || this.props.dataObject.lightPollution === 'P9') {
 lightPollution = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else (this.props.dataObject.lightPollution == null){
+
 }
 
 let seeing;
