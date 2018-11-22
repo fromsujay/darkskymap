@@ -447,14 +447,19 @@ skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
           <CardText className="textDetails">Date d'Observation</CardText>
-          <CardText className="textDetails">Echelle de Bortle: {bortleScale}</CardText>
-          <CardText className="textDetails">Transparence: {transparency}</CardText>
-          <CardText className="textDetails">Pollution Lumineuse: {lightPollution}</CardText>
-          <CardText className="textDetails">Seeing(Turbulence): {seeing}</CardText>
-          <CardText className="textDetails">Sky Quality Meter: {skyQualityMeter}</CardText>
-          <CardText className="textDetails">Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
-          <CardText className="textDetails">Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
-          <CardText className="textDetails">Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Echelle de Bortle </CardText>
+          <CardText className="smileyIcon">{bortleScale}</CardText>
+          <CardText className="textDetails">Transparence </CardText>
+          <CardText className="smileyIcon">{transparency}</CardText>
+          <CardText className="textDetails">Pollution Lumineuse </CardText>
+          <CardText className="smileyIcon">{lightPollution}</CardText>
+          <CardText className="textDetails">Seeing(Turbulence) </CardText>
+          <CardText className="smileyIcon">{seeing}</CardText>
+          <CardText className="textDetails">Sky Quality Meter </CardText>
+          <CardText className="smileyIcon">{skyQualityMeter}</CardText>
+          <CardText className="textDetails">Deserte Facile en voiture {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
+          <CardText className="textDetails">Possibilité de stationnement {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Disponibilité de courant {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">

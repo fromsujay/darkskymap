@@ -93,7 +93,7 @@ class NavigationBarDisplay extends Component {
                 <Link to="/signin" className="signInLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-in</Link>
               </NavItem>
               <NavItem>
-                <Link to="/signup" className="signuUpLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-up</Link>
+                <Link to="/signup" className="signuUpLink" style={{color:'white', fontFamily: 'Actor', marginRight: 15}}>Sign-up</Link>
               </NavItem>
             </Nav>
           </Collapse>
