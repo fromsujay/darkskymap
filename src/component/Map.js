@@ -20,7 +20,7 @@ import {
   ModalBody,
   ModalFooter
   } from 'reactstrap';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import '../stylesheet/favoris.css';
@@ -50,6 +50,42 @@ import {connect} from 'react-redux';
 /* toggleDetails function displays details and makes description disappear when user clicks on plus sign */
 /* returnToDescription function displays description and makes details disappear when user clicks on retour */
 /* closeWindow function closes description and details windows respectively when user clicks on x sign at top right corner */
+
+
+class Layout extends Component {
+
+  componentDidUpdate() {
+    if(this.props.map && this.props.activeOverlay ) {
+      var getTileUrl = function(tile, zoom){
+            return '//gibs.earthdata.nasa.gov/wmts/epsg3857/best/' + 'VIIRS_Black_Marble/default/default/' + 'GoogleMapsCompatible_Level8/' + zoom + '/' + tile.y + '/' + tile.x + '.png';
+      }
+
+      var tileSize = new this.props.google.maps.Size(256,256);
+      var layerOptions = {
+        alt: 'VIIRS_Black_Marble',
+        getTileUrl: getTileUrl,
+        maxZoom: 8,
+        minZoom: 1,
+        name: 'VIIRS_Black_Marble',
+        tileSize,
+        opacity: 0.5
+      }
+
+      var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
+      console.log(this.props);
+      this.props.map.overlayMapTypes.insertAt(0,imageMapType);
+    } else if(this.props.map && this.props.activeOverlay===false){
+      this.props.map.overlayMapTypes.removeAt(0);
+    }
+  }
+
+  render() {
+    return <div></div>
+
+  }
+
+  }
+
 export class MapContainer extends Component {
 
   constructor() {
@@ -87,7 +123,6 @@ export class MapContainer extends Component {
     this.setState({
       showDescription: true,
       data: {...data}
-
     });
    }
 
@@ -152,12 +187,12 @@ export class MapContainer extends Component {
   componentDidMount() {
     const ctx= this;
     fetch('http://localhost:3000/map').then(function(response) {
-      console.log(response);
+    //console.log(response);
     return response.json();
     }).then(function(data) {
-      console.log('data',data);
+    console.log(data.locations);
     ctx.setState({
-      locations:data.locations
+      locations: data.locations
     })
     });
     }
@@ -186,12 +221,13 @@ export class MapContainer extends Component {
       modal: !this.state.modal
         });
 
-  }
-}
+    }
+    }
 
   render() {
 
     const ctx= this;
+    console.log(ctx.state.locations);
     var markerList = ctx.state.locations.map(
       function(data){
         return(
@@ -204,7 +240,9 @@ export class MapContainer extends Component {
       }
     )
 
-console.log('This props userId: ', this.props.userId);
+
+
+    console.log('This props userId: ', this.props.userId);
 
     return (
 
@@ -243,12 +281,15 @@ console.log('This props userId: ', this.props.userId);
           lng: this.state.lng
         }}
       >
-        {markerList}
-        <Marker
-        title={'You are here'}
-        icon={circle}
-        position={{lat: this.state.lat, lng: this.state.lng}}
-        />
+      {markerList}
+      <Layout activeOverlay={this.props.display}/>
+
+      <Marker
+      title={'You are here'}
+      icon={circle}
+      position={{lat: this.state.lat, lng: this.state.lng}}
+      />
+
       </Map>
 
       <NavigationBarDisplay displayFavoriteParent={this.displayFavorite} />
@@ -443,13 +484,13 @@ skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText className="textDetails">Date d'Observation</CardText>
+          <CardText className="textDetails">Date d'enregistrement: {this.props.dataObject.observationDate}</CardText>
           <CardText className="textDetails">Echelle de Bortle: {bortleScale}</CardText>
           <CardText className="textDetails">Transparence: {transparency}</CardText>
           <CardText className="textDetails">Pollution Lumineuse: {lightPollution}</CardText>
           <CardText className="textDetails">Seeing(Turbulence): {seeing}</CardText>
           <CardText className="textDetails">Sky Quality Meter: {skyQualityMeter}</CardText>
-          <CardText className="textDetails">Deserte Facile en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
+          <CardText className="textDetails">Facilité d'accès en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
           <CardText className="textDetails">Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
           <CardText className="textDetails">Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
@@ -813,7 +854,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged, userId: state.userId }
+  return { logged: state.logged, userId: state.userId, display: state.display }
 }
 
 var Wrapper =  GoogleApiWrapper({
