@@ -17,7 +17,6 @@ class LandingPage extends Component {
           <Row>
             <Col xs={{size:3, offset:2}} sm={{size:3, offset:3}} md={{size: 1, offset: 9}}>
               <Col xs="1" md="5">
-        
                 <Link to="/signin"><Button className="btn-Home-Sign1" color="secondary">Sign In</Button></Link>
               </Col>
             </Col>
@@ -28,7 +27,8 @@ class LandingPage extends Component {
             </Col>
           </Row>
           <div className="homeContent">
-            <h1 id="homeTitle">Dark Sky Map</h1>
+
+            <h1 id="homeTitle"> <img className="logo" src={require('../images/logo.svg')}  />Dark Sky Map</h1>
             <h2 id="homeText">Découvrez et partagez des lieux pour observer le ciel</h2>
             <Link to="/map"><Button id="btn-Home-Discover" color="secondary">Découvrez</Button></Link>
           </div>
@@ -38,6 +38,6 @@ class LandingPage extends Component {
   }
 }
 
-                // <img className="logo" src={require('../images/logo.svg')}  />
+
 
 export default LandingPage;

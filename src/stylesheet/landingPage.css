@@ -2,11 +2,23 @@
 @import url('https://fonts.googleapis.com/css?family=Actor');
 
 .logo {
-height: 130px;
+height: 165px;
 opacity: 1;
-width: 15vh;
-float: right;
-margin-right: 90vh;
+float: left;
+margin-right: 8px;
+}
+
+.logoNavBar {
+display: block;
+height: 65px;
+opacity: 1;
+float: left;
+margin-right: 8px;
+font-size: 0;
+}
+
+.navbar {
+  padding: 0;
 }
 
 
@@ -69,6 +81,7 @@ h2 {
   margin: 5vh;
   text-align: center;
   font-family: 'Actor';
+  margin-left: 1vh;
 }
 
 #homeText{
@@ -76,6 +89,7 @@ h2 {
   margin: 2vh;
   text-align: center;
   font-family: 'Actor';
+  margin-right: 1px;
 }
 
 #btn-Home-Discover{
@@ -87,6 +101,7 @@ h2 {
   border-radius: 10px;
   margin: 5vh;
   font-family: 'Actor';
+  margin-left: 11vh;
 }
 
 #btn-Home-Discover:hover{

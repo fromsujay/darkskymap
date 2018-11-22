@@ -20,7 +20,9 @@ import {
   } from 'reactstrap';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import { Link } from "react-router-dom";
+  import AddLocation from './addLocation.js'
   import {connect} from 'react-redux';
+  import '../stylesheet/landingPage.css';
 
 
 class NavigationBarDisplay extends Component {
@@ -54,21 +56,21 @@ class NavigationBarDisplay extends Component {
     {  this.props.logged ?
       <div>
         <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">
-          <Link to="/"><NavbarBrand style={{color:'white'}}>Dark Sky Map</NavbarBrand></Link>
+          <Link to="/"><NavbarBrand style={{color:'white', fontFamily: 'Actor', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><img className="logoNavBar" src={require('../images/logo.svg')}  />Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+                <Switch style={{marginRight:10, fontFamily: 'Actor'}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
               </NavItem>
               <NavItem>
-                <Link to="/" style={{color:'white'}}>Home</Link>
+                <Link to="/" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
               </NavItem>
               <NavItem>
-                <Link to="/addlocation" className="addlocation" style={{color:'white'}}>Ajouter un lieu</Link>
+                <AddLocation/>
               </NavItem>
               <NavItem>
-                <Link to="/map" className="favorisLink" style={{color:'white'}} onClick={()=>this.displayFavorite()}>Favoris</Link>
+                <Link to="/map" className="favorisLink" style={{color:'white', fontFamily: 'Actor'}} onClick={()=>this.displayFavorite()}>Favoris</Link>
               </NavItem>
             </Nav>
           </Collapse>
@@ -77,7 +79,7 @@ class NavigationBarDisplay extends Component {
       :
       <div>
         <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">
-          <Link to="/"><NavbarBrand style={{color:'white', fontFamily: 'Actor'}}>Dark Sky Map</NavbarBrand></Link>
+          <Link to="/"><NavbarBrand style={{color:'white', fontFamily: 'Actor', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><img className="logoNavBar" src={require('../images/logo.svg')}  />Dark Sky Map</NavbarBrand></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -85,13 +87,13 @@ class NavigationBarDisplay extends Component {
                 <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
               </NavItem>
               <NavItem>
-                <Link to="/" className="homeLink" style={{color:'white'}}>Home</Link>
+                <Link to="/" className="homeLink" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
               </NavItem>
               <NavItem>
                 <Link to="/signin" className="signInLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-in</Link>
               </NavItem>
               <NavItem>
-                <Link to="/signup" className="signuUpLink" style={{color:'white', fontFamily: 'Actor'}}>Sign-up</Link>
+                <Link to="/signup" className="signuUpLink" style={{color:'white', fontFamily: 'Actor', marginRight: 15}}>Sign-up</Link>
               </NavItem>
             </Nav>
           </Collapse>

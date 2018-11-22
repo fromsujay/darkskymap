@@ -4,6 +4,7 @@
   color: #FFFFFF;
   font-weight: bold;
   font-family: 'Istok Web';
+  margin-top: 10px;
 }
 
 .textdesc {
@@ -30,7 +31,7 @@ justify-content: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+
 }
 
 .weatherInfo {
@@ -100,7 +101,13 @@ justify-content: center;
   margin-right: 35px;
 }
 
-.othersIcon {
+.planetIcon {
+  color: #FFFFFF;
+  font-size: 3em;
+  margin-left: 20px;
+}
+
+.moonIcon {
   color: #FFFFFF;
   font-size: 2em;
   margin-left: 20px;
@@ -112,4 +119,17 @@ justify-content: center;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 15px;
+}
+
+.smileyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 25px;
+
+}
+
+.descriptionCard{
+  max-height: 400px;
+  overflow: scroll;
 }
