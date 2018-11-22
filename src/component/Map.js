@@ -381,7 +381,7 @@ console.log('this props weatherDatas', this.props.weatherDatas.weather );
             <div className="weatherTextStyle">
              <p className="weatherdesc">Météo actuelle</p>
              <p className="weatherdesc">{this.state.weatherDatas ?this.state.weatherDatas.weather[0].description :null}</p>
-             <p className="weatherdesc">{this.state.weatherDatas ?this.state.weatherDatas.main.temp :null} C<IoIosThermometer className="thermoIcon"/></p>
+             <p className="weatherdesc">{this.state.weatherDatas ?this.state.weatherDatas.main.temp :null} C</p>
              </div>
           </div>
           <CardText className="textdesc">{this.props.data.observationCategory}<IoMdPlanet className="planetIcon"/><FontAwesomeIcon icon={faMoon} className="moonIcon"/></CardText>
