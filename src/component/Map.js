@@ -66,6 +66,7 @@ export class MapContainer extends Component {
       showFavorite: false,
       connection: true,
       modal: false,
+      weatherDatas: {}
     };
 
     this.toggle = this.toggle.bind(this);
@@ -84,11 +85,28 @@ export class MapContainer extends Component {
    }
 
    toggleDescription(data) {
+     console.log('data @@@@@@@@@@', data);
+
+     var ctx = this;
+     fetch('http://localhost:3000/getLocationWeatherInfos', {
+     method: 'POST',
+     headers: {'Content-Type':'application/x-www-form-urlencoded'},
+     body: 'latitude='+data.latitude+'&longitude='+data.longitude
+     })
+ .then(function(response) {
+     return response.json();
+ })
+ .then(function(weatherData) {
+     console.log('weather data: ', weatherData);
+     var weatherDataCopy = {...weatherData}
+     ctx.setState({
+       weatherDatas: weatherDataCopy
+     })
+ });
 
     this.setState({
       showDescription: true,
       data: {...data}
-
     });
    }
 
@@ -206,6 +224,7 @@ export class MapContainer extends Component {
     )
 
 console.log('This props userId: ', this.props.userId);
+console.log('this state weatherDatas', this.state.weatherDatas);
 
     return (
 
@@ -258,7 +277,7 @@ console.log('This props userId: ', this.props.userId);
 
       }
       {this.state.showDescription ?
-            <Description addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
+            <Description weatherDatas={this.state.weatherDatas} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
@@ -266,7 +285,7 @@ console.log('This props userId: ', this.props.userId);
             : null
       }
       {this.state.showFavorite?
-            <Favoris userId={this.props.userId} closeFunction={this.closeWindow} />
+            <Favoris weatherDatas={this.state.weatherDatas} userId={this.props.userId} closeFunction={this.closeWindow} />
             : null
       }
     </div>
@@ -278,16 +297,19 @@ console.log('This props userId: ', this.props.userId);
 /* toggleDetails function displays details and makes description disappear through parent function in map component */
 /* closeComponent function closes description through closeWindow function in parent map component */
 class Description extends Component {
+
   constructor(props) {
     super(props);
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
 
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
+
 
     if(dd<10) {
     dd = '0'+dd
@@ -300,10 +322,23 @@ class Description extends Component {
     var date = dd +'.'+ mm +'.'+ yyyy;
 
     this.state = {
-       date: date
+       date: date,
+       weatherDatas: null
     }
 
   }
+
+  componentDidUpdate(prevProps) {
+    var ctx = this;
+    var weatherDatasCopy = {...ctx.props.weatherDatas}
+    if (this.props.weatherDatas !== prevProps.weatherDatas) {
+      ctx.setState({
+        weatherDatas: weatherDatasCopy
+      })
+    }
+  }
+
+
 
   toggleDetails(dataObject){
     this.props.toggleDetails(dataObject);
@@ -318,6 +353,11 @@ class Description extends Component {
   }
 
   render() {
+    // var weatherDescription = this.state.weatherDatas;
+
+console.log('this props weatherDatas', this.props.weatherDatas.weather );
+// console.log('description state weatherDatas', this.state.weatherDatas );
+
 
     return (
     <div className="rootStyle">
@@ -337,12 +377,11 @@ class Description extends Component {
             <CardText className="paraStyle">{this.props.data.explanationOfBortleScale}</CardText>
           </div>
           <div className="weatherInfo">
-            <FontAwesomeIcon icon={faSun} className="weatherIconStyle"/>
+            <img style={{height: 100, }} src={this.state.weatherDatas ?"http://openweathermap.org/img/w/" + this.state.weatherDatas.weather[0].icon + ".png" :null} className="weatherIconStyle"/>
             <div className="weatherTextStyle">
              <p className="weatherdesc">Météo actuelle</p>
-             <p className="weatherdesc">Ciel dégagé</p>
-             <p className="weatherdesc">23 C</p>
-             <p className="weatherdesc">Brise légère, 2.6 m/s</p>
+             <p className="weatherdesc">{this.state.weatherDatas ?this.state.weatherDatas.weather[0].description :null}</p>
+             <p className="weatherdesc">{this.state.weatherDatas ?this.state.weatherDatas.main.temp :null} C</p>
              </div>
           </div>
           <CardText className="textdesc">{this.props.data.observationCategory}<IoMdPlanet className="planetIcon"/><FontAwesomeIcon icon={faMoon} className="moonIcon"/></CardText>
@@ -502,9 +541,29 @@ class Favoris extends Component {
     return response.json();
     }).then(function(data) {
       var userFavorites = data.favorites
-    ctx.setState({
-      favorites:userFavorites
-    })
+      console.log('data favorites', data.favorites);
+      ctx.setState({
+        favorites:userFavorites
+      })
+      for (var i = 0; i < data.favorites.length; i++) {
+        console.log(data.favorites[i]);
+
+
+    //     fetch('http://localhost:3000/getLocationWeatherInfos', {
+    //     method: 'POST',
+    //     headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    //     body: 'latitude='+data[i].latitude+'&longitude='+data[i].longitude
+    //     })
+    // .then(function(response) {
+    //     return response.json();
+    // })
+    // .then(function(weatherData) {
+    //     console.log('weather data favorite: ', weatherData);
+    //     var weatherDataCopy = {...weatherData}
+    // });
+
+      }
+
     });
     }
 
