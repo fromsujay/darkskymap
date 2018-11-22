@@ -104,7 +104,7 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
             <FormItem label="Localisation">
-              {getFieldDecorator('localisationCategory', {
+              {getFieldDecorator('locationCategory', {
                 initialValue: 'generale',
               })(
                 <Radio.Group>
@@ -118,7 +118,7 @@ const CollectionCreateForm = Form.create()(
 
             <FormItem
               label="Date d'observation">
-              {getFieldDecorator('date-picker', {
+              {getFieldDecorator('observationDate', {
                 rules: [{ required: true, message: 'Veuillez renseigner la date de votre observation' }],
               })(
                 <DatePicker format={dateFormat} />
@@ -126,7 +126,7 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
             <FormItem label="Latitude">
-              {getFieldDecorator('Latitude', {
+              {getFieldDecorator('latitude', {
                 rules: [{ required: true, message: 'Veuillez renseigner la latitude du lieu' }],
               })(
                 <Input />
@@ -148,14 +148,14 @@ const CollectionCreateForm = Form.create()(
                 ],
               })(
                 <Select placeholder="Veuillez sélectionner votre réponse">
-                  <Option value="East&West">Est à Ouest</Option>
-                  <Option value="East&SouthEast">Est à Sud-Est</Option>
-                  <Option value="East&South">Est à Sud</Option>
-                  <Option value="SouthEast&South">Sud-Est à Sud</Option>
-                  <Option value="South&West">Sud à Ouest</Option>
-                  <Option value="SouthEastSouth&West">Sud-Est à Sud-Ouest</Option>
-                  <Option value="South&SouthWest">Sud à Sud-Ouest</Option>
-                  <Option value="SouthWest&West">Sud-ouest à Ouest</Option>
+                  <Option value="Est à Ouest">Est à Ouest</Option>
+                  <Option value="Est à Sud-Est">Est à Sud-Est</Option>
+                  <Option value="Est à Sud">Est à Sud</Option>
+                  <Option value="Sud-Est à Sud">Sud-Est à Sud</Option>
+                  <Option value="Sud à Ouest">Sud à Ouest</Option>
+                  <Option value="Sud-Est à Sud-Ouest">Sud-Est à Sud-Ouest</Option>
+                  <Option value="Sud à Sud-Ouest">Sud à Sud-Ouest</Option>
+                  <Option value="Sud-ouest à Ouest">Sud-ouest à Ouest</Option>
                 </Select>
               )}
             </FormItem>
@@ -209,33 +209,35 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
             <FormItem label="Transparence du ciel">
-              {getFieldDecorator('transparency')(
               <div className="icon-wrapper">
                 <Icon style={{color:"grey"}}  type="smile-o" />
+                {getFieldDecorator('transparency')(
                 <Slider tipFormatter={formatterTransparency} step={null} marks={transparencyMarks} />
+                )}
                 <Icon style={{color:"grey"}} type="frown-o" />
               </div>
-              )}
             </FormItem>
 
-            <FormItem label="Pollution lumineuse">
-              {getFieldDecorator('lightPollution')(
-              <div className="icon-wrapper">
-                <Icon style={{color:"grey"}}  type="smile-o" />
-                <Slider tipFormatter={formatterPollution} step={null} marks={pollutionMarks} />
-                <Icon style={{color:"grey"}} type="frown-o" />
-              </div>
-              )}
+
+             <FormItem label="Pollution lumineuse">
+                <div className="icon-wrapper">
+                  <Icon style={{color:"grey"}}  type="smile-o" />
+                  {getFieldDecorator('lightPollution')(
+                  <Slider tipFormatter={formatterPollution} step={null} marks={pollutionMarks} />
+                  )}
+                  <Icon style={{color:"grey"}} type="frown-o" />
+                </div>
             </FormItem>
+
 
             <FormItem label="Turbulence">
-              {getFieldDecorator('seeing')(
-              <div className="icon-wrapper">
-                <Icon style={{color:"grey"}}  type="smile-o" />
-                <Slider tipFormatter={formatterSeeing} step={null} marks={seeingMarks} />
-                <Icon style={{color:"grey"}} type="frown-o" />
-              </div>
-              )}
+                <div className="icon-wrapper">
+                  <Icon style={{color:"grey"}}  type="smile-o" />
+                  {getFieldDecorator('seeing')(
+                  <Slider tipFormatter={formatterSeeing} step={null} marks={seeingMarks}/>
+                  )}
+                  <Icon style={{color:"grey"}} type="frown-o" />
+                </div>
             </FormItem>
 
             <FormItem label="Sky Quality Meter">
@@ -251,7 +253,7 @@ const CollectionCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <FormItem label="Parking à disposition">
+            <FormItem label="Possibilité de stationnement">
               {getFieldDecorator('parkingAvailability')(
                 <Radio.Group>
                   <Radio value="true">Oui</Radio>
@@ -283,6 +285,7 @@ const CollectionCreateForm = Form.create()(
 class AddLocation extends React.Component {
   state = {
     visible: false,
+    values: null,
   };
 
   showModal = () => {
@@ -296,11 +299,31 @@ class AddLocation extends React.Component {
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
+
       if (err) {
         return;
       }
-
+      console.log('Mon state values', values);
       console.log('Received values of form: ', values);
+
+
+      if (values){
+      fetch('http://localhost:3000/addlocation', {
+       method: 'POST',
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(values)
+      })
+      .then(function(response) {
+      return response.json();
+      })
+      .then(function(data) {
+      console.log(data);
+      });
+    }
+
       form.resetFields();
       this.setState({ visible: false });
     });
@@ -325,5 +348,4 @@ class AddLocation extends React.Component {
   }
 }
 
-// ReactDOM.render(<CollectionsPage />, mountNode);
 export default AddLocation
