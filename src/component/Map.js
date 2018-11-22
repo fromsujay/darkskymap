@@ -290,7 +290,7 @@ export class MapContainer extends Component {
 
       <Map
         google={this.props.google}
-        zoom={6}
+        zoom={8}
         style={style}
         styles={styles}
         disableDefaultUI={true}
