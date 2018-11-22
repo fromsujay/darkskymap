@@ -490,9 +490,9 @@ skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
           <CardText className="textDetails">Pollution Lumineuse: {lightPollution}</CardText>
           <CardText className="textDetails">Seeing(Turbulence): {seeing}</CardText>
           <CardText className="textDetails">Sky Quality Meter: {skyQualityMeter}</CardText>
-          <CardText className="textDetails">Facilité d'accès en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
-          <CardText className="textDetails">Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
-          <CardText className="textDetails">Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+          <CardText className="textDetails">Facilité d'accès en voiture: {this.props.dataObject.easeOfAccessibilityByCar ? '   oui' : '   non'} </CardText>
+          <CardText className="textDetails">Possibilité de stationnement: {this.props.dataObject.parkingAvailability ? '   oui' : '   non'}</CardText>
+          <CardText className="textDetails">Disponibilité de courant: {this.props.dataObject.powerSupplyAvailability ? '   oui' : '   non'}</CardText>
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
