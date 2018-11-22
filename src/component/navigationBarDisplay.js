@@ -20,6 +20,7 @@ import {
   } from 'reactstrap';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import { Link } from "react-router-dom";
+  import AddLocation from './addLocation.js'
   import {connect} from 'react-redux';
   import '../stylesheet/landingPage.css';
 
@@ -66,7 +67,7 @@ class NavigationBarDisplay extends Component {
                 <Link to="/" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
               </NavItem>
               <NavItem>
-                <Link to="/addlocation" className="addlocation" style={{color:'white', fontFamily: 'Actor'}}>Ajouter un lieu</Link>
+                <AddLocation/>
               </NavItem>
               <NavItem>
                 <Link to="/map" className="favorisLink" style={{color:'white', fontFamily: 'Actor'}} onClick={()=>this.displayFavorite()}>Favoris</Link>

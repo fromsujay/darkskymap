@@ -39,6 +39,7 @@ import circle from '../images/blue_circle.png';
 import {connect} from 'react-redux';
 
 
+
 /* code in componentWillMount capture users current position & centers map on captured position */
 /* code in componentDidMount collects locations from database to prepare generation of markers */
 /* map function iterating on locations array prepares data for generation of markers */
@@ -225,6 +226,8 @@ console.log('This props userId: ', this.props.userId);
           </Modal>
         </div>
       }
+
+
 
       <Map
         google={this.props.google}
