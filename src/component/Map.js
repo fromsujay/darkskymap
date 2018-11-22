@@ -169,6 +169,7 @@ export class MapContainer extends Component {
   addFavorite(userId, locationName, latitude, longitude) {
     if(this.props.logged === true){
       const ctx= this;
+
       fetch('http://localhost:3000/addfavorite', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -258,7 +259,7 @@ console.log('This props userId: ', this.props.userId);
 
       }
       {this.state.showDescription ?
-            <Description addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
+            <Description userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
@@ -283,6 +284,8 @@ class Description extends Component {
     this.closeComponent = this.closeComponent.bind(this);
     this.toggleDetails = this.toggleDetails.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+    this.state = {
+    }
 
     var today = new Date();
     var dd = today.getDate();
@@ -305,6 +308,29 @@ class Description extends Component {
 
   }
 
+  componentWillMount() {
+
+    const ctx= this;
+    fetch('http://localhost:3000/favorites', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'userId='+this.props.userId
+    })
+
+    .then(function(response) {
+    return response.json();
+    })
+
+    .then(function(data) {
+
+      let userFavorites = data.favorites
+      console.log("userFavorites", userFavorites);
+    ctx.setState({
+      favorites:userFavorites
+    })
+    });
+    }
+
   toggleDetails(dataObject){
     this.props.toggleDetails(dataObject);
   }
@@ -318,6 +344,22 @@ class Description extends Component {
   }
 
   render() {
+    // let colorHeart;
+    // colorHeart = {
+    //   color: "#FF5B53",
+    //   cursor: "Pointer"
+    // }
+    //
+    // let favoriteCopy = user.favorite;
+    // let favoriteExist = false;
+    // for (let i = 0; i < favoriteCopy.length; i++) {
+    //  if(favoriteCopy[i].locationName === this.props.data.locationName){
+    //    favoriteExist = true
+    //  }
+    // }
+    // if (favoriteExist = true) {
+    //
+    // }
 
     return (
     <div className="rootStyle">

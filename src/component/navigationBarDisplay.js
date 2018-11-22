@@ -70,7 +70,7 @@ class NavigationBarDisplay extends Component {
                 <AddLocation/>
               </NavItem>
               <NavItem>
-                <Link to="/map" className="favorisLink" style={{color:'white', fontFamily: 'Actor'}} onClick={()=>this.displayFavorite()}>Favoris</Link>
+                <Link to="/map" className="favorisLink" style={{color:'white', fontFamily: 'Actor', marginRight: 15}} onClick={()=>this.displayFavorite()}>Favoris</Link>
               </NavItem>
             </Nav>
           </Collapse>
