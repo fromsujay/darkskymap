@@ -31,7 +31,7 @@ justify-content: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+
 }
 
 .weatherInfo {
@@ -121,7 +121,15 @@ justify-content: center;
   margin-bottom: 15px;
 }
 
+.smileyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 25px;
+
+}
+
 .descriptionCard{
-  max-height: 360px;
+  max-height: 400px;
   overflow: scroll;
 }

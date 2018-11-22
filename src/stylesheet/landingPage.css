@@ -9,10 +9,16 @@ margin-right: 8px;
 }
 
 .logoNavBar {
+display: block;
 height: 65px;
 opacity: 1;
 float: left;
 margin-right: 8px;
+font-size: 0;
+}
+
+.navbar {
+  padding: 0;
 }
 
 
