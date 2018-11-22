@@ -67,11 +67,9 @@ class NavigationBarDisplay extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-<<<<<<< HEAD
+
                 <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" onChange={(event)=>this.handleChange(event)} defaultChecked />
-=======
-                <Switch style={{marginRight:10, fontFamily: 'Actor'}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
->>>>>>> 07a0b1bacd026e39dc55b363d9961adbee7a8431
+
               </NavItem>
               <NavItem>
                 <Link to="/" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
