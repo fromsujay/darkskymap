@@ -4,6 +4,6 @@ export default function(userId = '', action) {
       return  userId
 
   } else {
-      return userId 
+      return userId
   }
 }
