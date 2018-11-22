@@ -19,6 +19,7 @@ justify-content: center;
   background-color: #028090;
   text-align: center;
   color: #FFFFFF;
+  height: 85vh;
 }
 
 .heading {
@@ -130,6 +131,5 @@ justify-content: center;
 }
 
 .descriptionCard{
-  max-height: 400px;
   overflow: scroll;
 }

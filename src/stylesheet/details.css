@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Actor|Metrophobic');
+@import url('https://fonts.googleapis.com/css?family=Actor|Istok+Web|Metrophobic');
 
 .detailsRootStyle {
   display: flex;
@@ -12,6 +12,7 @@
   background-color: #028090;
   text-align: center;
   color: #FFFFFF;
+  height: 85vh;
 }
 
 .headingDetailsStyle {
@@ -22,7 +23,6 @@
 
 .detailsBodyStyle {
   text-align: left;
-  max-height: 390px;
   overflow: scroll;
 }
 
@@ -69,7 +69,7 @@
 }
 
 .locationNameDetails {
-  font-family: 'Actor';
+  font-family: 'Istok Web';
   font-weight: bold;
   color: #FFFFFF;
   margin-top: 10px;

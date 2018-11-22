@@ -179,6 +179,9 @@ export class MapContainer extends Component {
       locations:data.locations
     })
     });
+
+
+
     }
 
 //-------Import de NavigationBar avant Reducer dans Map------//
@@ -187,6 +190,7 @@ export class MapContainer extends Component {
   addFavorite(userId, locationName, latitude, longitude) {
     if(this.props.logged === true){
       const ctx= this;
+
       fetch('http://localhost:3000/addfavorite', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -277,7 +281,7 @@ console.log('this state weatherDatas', this.state.weatherDatas);
 
       }
       {this.state.showDescription ?
-            <Description weatherDatas={this.state.weatherDatas} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
+            <Description weatherDatas={this.state.weatherDatas} userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
@@ -305,6 +309,7 @@ class Description extends Component {
     this.addFavorite = this.addFavorite.bind(this);
 
 
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
@@ -323,20 +328,53 @@ class Description extends Component {
 
     this.state = {
        date: date,
-       weatherDatas: null
+       weatherDatas: null,
+       userId: null,
+       favorites: null
     }
 
   }
 
+  componentWillMount() {
+
+    const ctx= this;
+    if (ctx.props.userId) {
+    fetch('http://localhost:3000/favorites', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'userId='+ctx.props.userId
+    })
+
+    .then(function(response) {
+    return response.json();
+    })
+
+    .then(function(data) {
+
+      var userFavorites = data.favorites
+      console.log("userFavorites", userFavorites);
+    ctx.setState({
+      favorites:userFavorites
+     })
+    })}
+
+    }
+
   componentDidUpdate(prevProps) {
     var ctx = this;
+    var userIdCopy = {...ctx.props.userId}
     var weatherDatasCopy = {...ctx.props.weatherDatas}
     if (this.props.weatherDatas !== prevProps.weatherDatas) {
       ctx.setState({
         weatherDatas: weatherDatasCopy
       })
+      if (this.props.userId !== prevProps.userId) {
+        ctx.setState({
+          userId: userIdCopy
+        })
     }
   }
+}
 
 
 
