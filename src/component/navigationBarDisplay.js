@@ -25,6 +25,7 @@ import {
   import '../stylesheet/landingPage.css';
 
 
+
 class NavigationBarDisplay extends Component {
 
   constructor() {
@@ -58,7 +59,7 @@ class NavigationBarDisplay extends Component {
     console.log('Favoris -------',this.props.logged);
     return (
 
-    <div>
+    <div style={{position : "absolute", width:"100%"}}>
     {  this.props.logged ?
       <div>
         <Navbar style={{opacity:0.8, backgroundColor: "#028090"}} light expand="md">

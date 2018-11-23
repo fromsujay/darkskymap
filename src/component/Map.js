@@ -36,9 +36,22 @@ import { IoIosCalendar, IoMdPlanet, IoMdHelpCircleOutline } from "react-icons/io
 import { MdLocationCity} from "react-icons/md";
 import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
-import circle from '../images/blue_circle.png';
 import Moment from 'react-moment';
 import {connect} from 'react-redux';
+import userMarker from '../images/Dark_sky_map_marker_user.png';
+import generalMarker from '../images/Dark_sky_map_marker_general.png';
+import guestHouseMarker from '../images/Dark_sky_map_marker_guest_house.png';
+import observatoryMarker from '../images/Dark_sky_map_marker_observatory.png';
+import guestHouseAndObservatoryMarker from '../images/Dark_sky_map_marker_guest_house_observatory.png';
+import fullMoon from '../images/moon_phases/full.jpg';
+import firstQuarter from '../images/moon_phases/first_quarter.jpg';
+import newMoon from '../images/moon_phases/new.jpg';
+import thirdQuarter from '../images/moon_phases/third_quarter.jpg';
+import waningCrescent from '../images/moon_phases/waning_crescent.jpg';
+import waningGibbous from '../images/moon_phases/waning_gibbous.jpg';
+import waxingCrescent from '../images/moon_phases/waxing_crescent.jpg';
+import waxingGibbous from '../images/moon_phases/waxing_gibbous.jpg';
+
 
 
 
@@ -108,6 +121,8 @@ export class MapContainer extends Component {
       connection: true,
       modal: false,
       weatherDatas: {},
+      refreshNewMarker: true,
+      moonPhase:'',
     };
 
     this.toggle = this.toggle.bind(this);
@@ -209,6 +224,27 @@ export class MapContainer extends Component {
        // this funtion is empty but the whole geolocation process won't work without it
      });
 
+
+     // Moon phase api request
+     var unixTimeStamp = Math.round((new Date()).getTime() / 1000);
+     console.log('unixTimeStamp: ', unixTimeStamp);
+     const ctx= this;
+     fetch('http://localhost:3000/getMoonDatas', {
+     method: 'POST',
+     headers: {'Content-Type':'application/x-www-form-urlencoded'},
+     body: 'unixTimeStamp='+unixTimeStamp
+     })
+ .then(function(response) {
+     return response.json();
+ })
+ .then(function(moonDatas) {
+     console.log('moonDatas: ', moonDatas[0]);
+     var moonDatasCopy = {...moonDatas[0]}
+     ctx.setState({
+       moonPhase: moonDatasCopy
+     })
+ });
+
   };
 
   componentDidMount() {
@@ -259,13 +295,26 @@ export class MapContainer extends Component {
 
   render() {
     const ctx= this;
-    console.log(ctx.state.locations);
+    console.log('moonPhase', ctx.state.moonPhase);
     var markerList = ctx.state.locations.map(
       function(data){
+        var markerType;
+
+          if (data.locationCategory === 'generale') {
+            markerType = generalMarker;
+          } else if (data.locationCategory === 'gite') {
+            markerType = guestHouseMarker
+          } else if (data.locationCategory === 'observatoire') {
+            markerType = observatoryMarker
+          } else if (data.locationCategory === 'observatoire&gite') {
+            markerType = guestHouseAndObservatoryMarker
+          }
         return(
           <Marker
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
+    icon={markerType}
+    anchorPoint={{x:-5 ,y:-5}}
     position={{lat: data.latitude, lng: data.longitude}}
     onClick={()=>ctx.toggleDescription(data)}
     /> )
@@ -273,9 +322,31 @@ export class MapContainer extends Component {
     )
 
 
+
+    var moonPic = {};
+    if (this.state.moonPhase.Phase === 'Full Moon') {
+      moonPic = fullMoon;
+    } else if (this.state.moonPhase.Phase === 'Waning Gibbous') {
+      moonPic = waningGibbous;
+    } else if (this.state.moonPhase.Phase === 'Waning Crescent') {
+      moonPic = waningCrescent;
+    } else if (this.state.moonPhase.Phase === 'Waxing Gibbous') {
+      moonPic = waxingGibbous;
+    } else if (this.state.moonPhase.Phase === 'Waxing Crescent') {
+      moonPic = waxingCrescent;
+    } else if (this.state.moonPhase.Phase === 'New Moon') {
+      moonPic = newMoon;
+    } else if (this.state.moonPhase.Phase === 'Dark Moon') {
+      moonPic = newMoon;
+    } else if (this.state.moonPhase.Phase === '3rd Quarter') {
+      moonPic = thirdQuarter;
+    } else if (this.state.moonPhase.Phase === '1st Quarter') {
+      moonPic = firstQuarter;
+    }
+
     return (
 
-      <div id="wrapper">
+      <div id="wrapper" style={{height:"100vh"}}>
 
         { this.state.connection
         ? null
@@ -317,15 +388,15 @@ export class MapContainer extends Component {
 
       <Marker
       title={'You are here'}
-      icon={circle}
+      icon={userMarker}
       position={{lat: this.state.lat, lng: this.state.lng}}
       />
 
-      </Map>
+  </Map>
 
       <NavigationBarDisplay refreshMarker={this.getMarker} displayFavoriteParent={this.displayFavorite} />
 
-      }
+
       {this.state.showDescription ?
             <Description weatherDatas={this.state.weatherDatas} userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
@@ -338,6 +409,7 @@ export class MapContainer extends Component {
             <Favoris weatherDatas={this.state.weatherDatas} userId={this.props.userId} closeFunction={this.closeWindow} />
             : null
       }
+      <Moon moonPic={moonPic} />
     </div>
     );
   }
@@ -892,6 +964,15 @@ deleteFavorite(locationName) {
 
       </div>
     );
+  }
+}
+
+class Moon extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return <img style={{position: 'absolute', bottom:'25px', height:"100px", zIndex:100, borderRadius:'50px', opacity:0.8}} src={this.props.moonPic} />
   }
 }
 
