@@ -67,7 +67,6 @@ export class MapContainer extends Component {
       connection: true,
       modal: false,
       weatherDatas: {},
-      refreshNewMarker: true,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -77,6 +76,8 @@ export class MapContainer extends Component {
     this.returnToDescription = this.returnToDescription.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
     this.displayFavorite = this.displayFavorite.bind(this);
+    this.getMarker= this.getMarker.bind(this);
+
   }
 
   toggle() {
@@ -170,19 +171,21 @@ export class MapContainer extends Component {
   };
 
   componentDidMount() {
-    const ctx= this;
-    fetch('http://localhost:3000/map').then(function(response) {
-      console.log(response);
-    return response.json();
-    }).then(function(data) {
-      console.log('data',data);
-    ctx.setState({
-      locations:data.locations
-    })
-    });
+    this.getMarker()
 
+    }
 
-
+    getMarker(){
+      const ctx= this;
+      fetch('http://localhost:3000/map').then(function(response) {
+        console.log(response);
+      return response.json();
+      }).then(function(data) {
+        console.log('data',data);
+      ctx.setState({
+        locations:data.locations
+      })
+      });
     }
 
 //-------Import de NavigationBar avant Reducer dans Map------//
@@ -214,7 +217,6 @@ export class MapContainer extends Component {
 }
 
   render() {
-
     const ctx= this;
     var markerList = ctx.state.locations.map(
       function(data){
@@ -227,6 +229,7 @@ export class MapContainer extends Component {
     /> )
       }
     )
+
 
 console.log('This props userId: ', this.props.userId);
 console.log('this state weatherDatas', this.state.weatherDatas);
@@ -278,7 +281,7 @@ console.log('this state weatherDatas', this.state.weatherDatas);
         />
       </Map>
 
-      <NavigationBarDisplay displayFavoriteParent={this.displayFavorite} />
+      <NavigationBarDisplay refreshMarker={this.getMarker} displayFavoriteParent={this.displayFavorite} />
 
       }
       {this.state.showDescription ?
@@ -949,7 +952,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged, userId: state.userId }
+  return { logged: state.logged, userId: state.userId, addMarker: state.addMarker }
 }
 
 var Wrapper =  GoogleApiWrapper({
