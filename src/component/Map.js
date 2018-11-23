@@ -244,22 +244,22 @@ export class MapContainer extends Component {
        moonPhase: moonDatasCopy
      })
  });
+ const ctx= this;
+ fetch('http://localhost:3000/map')
 
+ .then(function(response) {
+ return response.json();
+ })
+
+ .then(function(data) {
+ ctx.setState({
+   locations:data.locations
+ })
+ });
   };
-  const ctx= this;
-  fetch('http://localhost:3000/map')
 
-  .then(function(response) {
-  return response.json();
-  })
 
-  .then(function(data) {
-  ctx.setState({
-    locations:data.locations
-  })
-  });
 
-  }
   componentDidMount() {
 
     this.getMarker()
@@ -978,10 +978,11 @@ class Favoris extends Component {
         });
       })
 
-
+}
 
     });
-    }
+
+  }
 
     componentDidUpdate(prevProps){
       if (this.props.userId !== prevProps.userId) {
