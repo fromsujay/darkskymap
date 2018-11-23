@@ -68,8 +68,10 @@ import waxingGibbous from '../images/moon_phases/waxing_gibbous.jpg';
 
 class Layout extends Component {
 
-  componentDidUpdate() {
-    if(this.props.map && this.props.activeOverlay ) {
+  componentDidUpdate(prevProps) {
+    console.log("this.props.activeOverlay", this.props.activeOverlay);
+    if(this.props.map && this.props.activeOverlay && this.props.activeOverlay != prevProps.activeOverlay) {
+      console.log('add overlay');
       var getTileUrl = function(tile, zoom){
             return '//gibs.earthdata.nasa.gov/wmts/epsg3857/best/' + 'VIIRS_Black_Marble/default/default/' + 'GoogleMapsCompatible_Level8/' + zoom + '/' + tile.y + '/' + tile.x + '.png';
       }
@@ -88,7 +90,8 @@ class Layout extends Component {
       var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
       console.log(this.props);
       this.props.map.overlayMapTypes.insertAt(0,imageMapType);
-    } else if(this.props.map && this.props.activeOverlay===false){
+    } else if(this.props.map && this.props.activeOverlay===false && this.props.activeOverlay != prevProps.activeOverlay){
+      console.log('else clause');
       this.props.map.overlayMapTypes.removeAt(0);
     }
   }
@@ -127,6 +130,8 @@ export class MapContainer extends Component {
     this.returnToDescription = this.returnToDescription.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
     this.displayFavorite = this.displayFavorite.bind(this);
+    this.getMarker= this.getMarker.bind(this);
+
   }
 
   toggle() {
@@ -241,18 +246,21 @@ export class MapContainer extends Component {
   };
 
   componentDidMount() {
+    this.getMarker()
 
-    const ctx= this;
-    fetch('http://localhost:3000/map').then(function(response) {
-    //console.log(response);
-    return response.json();
-    }).then(function(data) {
-    console.log(data.locations);
-    ctx.setState({
-      locations: data.locations
-    })
-    });
+    }
 
+    getMarker(){
+      const ctx= this;
+      fetch('http://localhost:3000/map').then(function(response) {
+        console.log(response);
+      return response.json();
+      }).then(function(data) {
+        console.log('data',data);
+      ctx.setState({
+        locations:data.locations
+      })
+      });
     }
 
 //-------Import de NavigationBar avant Reducer dans Map------//
@@ -284,7 +292,6 @@ export class MapContainer extends Component {
     }
 
   render() {
-
     const ctx= this;
     console.log('moonPhase', ctx.state.moonPhase);
     var markerList = ctx.state.locations.map(
@@ -375,7 +382,7 @@ export class MapContainer extends Component {
         }}
       >
       {markerList}
-      <Layout moonPic={fullMoon} activeOverlay={this.props.display}/>
+      <Layout activeOverlay={this.props.value}/>
 
       <Marker
       title={'You are here'}
@@ -383,10 +390,9 @@ export class MapContainer extends Component {
       position={{lat: this.state.lat, lng: this.state.lng}}
       />
 
+  </Map>
 
-
-      </Map>
-      <NavigationBarDisplay displayFavoriteParent={this.displayFavorite} />
+      <NavigationBarDisplay refreshMarker={this.getMarker} displayFavoriteParent={this.displayFavorite} />
 
 
       {this.state.showDescription ?
@@ -847,7 +853,7 @@ class Moon extends Component {
     super(props);
   }
   render() {
-    return <img style={{position: 'absolute', bottom:'25px', height:"100px", zIndex:100, borderRadius:'50px'}} src={this.props.moonPic} />
+    return <img style={{position: 'absolute', bottom:'25px', height:"100px", zIndex:100, borderRadius:'50px', opacity:0.8}} src={this.props.moonPic} />
   }
 }
 
@@ -1086,7 +1092,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged, userId: state.userId, display: state.display }
+  return { logged: state.logged, userId: state.userId, value: state.value }
 }
 
 var Wrapper =  GoogleApiWrapper({

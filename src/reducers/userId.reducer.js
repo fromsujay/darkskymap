@@ -1,7 +1,7 @@
 export default function(userId = '', action) {
   if(action.type === 'display') {
-    userId = action.userId;
-      return  userId
+
+      return  action.userId
 
   } else {
       return userId

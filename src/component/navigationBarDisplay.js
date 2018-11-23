@@ -50,7 +50,7 @@ class NavigationBarDisplay extends Component {
     }
 
   handleChange(event) {
-    console.log('ON SWITCH');
+    console.log('EVENT',event);
     this.props.switchOverlay(event)
   }
 
@@ -76,7 +76,7 @@ class NavigationBarDisplay extends Component {
                 <Link to="/" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
               </NavItem>
               <NavItem>
-                <AddLocation/>
+                <AddLocation refreshMarker={this.props.refreshMarker}/>
               </NavItem>
               <NavItem>
                 <Link to="/map" className="favorisLink" style={{color:'white', marginRight:"10px", fontFamily: 'Actor'}} onClick={()=>this.displayFavorite()}>Favoris</Link>
@@ -116,6 +116,7 @@ class NavigationBarDisplay extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log('state.logged',state.logged);
   return { logged: state.logged }
 }
 

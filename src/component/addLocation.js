@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Form, Input, Radio, DatePicker, Select, Slider, Icon, Tooltip, Affix } from 'antd';
 import 'antd/dist/antd.css';
 import "../stylesheet/addLocation.css";
+import {connect} from 'react-redux';
 
 const FormItem = Form.Item;
 
@@ -253,7 +254,7 @@ const CollectionCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <FormItem label="Possibilité de stationnement">
+            <FormItem label="Possibilité de stationne">
               {getFieldDecorator('parkingAvailability')(
                 <Radio.Group>
                   <Radio value="true">Oui</Radio>
@@ -308,6 +309,7 @@ class AddLocation extends React.Component {
 
 
       if (values){
+      var ctx = this;
       fetch('http://localhost:3000/addlocation', {
        method: 'POST',
        headers: {
@@ -320,6 +322,7 @@ class AddLocation extends React.Component {
       return response.json();
       })
       .then(function(data) {
+      ctx.props.refreshMarker()
       console.log(data);
       });
     }
@@ -347,5 +350,6 @@ class AddLocation extends React.Component {
     );
   }
 }
+
 
 export default AddLocation
