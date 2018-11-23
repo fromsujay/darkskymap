@@ -3,6 +3,7 @@ import { Button, Modal, Form, Input, Radio, DatePicker, Select, Slider, Icon, To
 import 'antd/dist/antd.css';
 import "../stylesheet/addLocation.css";
 
+
 const FormItem = Form.Item;
 
 const CollectionCreateForm = Form.create()(
@@ -208,7 +209,13 @@ const CollectionCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <FormItem label="Transparence du ciel">
+            <FormItem label={(
+              <span>Transparence du ciel ?&nbsp;
+                <Tooltip title="La perception des étoiles les plus faibles : Il s’agit d’estimer la magnitude la plus faible détectée">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
               <div className="icon-wrapper">
                 <Icon style={{color:"grey"}}  type="smile-o" />
                 {getFieldDecorator('transparency')(
@@ -219,7 +226,13 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
 
-             <FormItem label="Pollution lumineuse">
+            <FormItem label={(
+              <span>Pollution lumineuse ?&nbsp;
+                <Tooltip title="La présence nocturne anormale ou gênante de lumière et les conséquences de l'éclairage artificiel nocturne sur la vision céleste">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
                 <div className="icon-wrapper">
                   <Icon style={{color:"grey"}}  type="smile-o" />
                   {getFieldDecorator('lightPollution')(
@@ -230,7 +243,13 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
 
-            <FormItem label="Turbulence">
+            <FormItem label={(
+              <span>Turbulence ?&nbsp;
+                <Tooltip title="L’étalement de l’image d’une étoile: Il se mesure par la largeur du pic représentant une étoile">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
                 <div className="icon-wrapper">
                   <Icon style={{color:"grey"}}  type="smile-o" />
                   {getFieldDecorator('seeing')(
@@ -240,7 +259,13 @@ const CollectionCreateForm = Form.create()(
                 </div>
             </FormItem>
 
-            <FormItem label="Sky Quality Meter">
+            <FormItem label={(
+              <span>Sky Quality Meter ?&nbsp;
+                <Tooltip title="Mesure la brillance du fond de ciel">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
               {getFieldDecorator('skyQualityMeter')(<Input type="textarea" />)}
             </FormItem>
 
@@ -308,6 +333,7 @@ class AddLocation extends React.Component {
 
 
       if (values){
+      var ctx = this;
       fetch('http://localhost:3000/addlocation', {
        method: 'POST',
        headers: {
@@ -320,6 +346,7 @@ class AddLocation extends React.Component {
       return response.json();
       })
       .then(function(data) {
+      ctx.props.refreshMarker()
       console.log(data);
       });
     }
@@ -347,5 +374,6 @@ class AddLocation extends React.Component {
     );
   }
 }
+
 
 export default AddLocation

@@ -18,9 +18,10 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Tooltip,
   } from 'reactstrap';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import '../stylesheet/favoris.css';
@@ -31,12 +32,26 @@ import { faPlusCircle, faHeart, faCity, faFrown, faSmile, faBan, faCheck, faExcl
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import { FaRegCalendarAlt, FaWind, FaRegFrown, FaRegMeh, FaRegSmile } from "react-icons/fa";
-import { IoIosCalendar, IoMdPlanet } from "react-icons/io";
+import { IoIosCalendar, IoMdPlanet, IoMdHelpCircleOutline } from "react-icons/io";
 import { MdLocationCity} from "react-icons/md";
 import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
-import circle from '../images/blue_circle.png';
+import Moment from 'react-moment';
 import {connect} from 'react-redux';
+import userMarker from '../images/Dark_sky_map_marker_user.png';
+import generalMarker from '../images/Dark_sky_map_marker_general.png';
+import guestHouseMarker from '../images/Dark_sky_map_marker_guest_house.png';
+import observatoryMarker from '../images/Dark_sky_map_marker_observatory.png';
+import guestHouseAndObservatoryMarker from '../images/Dark_sky_map_marker_guest_house_observatory.png';
+import fullMoon from '../images/moon_phases/full.jpg';
+import firstQuarter from '../images/moon_phases/first_quarter.jpg';
+import newMoon from '../images/moon_phases/new.jpg';
+import thirdQuarter from '../images/moon_phases/third_quarter.jpg';
+import waningCrescent from '../images/moon_phases/waning_crescent.jpg';
+import waningGibbous from '../images/moon_phases/waning_gibbous.jpg';
+import waxingCrescent from '../images/moon_phases/waxing_crescent.jpg';
+import waxingGibbous from '../images/moon_phases/waxing_gibbous.jpg';
+
 
 
 
@@ -51,6 +66,45 @@ import {connect} from 'react-redux';
 /* toggleDetails function displays details and makes description disappear when user clicks on plus sign */
 /* returnToDescription function displays description and makes details disappear when user clicks on retour */
 /* closeWindow function closes description and details windows respectively when user clicks on x sign at top right corner */
+
+
+class Layout extends Component {
+
+  componentDidUpdate(prevProps) {
+    console.log("this.props.activeOverlay", this.props.activeOverlay);
+    if(this.props.map && this.props.activeOverlay && this.props.activeOverlay != prevProps.activeOverlay) {
+      console.log('add overlay');
+      var getTileUrl = function(tile, zoom){
+            return '//gibs.earthdata.nasa.gov/wmts/epsg3857/best/' + 'VIIRS_Black_Marble/default/default/' + 'GoogleMapsCompatible_Level8/' + zoom + '/' + tile.y + '/' + tile.x + '.png';
+      }
+
+      var tileSize = new this.props.google.maps.Size(256,256);
+      var layerOptions = {
+        alt: 'VIIRS_Black_Marble',
+        getTileUrl: getTileUrl,
+        maxZoom: 8,
+        minZoom: 1,
+        name: 'VIIRS_Black_Marble',
+        tileSize,
+        opacity: 0.5
+      }
+
+      var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
+      console.log(this.props);
+      this.props.map.overlayMapTypes.insertAt(0,imageMapType);
+    } else if(this.props.map && this.props.activeOverlay===false && this.props.activeOverlay != prevProps.activeOverlay){
+      console.log('else clause');
+      this.props.map.overlayMapTypes.removeAt(0);
+    }
+  }
+
+  render() {
+    return <div></div>
+
+  }
+
+  }
+
 export class MapContainer extends Component {
 
   constructor() {
@@ -68,7 +122,9 @@ export class MapContainer extends Component {
       modal: false,
       weatherDatas: {},
       favoriteLiked: null,
-      isLiked: false
+      isLiked: false,
+      refreshNewMarker: true,
+      moonPhase:'',
     };
 
     this.toggle = this.toggle.bind(this);
@@ -78,6 +134,8 @@ export class MapContainer extends Component {
     this.returnToDescription = this.returnToDescription.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
     this.displayFavorite = this.displayFavorite.bind(this);
+    this.getMarker= this.getMarker.bind(this);
+
   }
 
   toggle() {
@@ -166,25 +224,60 @@ export class MapContainer extends Component {
        // this funtion is empty but the whole geolocation process won't work without it
      });
 
+
+     // Moon phase api request
+     var unixTimeStamp = Math.round((new Date()).getTime() / 1000);
+     console.log('unixTimeStamp: ', unixTimeStamp);
+     const ctx= this;
+     fetch('http://localhost:3000/getMoonDatas', {
+     method: 'POST',
+     headers: {'Content-Type':'application/x-www-form-urlencoded'},
+     body: 'unixTimeStamp='+unixTimeStamp
+     })
+ .then(function(response) {
+     return response.json();
+ })
+ .then(function(moonDatas) {
+     console.log('moonDatas: ', moonDatas[0]);
+     var moonDatasCopy = {...moonDatas[0]}
+     ctx.setState({
+       moonPhase: moonDatasCopy
+     })
+ });
+
   };
+  const ctx= this;
+  fetch('http://localhost:3000/map')
 
+  .then(function(response) {
+  return response.json();
+  })
+
+  .then(function(data) {
+  ctx.setState({
+    locations:data.locations
+  })
+  });
+
+  }
   componentDidMount() {
-    const ctx= this;
-    fetch('http://localhost:3000/map')
 
-    .then(function(response) {
-    return response.json();
-    })
-
-    .then(function(data) {
-    ctx.setState({
-      locations:data.locations
-    })
-    });
+    this.getMarker()
 
     }
 
-
+    getMarker(){
+      const ctx= this;
+      fetch('http://localhost:3000/map').then(function(response) {
+        console.log(response);
+      return response.json();
+      }).then(function(data) {
+        console.log('data',data);
+      ctx.setState({
+        locations:data.locations
+      })
+      });
+    }
 
 //-------Import de NavigationBar avant Reducer dans Map------//
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
@@ -256,12 +349,26 @@ export class MapContainer extends Component {
 
     console.log('ISLIKE', this.state.isLiked);
     const ctx= this;
+    console.log('moonPhase', ctx.state.moonPhase);
     var markerList = ctx.state.locations.map(
       function(data){
+        var markerType;
+
+          if (data.locationCategory === 'generale') {
+            markerType = generalMarker;
+          } else if (data.locationCategory === 'gite') {
+            markerType = guestHouseMarker
+          } else if (data.locationCategory === 'observatoire') {
+            markerType = observatoryMarker
+          } else if (data.locationCategory === 'observatoire&gite') {
+            markerType = guestHouseAndObservatoryMarker
+          }
         return(
           <Marker
     title={'The marker`s title will appear as a tooltip.'}
     name={'SOMA'}
+    icon={markerType}
+    anchorPoint={{x:-5 ,y:-5}}
     position={{lat: data.latitude, lng: data.longitude}}
     onClick={()=>ctx.toggleDescription(data)}
     /> )
@@ -269,9 +376,31 @@ export class MapContainer extends Component {
     )
 
 
+
+    var moonPic = {};
+    if (this.state.moonPhase.Phase === 'Full Moon') {
+      moonPic = fullMoon;
+    } else if (this.state.moonPhase.Phase === 'Waning Gibbous') {
+      moonPic = waningGibbous;
+    } else if (this.state.moonPhase.Phase === 'Waning Crescent') {
+      moonPic = waningCrescent;
+    } else if (this.state.moonPhase.Phase === 'Waxing Gibbous') {
+      moonPic = waxingGibbous;
+    } else if (this.state.moonPhase.Phase === 'Waxing Crescent') {
+      moonPic = waxingCrescent;
+    } else if (this.state.moonPhase.Phase === 'New Moon') {
+      moonPic = newMoon;
+    } else if (this.state.moonPhase.Phase === 'Dark Moon') {
+      moonPic = newMoon;
+    } else if (this.state.moonPhase.Phase === '3rd Quarter') {
+      moonPic = thirdQuarter;
+    } else if (this.state.moonPhase.Phase === '1st Quarter') {
+      moonPic = firstQuarter;
+    }
+
     return (
 
-      <div id="wrapper">
+      <div id="wrapper" style={{height:"100vh"}}>
 
         { this.state.connection
         ? null
@@ -293,7 +422,7 @@ export class MapContainer extends Component {
 
       <Map
         google={this.props.google}
-        zoom={6}
+        zoom={13}
         style={style}
         styles={styles}
         disableDefaultUI={true}
@@ -308,17 +437,20 @@ export class MapContainer extends Component {
           lng: this.state.lng
         }}
       >
-        {markerList}
-        <Marker
-        title={'You are here'}
-        icon={circle}
-        position={{lat: this.state.lat, lng: this.state.lng}}
-        />
-      </Map>
+      {markerList}
+      <Layout activeOverlay={this.props.value}/>
 
-      <NavigationBarDisplay displayFavoriteParent={this.displayFavorite} />
+      <Marker
+      title={'You are here'}
+      icon={userMarker}
+      position={{lat: this.state.lat, lng: this.state.lng}}
+      />
 
-      }
+  </Map>
+
+      <NavigationBarDisplay refreshMarker={this.getMarker} displayFavoriteParent={this.displayFavorite} />
+
+
       {this.state.showDescription ?
             <Description isLiked={this.state.isLiked} favoriteLiked={this.state.favoriteLiked} weatherDatas={this.state.weatherDatas} userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
@@ -331,6 +463,7 @@ export class MapContainer extends Component {
             <Favoris weatherDatas={this.state.weatherDatas} userId={this.props.userId} closeFunction={this.closeWindow} />
             : null
       }
+      <Moon moonPic={moonPic} />
     </div>
     );
   }
@@ -527,9 +660,21 @@ class Description extends Component {
 class Details extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tooltipOpenBortleScale: false,
+      tooltipOpenLightPollution: false,
+      tooltipOpenTransparency: false,
+      tooltipOpenSeeing: false,
+      tooltipOpenSkyQualityMeter: false,
+    };
     this.toggleDetails = this.toggleDetails.bind(this);
     this.closeComponent = this.closeComponent.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+    this.toggleBortleScale = this.toggleBortleScale.bind(this);
+    this.toggleTransparency = this.toggleTransparency.bind(this);
+    this.toggleSeeing = this.toggleSeeing.bind(this);
+    this.toggleSkyQualityMeter = this.toggleSkyQualityMeter.bind(this);
+    this.toggleLightPollution = this.toggleLightPollution.bind(this);
   }
 
   toggleDetails(){
@@ -543,8 +688,6 @@ class Details extends Component {
   addFavorite(userId, locationName, latitude, longitude){
     this.props.addFavoriteParent(userId, locationName, latitude, longitude)
   }
-
-
 
   componentWillMount() {
 
@@ -570,6 +713,37 @@ class Details extends Component {
     })}
 
     }
+
+  toggleBortleScale(){
+    this.setState({
+      tooltipOpenBortleScale: !this.state.tooltipOpenBortleScale
+    })
+  }
+
+  toggleLightPollution(){
+    this.setState({
+      tooltipOpenLightPollution: !this.state.tooltipOpenLightPollution,
+    })
+  }
+
+  toggleTransparency(){
+    this.setState({
+      tooltipOpenTransparency: !this.state.tooltipOpenTransparency,
+    })
+  }
+
+  toggleSeeing(){
+    this.setState({
+      tooltipOpenSeeing: !this.state.tooltipOpenSeeing,
+    })
+  }
+
+  toggleSkyQualityMeter(){
+    this.setState({
+      tooltipOpenSkyQualityMeter: !this.state.tooltipOpenSkyQualityMeter,
+    })
+  }
+
 
   render() {
 
@@ -635,6 +809,30 @@ skyQualityMeter = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
 skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
 }
 
+let easeOfAccessibilityByCar;
+
+if (this.props.dataObject.easeOfAccessibilityByCar === true) {
+  easeOfAccessibilityByCar = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.easeOfAccessibilityByCar === false) {
+  easeOfAccessibilityByCar = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let powerSupplyAvailability;
+
+if (this.props.dataObject.powerSupplyAvailability === true) {
+  powerSupplyAvailability = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.powerSupplyAvailability === false) {
+  powerSupplyAvailability = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let parkingAvailability;
+
+if (this.props.dataObject.parkingAvailability === true) {
+  parkingAvailability = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.parkingAvailability === false) {
+  parkingAvailability = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+}
+
 
     return (
     <div className="detailsRootStyle">
@@ -646,20 +844,70 @@ skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText className="textDetails">Date d'Observation</CardText>
-          <CardText className="textDetails">Echelle de Bortle </CardText>
+
+          <CardText className="textDetails">Date d'enregistrement:<Moment className="dateDetails" format="DD/MM/YYYY">{this.props.dataObject.observationDate}</Moment></CardText>
+
+      <Row>
+        <Col xs="12" md={{size:5}} lg={{size:5, offset:1}} >
+          <CardText className="textDetails">Echelle de Bortle<IoMdHelpCircleOutline id="tooltipBortleScale"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenBortleScale} target="tooltipBortleScale" toggle={this.toggleBortleScale}>
+              Indicateur global de la qualité du ciel
+            </Tooltip>
           <CardText className="smileyIcon">{bortleScale}</CardText>
-          <CardText className="textDetails">Transparence </CardText>
-          <CardText className="smileyIcon">{transparency}</CardText>
-          <CardText className="textDetails">Pollution Lumineuse </CardText>
-          <CardText className="smileyIcon">{lightPollution}</CardText>
-          <CardText className="textDetails">Seeing(Turbulence) </CardText>
-          <CardText className="smileyIcon">{seeing}</CardText>
-          <CardText className="textDetails">Sky Quality Meter </CardText>
+        </Col>
+
+        <Col xs="12" md={{size:5}} lg={{size:5}} >
+          <CardText className="textDetails">Sky Quality Meter<IoMdHelpCircleOutline id="tooltipSkyQualityMeter"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenSkyQualityMeter} target="tooltipSkyQualityMeter" toggle={this.toggleSkyQualityMeter}>
+              Mesure la brillance du fond de ciel
+            </Tooltip>
           <CardText className="smileyIcon">{skyQualityMeter}</CardText>
-          <CardText className="textDetails">Facilité d'accès en voiture : {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
-          <CardText className="textDetails">Possibilité de stationnement : {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
-          <CardText className="textDetails">Disponibilité de courant : {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs="12" md={{size:4}} lg={{size:3, offset:1}} >
+          <CardText className="textDetails">Transparence<IoMdHelpCircleOutline id="tooltipTransparency"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenTransparency} target="tooltipTransparency" toggle={this.toggleTransparency}>
+              La perception des étoiles les plus faibles : Il s’agit d’estimer la magnitude la plus faible détectée
+            </Tooltip>
+          <CardText className="smileyIcon">{transparency}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:4}} >
+          <CardText className="textDetails">Pollution Lumineuse<IoMdHelpCircleOutline id="tooltipLightPollution"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenLightPollution} target="tooltipLightPollution" toggle={this.toggleLightPollution}>
+              La présence nocturne anormale ou gênante de lumière et les conséquences de l'éclairage artificiel nocturne sur la vision céleste
+            </Tooltip>
+          <CardText className="smileyIcon">{lightPollution}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:3}} >
+          <CardText className="textDetails">Turbulence<IoMdHelpCircleOutline id="tooltipSeeing"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenSeeing} target="tooltipSeeing" toggle={this.toggleSeeing}>
+              L’étalement de l’image d’une étoile: Il se mesure par la largeur du pic représentant une étoile
+            </Tooltip>
+          <CardText className="smileyIcon">{seeing}</CardText>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs="12" md={{size:4}} lg={{size:4}}  >
+          <CardText className="textDetails">Facilité d'accès en voiture</CardText>
+          <CardText className="smileyIcon">{easeOfAccessibilityByCar}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:4}} >
+          <CardText className="textDetails">Possibilité de stationnement</CardText>
+          <CardText className="smileyIcon">{parkingAvailability}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:4}} >
+          <CardText className="textDetails">Disponibilité de courant</CardText>
+          <CardText className="smileyIcon">{powerSupplyAvailability}</CardText>
+        </Col>
+      </Row>
+
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
@@ -680,10 +928,12 @@ class Favoris extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    favorites: []
+    favorites: [],
+    favoritesWeatherDatas: []
     };
     this.closeComponent = this.closeComponent.bind(this);
     this.deleteFavorite = this.deleteFavorite.bind(this);
+
   }
 
   closeComponent(){
@@ -706,26 +956,36 @@ class Favoris extends Component {
       })
       for (var i = 0; i < data.favorites.length; i++) {
 
+      userFavorites.map((favorite, i) => {
+        fetch('http://localhost:3000/getLocationWeatherInfos', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: 'latitude='+favorite.latitude+'&longitude='+favorite.longitude
+        })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(weatherData) {
+          console.log('weatherData', weatherData);
 
-    //     fetch('http://localhost:3000/getLocationWeatherInfos', {
-    //     method: 'POST',
-    //     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    //     body: 'latitude='+data[i].latitude+'&longitude='+data[i].longitude
-    //     })
-    // .then(function(response) {
-    //     return response.json();
-    // })
-    // .then(function(weatherData) {
-    //     console.log('weather data favorite: ', weatherData);
-    //     var weatherDataCopy = {...weatherData}
-    // });
+        var favorites = [...ctx.state.favorites];
+        console.log('favorites', favorites);
+        favorites[i].weatherDatas = weatherData;
+        ctx.setState({
+          favorites
+        })
 
-      }
+        });
+      })
+
+
 
     });
     }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps){
+      if (this.props.userId !== prevProps.userId) {
+        console.log('tata');
       const ctx= this;
       fetch('http://localhost:3000/favorites', {
       method: 'POST',
@@ -740,6 +1000,7 @@ class Favoris extends Component {
         favorites:userFavorites
       })
       });
+      }
     }
 
 deleteFavorite(locationName) {
@@ -752,9 +1013,15 @@ deleteFavorite(locationName) {
   .then(function(response) {
   return response.json();
   }).then(function(data) {
-    var userFavorites = data.user.favorite;
+    var userFavorites = data.deleteId;
+    var favoriteCopy = [...ctx.state.favorites];
+    for (var i = 0; i < favoriteCopy.length; i++) {
+      if (favoriteCopy[i].locationName == data.name) {
+        favoriteCopy.splice(i, 1);
+      }
+    }
     ctx.setState({
-      favorites:userFavorites
+      favorites:favoriteCopy
     })
 
   });
@@ -764,19 +1031,24 @@ deleteFavorite(locationName) {
 
 
   render() {
-var ctx = this;
-var favoritesList = ctx.state.favorites.map(
-  function(data){
-    return(
-      <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>{data.locationName}
-        <FontAwesomeIcon className="iconStyle" icon={faSun}/>
-        <h6 className="favFont">Météo actuelle</h6>
-        <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-        <FontAwesomeIcon onClick={()=>ctx.deleteFavorite( data.locationName )} className="iconStyle" icon={faTimesCircle} />
-        </Col>
-    )
+
+  var ctx = this;
+  var favoritesList = ctx.state.favorites.map(
+    function(data, i){
+      console.log('map data',data);
+      if (data.weatherDatas  &&  data.weatherDatas.weather && data.weatherDatas.weather[0]) {
+      return(
+        <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>{data.locationName}
+          <img src={"http://openweathermap.org/img/w/" + data.weatherDatas.weather[0].icon + ".png"}/>
+          <h6 className="favFont">Météo actuelle</h6>
+          <p>{data.weatherDatas.weather[0].description}, {data.weatherDatas.main.temp} °C</p>
+          <FontAwesomeIcon onClick={()=>ctx.deleteFavorite( data.locationName )} className="iconStyle" icon={faTimesCircle} />
+          </Col>
+      )
+    }
   }
-  )
+    )
+
     return (
 
       <div className="background">
@@ -799,6 +1071,15 @@ var favoritesList = ctx.state.favorites.map(
 
       </div>
     );
+  }
+}
+
+class Moon extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return <img style={{position: 'absolute', bottom:'25px', height:"100px", zIndex:100, borderRadius:'50px', opacity:0.8}} src={this.props.moonPic} />
   }
 }
 
@@ -1037,7 +1318,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged, userId: state.userId }
+  return { logged: state.logged, userId: state.userId, value: state.value }
 }
 
 var Wrapper =  GoogleApiWrapper({

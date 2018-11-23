@@ -78,3 +78,23 @@
 .text {
   font-family: 'Actor';
 }
+
+#tooltipTransparency{
+  font-size: 20px;
+}
+
+#tooltipSkyQualityMeter{
+  font-size: 20px;
+}
+
+#tooltipBortleScale{
+  font-size: 20px;
+}
+
+#tooltipLightPollution{
+  font-size: 20px;
+}
+
+#tooltipSeeing{
+  font-size: 20px;
+}
