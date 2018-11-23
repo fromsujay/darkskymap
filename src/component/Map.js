@@ -66,7 +66,9 @@ export class MapContainer extends Component {
       showFavorite: false,
       connection: true,
       modal: false,
-      weatherDatas: {}
+      weatherDatas: {},
+      favoriteLiked: null,
+      isLiked: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -85,7 +87,6 @@ export class MapContainer extends Component {
    }
 
    toggleDescription(data) {
-     console.log('data @@@@@@@@@@', data);
 
      var ctx = this;
      fetch('http://localhost:3000/getLocationWeatherInfos', {
@@ -97,7 +98,6 @@ export class MapContainer extends Component {
      return response.json();
  })
  .then(function(weatherData) {
-     console.log('weather data: ', weatherData);
      var weatherDataCopy = {...weatherData}
      ctx.setState({
        weatherDatas: weatherDataCopy
@@ -170,26 +170,63 @@ export class MapContainer extends Component {
 
   componentDidMount() {
     const ctx= this;
-    fetch('http://localhost:3000/map').then(function(response) {
-      console.log(response);
+    fetch('http://localhost:3000/map')
+
+    .then(function(response) {
     return response.json();
-    }).then(function(data) {
-      console.log('data',data);
+    })
+
+    .then(function(data) {
     ctx.setState({
       locations:data.locations
     })
     });
 
-
-
     }
+
+
 
 //-------Import de NavigationBar avant Reducer dans Map------//
 //-------Import de NavigationBarDisplay après Reducer dans Map-----//
 
   addFavorite(userId, locationName, latitude, longitude) {
     if(this.props.logged === true){
-      const ctx= this;
+      let ctx= this;
+
+      fetch('http://localhost:3000/favorites', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'userId='+this.props.userId
+      })
+      .then(function(response) {
+      return response.json();
+      }).then(function(data) {
+        ctx.setState({
+          isLiked: true,
+
+        })
+
+        for (var i = 0; i < data.favorites.length; i++) {
+          if (data.favorites[i].locationName === locationName) {
+
+            fetch('http://localhost:3000/deletefavorite', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'userId='+userId+'&locationName='+locationName
+            })
+            .then(function(response) {
+            return response.json();
+            }).then(function(data) {
+            console.log('TOTTO', data);
+              ctx.setState({
+                isLiked: false,
+
+              })
+
+            });
+          }
+        }
+      })
 
       fetch('http://localhost:3000/addfavorite', {
       method: 'POST',
@@ -201,19 +238,23 @@ export class MapContainer extends Component {
       return response.json();
       })
       .then(function(data) {
-      console.log(data);
+
+
       });
-    } else {
+
+} else {
       this.setState({
       connection:false,
       modal: !this.state.modal
         });
 
   }
+
 }
 
   render() {
 
+    console.log('ISLIKE', this.state.isLiked);
     const ctx= this;
     var markerList = ctx.state.locations.map(
       function(data){
@@ -227,8 +268,6 @@ export class MapContainer extends Component {
       }
     )
 
-console.log('This props userId: ', this.props.userId);
-console.log('this state weatherDatas', this.state.weatherDatas);
 
     return (
 
@@ -281,11 +320,11 @@ console.log('this state weatherDatas', this.state.weatherDatas);
 
       }
       {this.state.showDescription ?
-            <Description weatherDatas={this.state.weatherDatas} userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
+            <Description isLiked={this.state.isLiked} favoriteLiked={this.state.favoriteLiked} weatherDatas={this.state.weatherDatas} userId={this.props.userId} addFavoriteParent={this.addFavorite} data={this.state.data} toggleDetails={this.toggleDetails} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showDetails?
-            <Details addFavoriteParent={this.addFavorite} data={this.state.data} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
+            <Details isLiked={this.state.isLiked} addFavoriteParent={this.addFavorite} data={this.state.data} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showFavorite?
@@ -330,7 +369,7 @@ class Description extends Component {
        date: date,
        weatherDatas: null,
        userId: null,
-       favorites: null
+       isLiked: this.props.isLiked
     }
 
   }
@@ -352,7 +391,7 @@ class Description extends Component {
     .then(function(data) {
 
       var userFavorites = data.favorites
-      console.log("userFavorites", userFavorites);
+
     ctx.setState({
       favorites:userFavorites
      })
@@ -390,7 +429,23 @@ class Description extends Component {
     this.props.addFavoriteParent(userId, locationName, latitude, longitude)
   }
 
+
   render() {
+
+    // console.log('this.props.favoriteLiked: ',this.props.favoriteLiked);
+  let colorHeart = {
+    color: "#FFFFFF",
+    cursor: "Pointer"
+  }
+
+  if (this.props.isLiked) {
+    colorHeart = {
+    color: "#FF5B53",
+    cursor: "Pointer"
+  }
+}
+
+
     // var weatherDescription = this.state.weatherDatas;
     if(this.props.data.bortleScale == 'C1 (Ciel excellent)'){
       this.props.data.explanationOfBortleScale = "La lumière zodiacale, le gegenschein, et la bande zodiacale sont tous visibles, la lumière zodiacale est impressionnante, et la bande zodiacale traverse tout le ciel. Même en vision directe, la galaxie M33 est un objet évident à l'œil nu. La Voie Lactée dans la région du Scorpion et du Sagittaire projette au sol une ombre diffuse évidente. A l'œil nu, la magnitude limite se situe entre 7,6 et 8,0 (avec effort). La présence de Jupiter ou de Vénus dans le ciel semble dégrader la vision nocturne. Une lueur diffuse dans l'atmosphère est perceptible (un très faible halo naturel, plus particulièrement notable jusqu'à 15' au-dessus de l'horizon). Avec un instrument de 32 cm d'ouverture, les étoiles de magnitude 17,5 peuvent être détectées avec effort, tandis qu'un instrument de 50 cm avec un grossissement modéré atteindra la 19ème magnitude. En observant depuis une étendue bordée d'arbres, le télescope, vos compagnons, votre voiture, sont pratiquement totalement invisibles. C'est le paradis de l'observateur."
@@ -422,7 +477,6 @@ class Description extends Component {
   } else if (this.props.data.bortleScale == 'C9 (Ciel de centre-ville)'){
     this.props.data.explanationOfBortleScale = "Tout le ciel est éclairé, même au zénith. De nombreuses étoiles qui forment le dessin des constellations sont invisibles, et les faibles constellations comme le Cancer ou les Poissons ne peuvent être vues. Si ce n'est peut-être les Pléiades, aucun objet Messier n'est visible à l'œil nu. Les seuls objets célestes qui offrent de belles images au télescope sont la Lune, les planètes, et certains des amas d'étoiles les plus brillants (si tant est qu'on puisse les localiser). La magnitude limite à l'œil nu est 4,0 ou moins."}
 
-console.log('this props weatherDatas', this.props.weatherDatas.weather );
 // console.log('description state weatherDatas', this.state.weatherDatas );
 
 
@@ -456,7 +510,7 @@ console.log('this props weatherDatas', this.props.weatherDatas.weather );
         </CardBody>
         <CardFooter className="footerStyle">
           <FontAwesomeIcon onClick={()=>this.toggleDetails(this.props.data)} icon={faPlusCircle} className="descriptionIconStyle"/>
-          <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} className="descriptionIconStyle"/>
+          <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} style={colorHeart} className="descriptionIconStyle"/>
         </CardFooter>
       </Card>
     </Col>
@@ -490,7 +544,46 @@ class Details extends Component {
     this.props.addFavoriteParent(userId, locationName, latitude, longitude)
   }
 
+
+
+  componentWillMount() {
+
+    const ctx= this;
+    if (ctx.props.userId) {
+    fetch('http://localhost:3000/favorites', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: 'userId='+ctx.props.userId
+    })
+
+    .then(function(response) {
+    return response.json();
+    })
+
+    .then(function(data) {
+
+      var userFavorites = data.favorites
+
+    ctx.setState({
+      favorites:userFavorites
+     })
+    })}
+
+    }
+
   render() {
+
+    let colorHeart = {
+      color: "#FFFFFF",
+      cursor: "Pointer"
+    }
+
+    if (this.props.isLiked) {
+      colorHeart = {
+      color: "#FF5B53",
+      cursor: "Pointer"
+    }
+  }
 
 let bortleScale;
 
@@ -571,7 +664,7 @@ skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
         <Button outline onClick={()=>this.toggleDetails()} className="backButtonStyle">Retour</Button>
-        <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} className="detailsIconStyle"/>
+        <FontAwesomeIcon onClick={()=>this.addFavorite(this.props.userId, this.props.data.locationName, this.props.data.latitude, this.props.data.longitude)}  icon={faHeart} style={colorHeart} className="detailsIconStyle"/>
         </CardFooter>
       </Card>
     </Col>
@@ -608,12 +701,10 @@ class Favoris extends Component {
     return response.json();
     }).then(function(data) {
       var userFavorites = data.favorites
-      console.log('data favorites', data.favorites);
       ctx.setState({
         favorites:userFavorites
       })
       for (var i = 0; i < data.favorites.length; i++) {
-        console.log(data.favorites[i]);
 
 
     //     fetch('http://localhost:3000/getLocationWeatherInfos', {
@@ -659,10 +750,8 @@ deleteFavorite(locationName) {
   body: 'userId='+this.props.userId+'&locationName='+locationName
   })
   .then(function(response) {
-    console.log('Response delete', response );
   return response.json();
   }).then(function(data) {
-    console.log('data delete: ', data );
     var userFavorites = data.user.favorite;
     ctx.setState({
       favorites:userFavorites
