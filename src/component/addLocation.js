@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Form, Input, Radio, DatePicker, Select, Slider, Icon, Tooltip, Affix } from 'antd';
 import 'antd/dist/antd.css';
 import "../stylesheet/addLocation.css";
-import {connect} from 'react-redux';
+
 
 const FormItem = Form.Item;
 
@@ -209,7 +209,13 @@ const CollectionCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <FormItem label="Transparence du ciel">
+            <FormItem label={(
+              <span>Transparence du ciel ?&nbsp;
+                <Tooltip title="La perception des étoiles les plus faibles : Il s’agit d’estimer la magnitude la plus faible détectée">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
               <div className="icon-wrapper">
                 <Icon style={{color:"grey"}}  type="smile-o" />
                 {getFieldDecorator('transparency')(
@@ -220,7 +226,13 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
 
-             <FormItem label="Pollution lumineuse">
+            <FormItem label={(
+              <span>Pollution lumineuse ?&nbsp;
+                <Tooltip title="La présence nocturne anormale ou gênante de lumière et les conséquences de l'éclairage artificiel nocturne sur la vision céleste">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
                 <div className="icon-wrapper">
                   <Icon style={{color:"grey"}}  type="smile-o" />
                   {getFieldDecorator('lightPollution')(
@@ -231,7 +243,13 @@ const CollectionCreateForm = Form.create()(
             </FormItem>
 
 
-            <FormItem label="Turbulence">
+            <FormItem label={(
+              <span>Turbulence ?&nbsp;
+                <Tooltip title="L’étalement de l’image d’une étoile: Il se mesure par la largeur du pic représentant une étoile">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
                 <div className="icon-wrapper">
                   <Icon style={{color:"grey"}}  type="smile-o" />
                   {getFieldDecorator('seeing')(
@@ -241,7 +259,13 @@ const CollectionCreateForm = Form.create()(
                 </div>
             </FormItem>
 
-            <FormItem label="Sky Quality Meter">
+            <FormItem label={(
+              <span>Sky Quality Meter ?&nbsp;
+                <Tooltip title="Mesure la brillance du fond de ciel">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            )}>
               {getFieldDecorator('skyQualityMeter')(<Input type="textarea" />)}
             </FormItem>
 
@@ -254,7 +278,7 @@ const CollectionCreateForm = Form.create()(
               )}
             </FormItem>
 
-            <FormItem label="Possibilité de stationne">
+            <FormItem label="Possibilité de stationnement">
               {getFieldDecorator('parkingAvailability')(
                 <Radio.Group>
                   <Radio value="true">Oui</Radio>

@@ -18,7 +18,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Tooltip,
   } from 'reactstrap';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -31,11 +32,12 @@ import { faPlusCircle, faHeart, faCity, faFrown, faSmile, faBan, faCheck, faExcl
 import '../stylesheet/description.css';
 import '../stylesheet/details.css';
 import { FaRegCalendarAlt, FaWind, FaRegFrown, FaRegMeh, FaRegSmile } from "react-icons/fa";
-import { IoIosCalendar, IoMdPlanet } from "react-icons/io";
+import { IoIosCalendar, IoMdPlanet, IoMdHelpCircleOutline } from "react-icons/io";
 import { MdLocationCity} from "react-icons/md";
 import { FiNavigation2, FiNavigation } from "react-icons/fi";
 import NavigationBarDisplay from './navigationBarDisplay.js';
 import circle from '../images/blue_circle.png';
+import Moment from 'react-moment';
 import {connect} from 'react-redux';
 
 
@@ -514,9 +516,21 @@ console.log('this props weatherDatas', this.props.weatherDatas.weather );
 class Details extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tooltipOpenBortleScale: false,
+      tooltipOpenLightPollution: false,
+      tooltipOpenTransparency: false,
+      tooltipOpenSeeing: false,
+      tooltipOpenSkyQualityMeter: false,
+    };
     this.toggleDetails = this.toggleDetails.bind(this);
     this.closeComponent = this.closeComponent.bind(this);
     this.addFavorite = this.addFavorite.bind(this);
+    this.toggleBortleScale = this.toggleBortleScale.bind(this);
+    this.toggleTransparency = this.toggleTransparency.bind(this);
+    this.toggleSeeing = this.toggleSeeing.bind(this);
+    this.toggleSkyQualityMeter = this.toggleSkyQualityMeter.bind(this);
+    this.toggleLightPollution = this.toggleLightPollution.bind(this);
   }
 
   toggleDetails(){
@@ -530,6 +544,37 @@ class Details extends Component {
   addFavorite(userId, locationName, latitude, longitude){
     this.props.addFavoriteParent(userId, locationName, latitude, longitude)
   }
+
+  toggleBortleScale(){
+    this.setState({
+      tooltipOpenBortleScale: !this.state.tooltipOpenBortleScale
+    })
+  }
+
+  toggleLightPollution(){
+    this.setState({
+      tooltipOpenLightPollution: !this.state.tooltipOpenLightPollution,
+    })
+  }
+
+  toggleTransparency(){
+    this.setState({
+      tooltipOpenTransparency: !this.state.tooltipOpenTransparency,
+    })
+  }
+
+  toggleSeeing(){
+    this.setState({
+      tooltipOpenSeeing: !this.state.tooltipOpenSeeing,
+    })
+  }
+
+  toggleSkyQualityMeter(){
+    this.setState({
+      tooltipOpenSkyQualityMeter: !this.state.tooltipOpenSkyQualityMeter,
+    })
+  }
+
 
   render() {
 
@@ -583,6 +628,30 @@ skyQualityMeter = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
 skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
 }
 
+let easeOfAccessibilityByCar;
+
+if (this.props.dataObject.easeOfAccessibilityByCar === true) {
+  easeOfAccessibilityByCar = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.easeOfAccessibilityByCar === false) {
+  easeOfAccessibilityByCar = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let powerSupplyAvailability;
+
+if (this.props.dataObject.powerSupplyAvailability === true) {
+  powerSupplyAvailability = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.powerSupplyAvailability === false) {
+  powerSupplyAvailability = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+}
+
+let parkingAvailability;
+
+if (this.props.dataObject.parkingAvailability === true) {
+  parkingAvailability = < FaRegFrown style={{marginLeft: 10, fontSize: 40}}/>
+} else if (this.props.dataObject.parkingAvailability === false) {
+  parkingAvailability = < FaRegMeh style={{marginLeft: 10, fontSize: 40}}/>
+}
+
 
     return (
     <div className="detailsRootStyle">
@@ -594,20 +663,70 @@ skyQualityMeter = < FaRegSmile style={{marginLeft: 10, fontSize: 40}}/>
           <FontAwesomeIcon icon={faTimesCircle} onClick={()=>this.closeComponent()} className="detailsIconStyle"/>
         </CardHeader>
         <CardBody className="detailsBodyStyle">
-          <CardText className="textDetails">Date d'Observation</CardText>
-          <CardText className="textDetails">Echelle de Bortle </CardText>
+
+          <CardText className="textDetails">Date d'enregistrement:<Moment className="dateDetails" format="DD/MM/YYYY">{this.props.dataObject.observationDate}</Moment></CardText>
+
+      <Row>
+        <Col xs="12" md={{size:5}} lg={{size:5, offset:1}} >
+          <CardText className="textDetails">Echelle de Bortle<IoMdHelpCircleOutline id="tooltipBortleScale"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenBortleScale} target="tooltipBortleScale" toggle={this.toggleBortleScale}>
+              Indicateur global de la qualité du ciel
+            </Tooltip>
           <CardText className="smileyIcon">{bortleScale}</CardText>
-          <CardText className="textDetails">Transparence </CardText>
-          <CardText className="smileyIcon">{transparency}</CardText>
-          <CardText className="textDetails">Pollution Lumineuse </CardText>
-          <CardText className="smileyIcon">{lightPollution}</CardText>
-          <CardText className="textDetails">Seeing(Turbulence) </CardText>
-          <CardText className="smileyIcon">{seeing}</CardText>
-          <CardText className="textDetails">Sky Quality Meter </CardText>
+        </Col>
+
+        <Col xs="12" md={{size:5}} lg={{size:5}} >
+          <CardText className="textDetails">Sky Quality Meter<IoMdHelpCircleOutline id="tooltipSkyQualityMeter"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenSkyQualityMeter} target="tooltipSkyQualityMeter" toggle={this.toggleSkyQualityMeter}>
+              Mesure la brillance du fond de ciel
+            </Tooltip>
           <CardText className="smileyIcon">{skyQualityMeter}</CardText>
-          <CardText className="textDetails">Facilité d'accès en voiture : {this.props.dataObject.easeOfAccessibilityByCar ? 'oui' : 'non'} </CardText>
-          <CardText className="textDetails">Possibilité de stationnement : {this.props.dataObject.parkingAvailability ? 'oui' : 'non'}</CardText>
-          <CardText className="textDetails">Disponibilité de courant : {this.props.dataObject.powerSupplyAvailability ? 'oui' : 'non'}</CardText>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs="12" md={{size:4}} lg={{size:3, offset:1}} >
+          <CardText className="textDetails">Transparence<IoMdHelpCircleOutline id="tooltipTransparency"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenTransparency} target="tooltipTransparency" toggle={this.toggleTransparency}>
+              La perception des étoiles les plus faibles : Il s’agit d’estimer la magnitude la plus faible détectée
+            </Tooltip>
+          <CardText className="smileyIcon">{transparency}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:4}} >
+          <CardText className="textDetails">Pollution Lumineuse<IoMdHelpCircleOutline id="tooltipLightPollution"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenLightPollution} target="tooltipLightPollution" toggle={this.toggleLightPollution}>
+              La présence nocturne anormale ou gênante de lumière et les conséquences de l'éclairage artificiel nocturne sur la vision céleste
+            </Tooltip>
+          <CardText className="smileyIcon">{lightPollution}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:3}} >
+          <CardText className="textDetails">Turbulence<IoMdHelpCircleOutline id="tooltipSeeing"/></CardText>
+            <Tooltip placement="right" isOpen={this.state.tooltipOpenSeeing} target="tooltipSeeing" toggle={this.toggleSeeing}>
+              L’étalement de l’image d’une étoile: Il se mesure par la largeur du pic représentant une étoile
+            </Tooltip>
+          <CardText className="smileyIcon">{seeing}</CardText>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col xs="12" md={{size:4}} lg={{size:4}}  >
+          <CardText className="textDetails">Facilité d'accès en voiture</CardText>
+          <CardText className="smileyIcon">{easeOfAccessibilityByCar}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:4}} >
+          <CardText className="textDetails">Possibilité de stationnement</CardText>
+          <CardText className="smileyIcon">{parkingAvailability}</CardText>
+        </Col>
+
+        <Col xs="12" md={{size:4}} lg={{size:4}} >
+          <CardText className="textDetails">Disponibilité de courant</CardText>
+          <CardText className="smileyIcon">{powerSupplyAvailability}</CardText>
+        </Col>
+      </Row>
+
           <CardText className="detailsTextStyle">{this.props.dataObject.additionalInformation}</CardText>
         </CardBody>
         <CardFooter className="detailsFooterStyle">
