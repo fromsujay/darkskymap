@@ -49,7 +49,7 @@ class NavigationBarDisplay extends Component {
     }
 
   handleChange(event) {
-    console.log('ON SWITCH');
+    console.log('EVENT',event);
     this.props.switchOverlay(event)
   }
 
@@ -115,6 +115,7 @@ class NavigationBarDisplay extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log('state.logged',state.logged);
   return { logged: state.logged }
 }
 
