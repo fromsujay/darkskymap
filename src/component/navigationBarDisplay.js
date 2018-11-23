@@ -35,6 +35,7 @@ class NavigationBarDisplay extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.displayFavorite = this.displayFavorite.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   toggle() {
@@ -46,6 +47,11 @@ class NavigationBarDisplay extends Component {
    displayFavorite() {
       this.props.displayFavoriteParent();
     }
+
+  handleChange(event) {
+    console.log('ON SWITCH');
+    this.props.switchOverlay(event)
+  }
 
 
   render() {
@@ -61,7 +67,9 @@ class NavigationBarDisplay extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Switch style={{marginRight:10, fontFamily: 'Actor'}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+
+                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" onChange={(event)=>this.handleChange(event)} defaultChecked />
+
               </NavItem>
               <NavItem>
                 <Link to="/" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
@@ -84,7 +92,7 @@ class NavigationBarDisplay extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" defaultChecked />
+                <Switch style={{marginRight:10}} checkedChildren="Day" unCheckedChildren="Night" onChange={(event)=>this.handleChange(event)} defaultChecked />
               </NavItem>
               <NavItem>
                 <Link to="/" className="homeLink" style={{color:'white', fontFamily: 'Actor'}}>Home</Link>
@@ -110,7 +118,16 @@ function mapStateToProps(state) {
   return { logged: state.logged }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    switchOverlay: function(event) {
+        dispatch( {type: 'swap', switchStatus: event} )
+    }
+
+  }
+}
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(NavigationBarDisplay);

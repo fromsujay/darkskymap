@@ -20,7 +20,7 @@ import {
   ModalBody,
   ModalFooter
   } from 'reactstrap';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/Map.css';
 import '../stylesheet/favoris.css';
@@ -51,6 +51,42 @@ import {connect} from 'react-redux';
 /* toggleDetails function displays details and makes description disappear when user clicks on plus sign */
 /* returnToDescription function displays description and makes details disappear when user clicks on retour */
 /* closeWindow function closes description and details windows respectively when user clicks on x sign at top right corner */
+
+
+class Layout extends Component {
+
+  componentDidUpdate() {
+    if(this.props.map && this.props.activeOverlay ) {
+      var getTileUrl = function(tile, zoom){
+            return '//gibs.earthdata.nasa.gov/wmts/epsg3857/best/' + 'VIIRS_Black_Marble/default/default/' + 'GoogleMapsCompatible_Level8/' + zoom + '/' + tile.y + '/' + tile.x + '.png';
+      }
+
+      var tileSize = new this.props.google.maps.Size(256,256);
+      var layerOptions = {
+        alt: 'VIIRS_Black_Marble',
+        getTileUrl: getTileUrl,
+        maxZoom: 8,
+        minZoom: 1,
+        name: 'VIIRS_Black_Marble',
+        tileSize,
+        opacity: 0.5
+      }
+
+      var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
+      console.log(this.props);
+      this.props.map.overlayMapTypes.insertAt(0,imageMapType);
+    } else if(this.props.map && this.props.activeOverlay===false){
+      this.props.map.overlayMapTypes.removeAt(0);
+    }
+  }
+
+  render() {
+    return <div></div>
+
+  }
+
+  }
+
 export class MapContainer extends Component {
 
   constructor() {
@@ -213,11 +249,12 @@ export class MapContainer extends Component {
       modal: !this.state.modal
         });
 
-  }
-}
+    }
+    }
 
   render() {
     const ctx= this;
+    console.log(ctx.state.locations);
     var markerList = ctx.state.locations.map(
       function(data){
         return(
@@ -230,9 +267,6 @@ export class MapContainer extends Component {
       }
     )
 
-
-console.log('This props userId: ', this.props.userId);
-console.log('this state weatherDatas', this.state.weatherDatas);
 
     return (
 
@@ -258,7 +292,7 @@ console.log('this state weatherDatas', this.state.weatherDatas);
 
       <Map
         google={this.props.google}
-        zoom={6}
+        zoom={13}
         style={style}
         styles={styles}
         disableDefaultUI={true}
@@ -273,12 +307,15 @@ console.log('this state weatherDatas', this.state.weatherDatas);
           lng: this.state.lng
         }}
       >
-        {markerList}
-        <Marker
-        title={'You are here'}
-        icon={circle}
-        position={{lat: this.state.lat, lng: this.state.lng}}
-        />
+      {markerList}
+      <Layout activeOverlay={this.props.display}/>
+
+      <Marker
+      title={'You are here'}
+      icon={circle}
+      position={{lat: this.state.lat, lng: this.state.lng}}
+      />
+
       </Map>
 
       <NavigationBarDisplay refreshMarker={this.getMarker} displayFavoriteParent={this.displayFavorite} />
@@ -591,10 +628,12 @@ class Favoris extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    favorites: []
+    favorites: [],
+    favoritesWeatherDatas: []
     };
     this.closeComponent = this.closeComponent.bind(this);
     this.deleteFavorite = this.deleteFavorite.bind(this);
+
   }
 
   closeComponent(){
@@ -612,33 +651,40 @@ class Favoris extends Component {
     return response.json();
     }).then(function(data) {
       var userFavorites = data.favorites
-      console.log('data favorites', data.favorites);
       ctx.setState({
         favorites:userFavorites
       })
-      for (var i = 0; i < data.favorites.length; i++) {
-        console.log(data.favorites[i]);
+
+      userFavorites.map((favorite, i) => {
+        fetch('http://localhost:3000/getLocationWeatherInfos', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: 'latitude='+favorite.latitude+'&longitude='+favorite.longitude
+        })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(weatherData) {
+          console.log('weatherData', weatherData);
+
+        var favorites = [...ctx.state.favorites];
+        console.log('favorites', favorites);
+        favorites[i].weatherDatas = weatherData;
+        ctx.setState({
+          favorites
+        })
+
+        });
+      })
 
 
-    //     fetch('http://localhost:3000/getLocationWeatherInfos', {
-    //     method: 'POST',
-    //     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    //     body: 'latitude='+data[i].latitude+'&longitude='+data[i].longitude
-    //     })
-    // .then(function(response) {
-    //     return response.json();
-    // })
-    // .then(function(weatherData) {
-    //     console.log('weather data favorite: ', weatherData);
-    //     var weatherDataCopy = {...weatherData}
-    // });
-
-      }
 
     });
     }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps){
+      if (this.props.userId !== prevProps.userId) {
+        console.log('tata');
       const ctx= this;
       fetch('http://localhost:3000/favorites', {
       method: 'POST',
@@ -653,6 +699,7 @@ class Favoris extends Component {
         favorites:userFavorites
       })
       });
+      }
     }
 
 deleteFavorite(locationName) {
@@ -663,13 +710,17 @@ deleteFavorite(locationName) {
   body: 'userId='+this.props.userId+'&locationName='+locationName
   })
   .then(function(response) {
-    console.log('Response delete', response );
   return response.json();
   }).then(function(data) {
-    console.log('data delete: ', data );
-    var userFavorites = data.user.favorite;
+    var userFavorites = data.deleteId;
+    var favoriteCopy = [...ctx.state.favorites];
+    for (var i = 0; i < favoriteCopy.length; i++) {
+      if (favoriteCopy[i].locationName == data.name) {
+        favoriteCopy.splice(i, 1);
+      }
+    }
     ctx.setState({
-      favorites:userFavorites
+      favorites:favoriteCopy
     })
 
   });
@@ -679,19 +730,24 @@ deleteFavorite(locationName) {
 
 
   render() {
-var ctx = this;
-var favoritesList = ctx.state.favorites.map(
-  function(data){
-    return(
-      <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>{data.locationName}
-        <FontAwesomeIcon className="iconStyle" icon={faSun}/>
-        <h6 className="favFont">Météo actuelle</h6>
-        <p>Ciel dégagé, 25°C, Brise légère, 2.6 m/s</p>
-        <FontAwesomeIcon onClick={()=>ctx.deleteFavorite( data.locationName )} className="iconStyle" icon={faTimesCircle} />
-        </Col>
-    )
+
+  var ctx = this;
+  var favoritesList = ctx.state.favorites.map(
+    function(data, i){
+      console.log('map data',data);
+      if (data.weatherDatas  &&  data.weatherDatas.weather && data.weatherDatas.weather[0]) {
+      return(
+        <Col className="favItem" xs="11" sm="8" md={{ size: 8 }}>{data.locationName}
+          <img src={"http://openweathermap.org/img/w/" + data.weatherDatas.weather[0].icon + ".png"}/>
+          <h6 className="favFont">Météo actuelle</h6>
+          <p>{data.weatherDatas.weather[0].description}, {data.weatherDatas.main.temp} °C</p>
+          <FontAwesomeIcon onClick={()=>ctx.deleteFavorite( data.locationName )} className="iconStyle" icon={faTimesCircle} />
+          </Col>
+      )
+    }
   }
-  )
+    )
+
     return (
 
       <div className="background">
@@ -952,7 +1008,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged, userId: state.userId, addMarker: state.addMarker }
+  return { logged: state.logged, userId: state.userId, display: state.display }
 }
 
 var Wrapper =  GoogleApiWrapper({
