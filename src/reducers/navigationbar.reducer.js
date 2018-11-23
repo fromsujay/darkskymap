@@ -1,10 +1,10 @@
-export default function(logged, action) {
+export default function(logged=false, action) {
   if(action.type === 'display') {
 
-      return  logged = true
+      return  true
 
   } else {
-      return logged = false
+      return logged
   }
 }
 

@@ -55,8 +55,10 @@ import {connect} from 'react-redux';
 
 class Layout extends Component {
 
-  componentDidUpdate() {
-    if(this.props.map && this.props.activeOverlay ) {
+  componentDidUpdate(prevProps) {
+    console.log("this.props.activeOverlay", this.props.activeOverlay);
+    if(this.props.map && this.props.activeOverlay && this.props.activeOverlay != prevProps.activeOverlay) {
+      console.log('add overlay');
       var getTileUrl = function(tile, zoom){
             return '//gibs.earthdata.nasa.gov/wmts/epsg3857/best/' + 'VIIRS_Black_Marble/default/default/' + 'GoogleMapsCompatible_Level8/' + zoom + '/' + tile.y + '/' + tile.x + '.png';
       }
@@ -75,7 +77,8 @@ class Layout extends Component {
       var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
       console.log(this.props);
       this.props.map.overlayMapTypes.insertAt(0,imageMapType);
-    } else if(this.props.map && this.props.activeOverlay===false){
+    } else if(this.props.map && this.props.activeOverlay===false && this.props.activeOverlay != prevProps.activeOverlay){
+      console.log('else clause');
       this.props.map.overlayMapTypes.removeAt(0);
     }
   }
@@ -308,7 +311,7 @@ export class MapContainer extends Component {
         }}
       >
       {markerList}
-      <Layout activeOverlay={this.props.display}/>
+      <Layout activeOverlay={this.props.value}/>
 
       <Marker
       title={'You are here'}
@@ -1008,7 +1011,7 @@ const style = {
 
 
 function mapStateToProps(state) {
-  return { logged: state.logged, userId: state.userId, display: state.display }
+  return { logged: state.logged, userId: state.userId, value: state.value }
 }
 
 var Wrapper =  GoogleApiWrapper({
