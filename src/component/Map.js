@@ -456,7 +456,7 @@ export class MapContainer extends Component {
             : null
       }
       {this.state.showDetails?
-            <Details isLiked={this.state.isLiked} addFavoriteParent={this.addFavorite} data={this.state.data} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
+            <Details isLiked={this.state.isLiked} addFavoriteParent={this.addFavorite} data={this.state.data} userId={this.props.userId} dataObject={this.state.dataObject} returnToDescription={this.returnToDescription} closeFunction={this.closeWindow} />
             : null
       }
       {this.state.showFavorite?
