@@ -907,7 +907,7 @@ if (this.props.dataObject.locationCategory==='generale'){
         </Col>
 
         <Col xs="12" md={{size:4}} lg={{size:3}} >
-          <CardText className="textDetails">Seeing(Turbulence)<IoMdHelpCircleOutline id="tooltipSeeing"/></CardText>
+          <CardText className="textDetails">Turbulence<IoMdHelpCircleOutline id="tooltipSeeing"/></CardText>
             <Tooltip placement="right" isOpen={this.state.tooltipOpenSeeing} target="tooltipSeeing" toggle={this.toggleSeeing}>
               L’étalement de l’image d’une étoile: Il se mesure par la largeur du pic représentant une étoile
             </Tooltip>
@@ -1104,7 +1104,6 @@ class Moon extends Component {
     super(props);
   }
   render() {
-    console.log(this.props.moonPic);
     return <img style={{position: 'absolute', bottom:'25px', height:"100px", zIndex:100, borderRadius:'50px', opacity:0.8}} src={this.props.moonPic} />
   }
 }
