@@ -86,7 +86,7 @@ class Layout extends Component {
         minZoom: 1,
         name: 'VIIRS_Black_Marble',
         tileSize,
-        opacity: 0.5
+        opacity: 1
       }
 
       var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
