@@ -56,7 +56,7 @@ class NavigationBarDisplay extends Component {
 
 
   render() {
-    console.log('Favoris -------',this.props.logged);
+    
     return (
 
     <div style={{position : "absolute", width:"100%"}}>
@@ -116,7 +116,7 @@ class NavigationBarDisplay extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state.logged',state.logged);
+
   return { logged: state.logged }
 }
 

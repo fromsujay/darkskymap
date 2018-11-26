@@ -20,6 +20,7 @@ justify-content: center;
   text-align: center;
   color: #FFFFFF;
   height: 85vh;
+  margin-top: 13vh;
 }
 
 .heading {
@@ -32,7 +33,6 @@ justify-content: center;
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .weatherInfo {
@@ -93,7 +93,6 @@ justify-content: center;
 
 .descriptionIconStyle {
   font-size: 2em;
-  color: #FFFFFF;
 }
 
 .weatherIconStyle {

@@ -71,15 +71,15 @@ const CollectionCreateForm = Form.create()(
 
     function formatterSeeing(value) {
       if (value == 0){
-        return 'Très bonne'
+        return 'Mauvaise'
       } else if (value == 25){
-      return 'Bonne'
+      return 'Insatisfaisant'
     } else if (value == 50){
       return 'Moyenne'
     } else if (value == 75){
-      return 'Insatisfaisant'
+      return 'Bonne'
     } else if (value == 100){
-      return 'Mauvaise'
+      return 'Très bonne'
     }
   }
 
@@ -244,18 +244,18 @@ const CollectionCreateForm = Form.create()(
 
 
             <FormItem label={(
-              <span>Turbulence ?&nbsp;
+              <span>Seeing (Turbulence) ?&nbsp;
                 <Tooltip title="L’étalement de l’image d’une étoile: Il se mesure par la largeur du pic représentant une étoile">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
             )}>
                 <div className="icon-wrapper">
-                  <Icon style={{color:"grey"}}  type="smile-o" />
+                  <Icon style={{color:"grey"}}  type="frown-o" />
                   {getFieldDecorator('seeing')(
                   <Slider tipFormatter={formatterSeeing} step={null} marks={seeingMarks}/>
                   )}
-                  <Icon style={{color:"grey"}} type="frown-o" />
+                  <Icon style={{color:"grey"}} type="smile-o" />
                 </div>
             </FormItem>
 
