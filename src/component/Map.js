@@ -1104,6 +1104,7 @@ class Moon extends Component {
     super(props);
   }
   render() {
+    console.log(this.props.moonPic);
     return <img style={{position: 'absolute', bottom:'25px', height:"100px", zIndex:100, borderRadius:'50px', opacity:0.8}} src={this.props.moonPic} />
   }
 }
