@@ -86,7 +86,7 @@ class Layout extends Component {
         minZoom: 1,
         name: 'VIIRS_Black_Marble',
         tileSize,
-        opacity: 1
+        opacity: 0.5
       }
 
       var imageMapType = new this.props.google.maps.ImageMapType(layerOptions);
@@ -378,8 +378,8 @@ export class MapContainer extends Component {
           }
         return(
           <Marker
-    title={'The marker`s title will appear as a tooltip.'}
-    name={'SOMA'}
+    title={data.locationName}
+    name={data.locationName}
     icon={markerType}
     anchorPoint={{x:-5 ,y:-5}}
     position={{lat: data.latitude, lng: data.longitude}}

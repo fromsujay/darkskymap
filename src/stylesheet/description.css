@@ -130,5 +130,5 @@ justify-content: center;
 }
 
 .descriptionCard{
-  overflow: scroll;
+  overflow-y: scroll;
 }
