@@ -334,7 +334,7 @@ class AddLocation extends React.Component {
 
       if (values){
       var ctx = this;
-      fetch('http://localhost:3000/addlocation', {
+      fetch('https://whispering-crag-36699.herokuapp.com/addlocation', {
        method: 'POST',
        headers: {
          'Accept': 'application/json',

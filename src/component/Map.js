@@ -147,7 +147,7 @@ export class MapContainer extends Component {
    toggleDescription(data) {
 
      var ctx = this;
-     fetch('http://localhost:3000/getLocationWeatherInfos', {
+     fetch('https://whispering-crag-36699.herokuapp.com/getLocationWeatherInfos', {
      method: 'POST',
      headers: {'Content-Type':'application/x-www-form-urlencoded'},
      body: 'latitude='+data.latitude+'&longitude='+data.longitude
@@ -186,7 +186,7 @@ export class MapContainer extends Component {
 
   returnToDescription(data) {
     var ctx = this;
-    fetch('http://localhost:3000/getLocationWeatherInfos', {
+    fetch('https://whispering-crag-36699.herokuapp.com/getLocationWeatherInfos', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'latitude='+data.latitude+'&longitude='+data.longitude
@@ -242,7 +242,7 @@ export class MapContainer extends Component {
      var unixTimeStamp = Math.round((new Date()).getTime() / 1000);
 
      const ctx= this;
-     fetch('http://localhost:3000/getMoonDatas', {
+     fetch('https://whispering-crag-36699.herokuapp.com/getMoonDatas', {
      method: 'POST',
      headers: {'Content-Type':'application/x-www-form-urlencoded'},
      body: 'unixTimeStamp='+unixTimeStamp
@@ -258,7 +258,7 @@ export class MapContainer extends Component {
      })
  });
  const ctx= this;
- fetch('http://localhost:3000/map')
+ fetch('https://whispering-crag-36699.herokuapp.com/map')
 
  .then(function(response) {
  return response.json();
@@ -281,7 +281,7 @@ export class MapContainer extends Component {
 
     getMarker(){
       const ctx= this;
-      fetch('http://localhost:3000/map').then(function(response) {
+      fetch('https://whispering-crag-36699.herokuapp.com/map').then(function(response) {
 
       return response.json();
       }).then(function(data) {
@@ -299,7 +299,7 @@ export class MapContainer extends Component {
     if(this.props.logged === true){
       let ctx= this;
 
-      fetch('http://localhost:3000/favorites', {
+      fetch('https://whispering-crag-36699.herokuapp.com/favorites', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'userId='+this.props.userId
@@ -315,7 +315,7 @@ export class MapContainer extends Component {
         for (var i = 0; i < data.favorites.length; i++) {
           if (data.favorites[i].locationName === locationName) {
 
-            fetch('http://localhost:3000/deletefavorite', {
+            fetch('https://whispering-crag-36699.herokuapp.com/deletefavorite', {
             method: 'POST',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: 'userId='+userId+'&locationName='+locationName
@@ -334,7 +334,7 @@ export class MapContainer extends Component {
         }
       })
 
-      fetch('http://localhost:3000/addfavorite', {
+      fetch('https://whispering-crag-36699.herokuapp.com/addfavorite', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'userId='+ctx.props.userId+'&locationName='+locationName+'&latitude='+latitude+'&longitude='+longitude
@@ -524,7 +524,7 @@ class Description extends Component {
 
     const ctx= this;
     if (ctx.props.userId) {
-    fetch('http://localhost:3000/favorites', {
+    fetch('https://whispering-crag-36699.herokuapp.com/favorites', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userId='+ctx.props.userId
@@ -710,7 +710,7 @@ class Details extends Component {
 
     const ctx= this;
     if (ctx.props.userId) {
-    fetch('http://localhost:3000/favorites', {
+    fetch('https://whispering-crag-36699.herokuapp.com/favorites', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userId='+ctx.props.userId
@@ -966,7 +966,7 @@ class Favoris extends Component {
 
   componentWillMount() {
     const ctx= this;
-    fetch('http://localhost:3000/favorites', {
+    fetch('https://whispering-crag-36699.herokuapp.com/favorites', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: 'userId='+this.props.userId
@@ -981,7 +981,7 @@ class Favoris extends Component {
       for (var i = 0; i < data.favorites.length; i++) {
 
       userFavorites.map((favorite, i) => {
-        fetch('http://localhost:3000/getLocationWeatherInfos', {
+        fetch('https://whispering-crag-36699.herokuapp.com/getLocationWeatherInfos', {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: 'latitude='+favorite.latitude+'&longitude='+favorite.longitude
@@ -1012,7 +1012,7 @@ class Favoris extends Component {
       if (this.props.userId !== prevProps.userId) {
 
       const ctx= this;
-      fetch('http://localhost:3000/favorites', {
+      fetch('https://whispering-crag-36699.herokuapp.com/favorites', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: 'userId='+this.props.userId
@@ -1030,7 +1030,7 @@ class Favoris extends Component {
 
 deleteFavorite(locationName) {
   const ctx = this;
-  fetch('http://localhost:3000/deletefavorite', {
+  fetch('https://whispering-crag-36699.herokuapp.com/deletefavorite', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
   body: 'userId='+this.props.userId+'&locationName='+locationName
